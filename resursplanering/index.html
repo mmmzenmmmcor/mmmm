@@ -13,7 +13,7 @@
   --brass:#97753F; --side:#0F1D17; --side-ink:#E8EEE9; --side-muted:#8C9D93; --side-line:#213229; --side-hi:#1A2C23;
   --danger:#B0412D; --ok:#2E7A55; --abs-bg:#F3E7E2; --abs-ink:#9C3A28; --abs-hatch:rgba(156,58,40,.10);
   --sel:rgba(30,74,56,.14); --sel-line:#1E4A38; --today:rgba(151,117,63,.08); --holiday:rgba(176,65,45,.06);
-  --chip-ink:#14201B;
+  --chip-ink:#14201B; --hired-bg:#F7F1E5;
   --shadow:0 1px 2px rgba(15,29,23,.05),0 10px 30px -8px rgba(15,29,23,.14);
   --shadow-lg:0 2px 6px rgba(15,29,23,.08),0 28px 60px -12px rgba(15,29,23,.28);
   --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
@@ -25,7 +25,7 @@
   --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
   --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
   --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
-  --sel:rgba(140,199,168,.16); --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
   --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
   color-scheme:dark}}
@@ -34,7 +34,7 @@
   --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
   --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
   --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
-  --sel:rgba(140,199,168,.16); --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
   --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
   color-scheme:dark}
@@ -111,6 +111,24 @@ button{cursor:pointer}
 .lg[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .legend.focusing .lg[aria-pressed="false"]{opacity:.45}
 .lg-hint{font-size:12px;color:var(--faint);align-self:center;margin-left:4px}
+.bar2{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:10px 20px;margin-bottom:16px}
+.bar2 .legend{margin-bottom:0;flex:1 1 420px;min-width:0}
+.bar2-r{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.hired-key{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.hired-key i{width:22px;height:16px;border-radius:5px;border:1.5px dashed var(--brass);background:var(--hired-bg)}
+.lang-f{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px 3px 3px 12px}
+.lang-f span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.lang-f select{border:0;background:var(--surface-2);border-radius:7px;padding:5px 8px;font-weight:600;font-size:13px}
+/* Hired craftspeople: dashed brass frame around the name cell */
+.plan tr.hired th.who{background:var(--hired-bg)}
+.plan tr.hired th.who::before{content:"";position:absolute;inset:5px 7px;border:1.5px dashed var(--brass);border-radius:9px;pointer-events:none;opacity:.75}
+.plan tbody tr.hired:hover th.who{background:var(--hired-bg)}
+.hb{display:inline-block;vertical-align:1px;margin-right:6px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);border:1px solid var(--brass);border-radius:4px;padding:0 4px;line-height:14px}
+.who .lc{display:inline-flex;gap:3px;margin-left:auto}
+.who .lc b{font-family:var(--f-mono);font-size:9.5px;font-weight:600;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:3px;padding:0 3px;line-height:14px}
+.who .lc b.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.who .meta{max-width:212px}
+.plan tr.dim th,.plan tr.dim td{opacity:.28}
 
 /* ---------- Planning grid ---------- */
 .board{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
@@ -265,6 +283,15 @@ table.reg{border-collapse:collapse;width:100%;min-width:720px}
 .reg input.mono{font-family:var(--f-mono);font-weight:600}
 .reg tr.add td{background:var(--surface-2)}
 .reg tr.add input,.reg tr.add select{border-color:var(--line);background:var(--surface)}
+.reg-people{min-width:1100px}
+.reg tr.hired-r td:first-child{background:var(--hired-bg);box-shadow:inset 3px 0 0 var(--brass)}
+.reg tr.hired-r td:first-child .hb{margin-left:4px}
+.langs{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.lchip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 3px;font-size:12px}
+.lchip b{font-family:var(--f-mono);font-size:9.5px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:1px 5px}
+.lchip button{border:0;background:none;color:var(--faint);padding:0 4px;font-size:14px;line-height:1;border-radius:50%}
+.lchip button:hover{color:var(--danger)}
+.reg select.ladd{width:auto;border:1px dashed var(--line-strong);border-radius:999px;padding:2px 8px;font-size:12px;color:var(--muted)}
 .swbtn{width:28px;height:28px;border-radius:7px;background:var(--c);border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
 .palette{display:grid;grid-template-columns:repeat(6,28px);gap:8px;padding:12px}
 .palette button{width:28px;height:28px;border-radius:7px;border:0;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
@@ -370,6 +397,17 @@ const ABS = [
 const ABS_LABEL = Object.fromEntries(ABS.map(a => [a.k, a.label]));
 const PALETTE = ['#E8894A','#8DB8E0','#B48CE8','#A9CC9A','#EBCB6B','#B9BDB8','#6FBFB4','#E59A9A','#7E9CC9','#C5BF6E','#D08A70','#B08AB8'];
 const OWN_COMPANY = 'Sydbyggarna';
+const ROLES = [
+  {g:'Yrkesroll', items:['Träarbetare','Arbetsledare','Platschef']},
+  {g:'Underentreprenör', items:['UE-Träarbetare']},
+  {g:'Lärling', items:['Lärling 70%','Lärling 80%','Lärling 90%']},
+  {g:'Skolpraktik (APL)', items:['APL ÅR-1','APL ÅR-2','APL ÅR-3']},
+];
+const ALL_ROLES = ROLES.flatMap(r => r.items);
+const COUNTRIES = ['Sverige','Afghanistan','Albanien','Algeriet','Argentina','Armenien','Australien','Azerbajdzjan','Belgien','Bosnien och Hercegovina','Brasilien','Bulgarien','Chile','Colombia','Cypern','Danmark','Egypten','Eritrea','Estland','Etiopien','Filippinerna','Finland','Frankrike','Georgien','Ghana','Grekland','Indien','Indonesien','Irak','Iran','Irland','Island','Italien','Japan','Jordanien','Kanada','Kazakstan','Kenya','Kina','Kosovo','Kroatien','Kuba','Lettland','Libanon','Litauen','Luxemburg','Marocko','Mexiko','Moldavien','Montenegro','Nederländerna','Nigeria','Nordmakedonien','Norge','Pakistan','Palestina','Peru','Polen','Portugal','Rumänien','Ryssland','Schweiz','Serbien','Slovakien','Slovenien','Somalia','Spanien','Storbritannien','Sudan','Sydafrika','Syrien','Thailand','Tjeckien','Tunisien','Turkiet','Tyskland','Ukraina','Ungern','USA','Uzbekistan','Vietnam','Vitryssland','Österrike'];
+const LANGS = ['Svenska','Engelska','Albanska','Arabiska','Bosniska','Bulgariska','Danska','Dari','Estniska','Finska','Franska','Grekiska','Hindi','Italienska','Kinesiska','Kroatiska','Kurdiska','Lettiska','Litauiska','Nederländska','Norska','Pashto','Persiska','Polska','Portugisiska','Rumänska','Ryska','Serbiska','Slovakiska','Somaliska','Spanska','Tagalog','Thai','Tigrinja','Tjeckiska','Turkiska','Tyska','Ukrainska','Ungerska','Urdu','Vietnamesiska'];
+const LANG_CODE = {Svenska:'SV',Engelska:'EN',Albanska:'SQ',Arabiska:'AR',Bosniska:'BS',Bulgariska:'BG',Danska:'DA',Dari:'PRS',Estniska:'ET',Finska:'FI',Franska:'FR',Grekiska:'EL',Hindi:'HI',Italienska:'IT',Kinesiska:'ZH',Kroatiska:'HR',Kurdiska:'KU',Lettiska:'LV',Litauiska:'LT',Nederländska:'NL',Norska:'NO',Pashto:'PS',Persiska:'FA',Polska:'PL',Portugisiska:'PT',Rumänska:'RO',Ryska:'RU',Serbiska:'SR',Slovakiska:'SK',Somaliska:'SO',Spanska:'ES',Tagalog:'TL',Thai:'TH',Tigrinja:'TI',Tjeckiska:'CS',Turkiska:'TR',Tyska:'DE',Ukrainska:'UK',Ungerska:'HU',Urdu:'UR',Vietnamesiska:'VI'};
+const langCode = l => LANG_CODE[l] || l.slice(0,2).toUpperCase();
 
 /* ================= State ================= */
 const S = {
@@ -544,6 +582,9 @@ function renderPlanning(){
       ${S.canWrite && S.status==='ready' ? `<button class="btn" id="copyPrev" title="Kopierar föregående veckas planering till första veckan i vyn, bara i tomma rutor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Kopiera förra veckan</button>`:''}
       <button class="btn primary" id="exportBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportera PDF</button>
     </div></div>`;
+  const langsInUse = [...new Set(people.flatMap(p => p.langs || []))].sort((a,b)=>a.localeCompare(b,'sv'));
+  if (S.langFilter && !langsInUse.includes(S.langFilter)) S.langFilter = '';
+  const filterBar = langsInUse.length ? `<label class="lang-f"><span>Språk</span><select id="langFilter"><option value="">Alla språk</option>${langsInUse.map(l=>`<option value="${esc(l)}" ${S.langFilter===l?'selected':''}>${esc(l)} (${people.filter(p=>(p.langs||[]).includes(l)).length})</option>`).join('')}</select></label>` : '';
 
   const sb = stateBlock();
   if (sb){ $main.innerHTML = head + sb; bindPlanningHead(); return; }
@@ -564,7 +605,9 @@ function renderPlanning(){
     h += `<tr class="grp"><th>${esc(company)}<span>${company===OWN_COMPANY?'egen':'inhyrd'}</span><span>${list.length}</span></th><td colspan="${cols.length}"></td></tr>`;
     for (const p of list){
       const r = rowIds.length; rowIds.push(p.id);
-      h += `<tr><th class="who"><span class="nm">${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}${!isOwn(p)?esc(p.company):''}</span></th>`;
+      const langs = p.langs || [];
+      const dim = S.langFilter && !langs.includes(S.langFilter);
+      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></th>`;
       cols.forEach((c,ci) => {
         const v = getCell(c.wk,p.id,c.d);
         h += `<td class="c ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}" data-r="${r}" data-c="${ci}">${cellHTML(v)}</td>`;
@@ -576,12 +619,13 @@ function renderPlanning(){
   for (const c of cols){ let n=0; for (const p of people){ const v = getCell(c.wk,p.id,c.d); if (v && v.p) n++; } h += `<td class="${c.di===0?'ws':''}"><b>${n}</b>/${people.length}</td>`; }
   h += `</tr></tfoot></table>`;
 
-  $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + legend +
+  $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + `<div class="bar2">${legend}<div class="bar2-r">${groups.some(([c])=>c!==OWN_COMPANY)?`<span class="hired-key"><i></i>Inhyrd hantverkare</span>`:''}${filterBar}</div></div>` +
     `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka på en ruta eller dra över flera dagar och personer för att planera dem samtidigt.</span><span><kbd>Esc</kbd> stänger · <kbd>Del</kbd> rensar markering</span></div></div>`;
   bindPlanningHead();
   const table = document.getElementById('plan');
   if (!S.canWrite) table.classList.add('ro');
   $main.querySelectorAll('[data-focus]').forEach(b => b.onclick = () => { S.focusProj = S.focusProj===b.dataset.focus ? null : b.dataset.focus; render(); });
+  const lf = document.getElementById('langFilter'); if (lf) lf.onchange = () => { S.langFilter = lf.value; render(); };
   if (sel) paintSel();
   if (!renderPlanning.scrolled){ renderPlanning.scrolled = true; }
 }
@@ -801,14 +845,21 @@ function renderRegister(){
   if (S.canWrite) pr += `<tr class="add"><td><span class="swbtn" style="--c:${nextColor};display:block"></span></td><td><input type="text" class="mono" id="npNum" placeholder="1050"></td><td><input type="text" id="npName" placeholder="Projektnamn"></td><td><input type="text" id="npClient" placeholder="Beställare / adress"></td><td colspan="2"><button class="btn primary" id="npAdd">Lägg till</button></td></tr>`;
   pr += `</tbody></table></div></div>`;
 
-  let pe = `<div class="panel"><div class="panel-h"><div><h3>Personal</h3><p>Egen personal och inhyrda, grupperade per företag i planeringen</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th>Namn</th><th style="width:200px">Företag</th><th style="width:170px">Roll</th><th style="width:120px">I planeringen</th><th style="width:130px"></th></tr></thead><tbody>`;
-  people.forEach((p,i) => pe += `<tr class="${p.active===false?'off':''}"><td><input type="text" data-uf="name" data-id="${esc(p.id)}" value="${esc(p.name)}" ${dis}></td>
+  const roleSelect = (attrs, cur) => {
+    const legacy = cur && !ALL_ROLES.includes(cur) ? `<option value="${esc(cur)}" selected>${esc(cur)} – välj ny roll</option>` : '';
+    return `<select ${attrs}>${legacy}<option value="" ${!cur?'selected':''}>—</option>${ROLES.map(r=>`<optgroup label="${esc(r.g)}">${r.items.map(it=>`<option value="${esc(it)}" ${cur===it?'selected':''}>${esc(it)}</option>`).join('')}</optgroup>`).join('')}</select>`;
+  };
+  const countrySelect = (attrs, cur) => `<select ${attrs}><option value="" ${!cur?'selected':''}>—</option>${cur && !COUNTRIES.includes(cur)?`<option selected>${esc(cur)}</option>`:''}${COUNTRIES.map(c=>`<option value="${esc(c)}" ${cur===c?'selected':''}>${esc(c)}</option>`).join('')}</select>`;
+  let pe = `<div class="panel"><div class="panel-h"><div><h3>Personal</h3><p>Egen personal och inhyrda hantverkare. Inhyrda markeras med streckad ram i planeringen.</p></div></div><div class="tbl-wrap"><table class="reg reg-people"><thead><tr><th style="min-width:200px">Namn</th><th style="width:170px">Företag</th><th style="width:200px">Roll</th><th style="width:170px">Ursprungsland</th><th style="min-width:240px">Språkkunskaper</th><th style="width:110px">I planeringen</th><th style="width:120px"></th></tr></thead><tbody>`;
+  people.forEach((p,i) => { const langs = p.langs || []; pe += `<tr class="${p.active===false?'off':''} ${isOwn(p)?'':'hired-r'}"><td>${isOwn(p)?'':'<span class="hb">Inhyrd</span>'}<input type="text" data-uf="name" data-id="${esc(p.id)}" value="${esc(p.name)}" ${dis} style="${isOwn(p)?'':'width:calc(100% - 52px)'}"></td>
     <td><input type="text" data-uf="company" data-id="${esc(p.id)}" value="${esc(p.company||OWN_COMPANY)}" list="companies" ${dis}></td>
-    <td><input type="text" data-uf="tag" data-id="${esc(p.id)}" value="${esc(p.tag||'')}" placeholder="—" list="roles" ${dis}></td>
+    <td>${roleSelect(`data-uf="tag" data-id="${esc(p.id)}" ${dis}`, p.tag||'')}</td>
+    <td>${countrySelect(`data-uf="country" data-id="${esc(p.id)}" ${dis}`, p.country||'')}</td>
+    <td><div class="langs">${langs.map(l=>`<span class="lchip"><b>${esc(langCode(l))}</b>${esc(l)}${S.canWrite?`<button data-langdel="${esc(p.id)}" data-lang="${esc(l)}" aria-label="Ta bort ${esc(l)}">×</button>`:''}</span>`).join('')}${S.canWrite?`<select class="ladd" data-langadd="${esc(p.id)}" aria-label="Lägg till språk"><option value="">+ Språk</option>${LANGS.filter(l=>!langs.includes(l)).map(l=>`<option>${esc(l)}</option>`).join('')}</select>`:''}${!langs.length&&!S.canWrite?'<span class="faint">—</span>':''}</div></td>
     <td><button class="toggle" data-uact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Visas':'Dold'}</button></td>
-    <td><div class="rowbtns"><button class="btn ghost" data-up="${i}" aria-label="Flytta upp" ${dis||(i===0?'disabled':'')}>↑</button><button class="btn ghost" data-down="${i}" aria-label="Flytta ned" ${dis||(i===people.length-1?'disabled':'')}>↓</button><button class="btn ghost danger" data-udel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`);
-  if (S.canWrite) pe += `<tr class="add"><td><input type="text" id="nuName" placeholder="För- och efternamn"></td><td><input type="text" id="nuCompany" value="${OWN_COMPANY}" list="companies"></td><td><input type="text" id="nuTag" placeholder="T.ex. Lärling" list="roles"></td><td colspan="2"><button class="btn primary" id="nuAdd">Lägg till</button></td></tr>`;
-  pe += `</tbody></table></div></div><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist><datalist id="roles"><option value="Lärling"><option value="Skolepåg"><option value="Arbetsledare"><option value="Snickare"><option value="Platschef"></datalist>`;
+    <td><div class="rowbtns"><button class="btn ghost" data-up="${i}" aria-label="Flytta upp" ${dis||(i===0?'disabled':'')}>↑</button><button class="btn ghost" data-down="${i}" aria-label="Flytta ned" ${dis||(i===people.length-1?'disabled':'')}>↓</button><button class="btn ghost danger" data-udel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`; });
+  if (S.canWrite) pe += `<tr class="add"><td><input type="text" id="nuName" placeholder="För- och efternamn"></td><td><input type="text" id="nuCompany" value="${OWN_COMPANY}" list="companies"></td><td>${roleSelect('id="nuTag"','')}</td><td>${countrySelect('id="nuCountry"','')}</td><td class="faint" style="font-size:12px">Språk läggs till efter att personen skapats</td><td colspan="2"><button class="btn primary" id="nuAdd">Lägg till</button></td></tr>`;
+  pe += `</tbody></table></div></div><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>`;
 
   const logo = `<div class="panel"><div class="panel-h"><div><h3>Logotyp</h3><p>Visas i sidomenyn och överst på varje PDF. PNG eller JPG med transparent eller vit bakgrund fungerar bäst.</p></div></div>
     <div class="logo-box"><div class="logo-prev">${S.settings.logo?`<img alt="Logotyp" src="/_blob/${esc(S.settings.logo)}">`:`<div class="mark" style="color:var(--ink)">${MARK_SVG}<b>SYDBYGGARNA</b></div>`}</div>
@@ -819,6 +870,8 @@ function renderRegister(){
   $main.querySelectorAll('[data-pf]').forEach(inp => inp.onchange = () => { const v = inp.value.trim(); if (inp.dataset.pf==='number' && !v){ inp.value = projById(inp.dataset.id).number; return; } saveDoc('projects/'+inp.dataset.id, {[inp.dataset.pf]: v}); });
   $main.querySelectorAll('[data-uf]').forEach(inp => inp.onchange = () => { const v = inp.value.trim(); if (inp.dataset.uf==='name' && !v) return; saveDoc('people/'+inp.dataset.id, {[inp.dataset.uf]: inp.dataset.uf==='company' ? (v||OWN_COMPANY) : v}); });
   $main.querySelectorAll('[data-pact]').forEach(b => b.onclick = () => { const p = projById(b.dataset.pact); saveDoc('projects/'+p.id, {active: p.active===false}); });
+  $main.querySelectorAll('[data-langadd]').forEach(sl => sl.onchange = () => { const p = S.people.find(x=>x.id===sl.dataset.langadd); if (!sl.value) return; saveDoc('people/'+p.id, {langs:[...(p.langs||[]), sl.value]}); });
+  $main.querySelectorAll('[data-langdel]').forEach(b => b.onclick = () => { const p = S.people.find(x=>x.id===b.dataset.langdel); saveDoc('people/'+p.id, {langs:(p.langs||[]).filter(l=>l!==b.dataset.lang)}); });
   $main.querySelectorAll('[data-uact]').forEach(b => b.onclick = () => { const p = S.people.find(x=>x.id===b.dataset.uact); saveDoc('people/'+p.id, {active: p.active===false}); });
   const armDelete = (b, fn) => { if (b.dataset.armed){ fn(); return; } b.dataset.armed='1'; b.textContent='Ta bort?'; setTimeout(()=>{ if (b.isConnected){ delete b.dataset.armed; b.textContent='✕'; } }, 3000); };
   $main.querySelectorAll('[data-pdel]').forEach(b => b.onclick = () => armDelete(b, () => { deleteDoc('projects/'+b.dataset.pdel); toast('Projektet är borttaget. Planerade dagar visas med frågetecken.'); }));
@@ -839,7 +892,7 @@ function renderRegister(){
   document.getElementById('nuAdd').onclick = async () => {
     const name = document.getElementById('nuName').value.trim(); if (!name){ document.getElementById('nuName').focus(); return; }
     let id = slug(name), k = 2; while (S.people.some(p=>p.id===id)) id = slug(name)+'-'+(k++);
-    if (await saveDoc('people/'+id, {name, company:document.getElementById('nuCompany').value.trim()||OWN_COMPANY, tag:document.getElementById('nuTag').value.trim(), order:S.people.length, active:true}, false)) toast(name+' tillagd');
+    if (await saveDoc('people/'+id, {name, company:document.getElementById('nuCompany').value.trim()||OWN_COMPANY, tag:document.getElementById('nuTag').value, country:document.getElementById('nuCountry').value, langs:[], order:S.people.length, active:true}, false)) toast(name+' tillagd');
   };
   const lf = document.getElementById('logoFile');
   if (lf) lf.onchange = async () => {
@@ -958,7 +1011,7 @@ async function buildPdf(start, weeks, withProj, withNotes){
   for (const [company, list] of groups){
     body.push([{content: (company + (company===OWN_COMPANY?'  ·  egen personal':'  ·  inhyrd')).toUpperCase(), colSpan: cs.length+1, styles:{fillColor:[245,246,243], textColor:MUTED, fontStyle:'bold', fontSize:6.5, cellPadding:{top:1.6,bottom:1.6,left:2}}}]); meta.push(null);
     for (const p of list){
-      const row = [p.name + (p.tag?'  ('+p.tag+')':'')], m = [null];
+      const row = [p.name + (p.tag?'  ('+p.tag+')':'') + ((p.langs||[]).length?'\n'+(p.langs||[]).map(langCode).join(' '):'')], m = [isOwn(p)?null:{hired:true}];
       for (const c of cs){
         const v = getCell(c.wk,p.id,c.d);
         if (!v){ row.push(''); m.push(null); continue; }
@@ -978,12 +1031,16 @@ async function buildPdf(start, weeks, withProj, withNotes){
     columnStyles: Object.assign(colStyles, Object.fromEntries(cs.map((c,i)=>[i+1,{cellWidth:dayW}]))),
     didParseCell: d => {
       if (d.section!=='body') return;
-      const m = meta[d.row.index]; if (!m || d.column.index===0) return;
+      const m = meta[d.row.index]; if (!m) return;
+      if (d.column.index===0){ if (m[0] && m[0].hired){ d.cell.styles.fillColor=[247,241,229]; d.cell.styles.textColor=[110,84,40]; } return; }
+      if (String(d.cell.raw||'').includes('\n')) d.cell.styles.fontSize = (weeks===3?5.4:6.2);
       const x = m[d.column.index]; if (!x) return;
       if (x.abs){ d.cell.styles.fillColor=[243,231,226]; d.cell.styles.textColor=[156,58,40]; d.cell.styles.fontStyle='bold'; }
       else if (x.color){ d.cell.styles.fillColor = hexRgb(x.color); d.cell.styles.fontStyle='bold'; }
     },
     didDrawPage: d => { if (d.pageNumber>1) header('Personalplanering'); },
+    didDrawCell: d => { if (d.section!=='body' || d.column.index!==0) return; const m = meta[d.row.index]; if (!m || !m[0] || !m[0].hired) return;
+      doc.setLineDashPattern([0.8,0.6],0); doc.setDrawColor(151,117,63); doc.setLineWidth(.3); doc.roundedRect(d.cell.x+.6, d.cell.y+.6, d.cell.width-1.2, d.cell.height-1.2, 1, 1, 'S'); doc.setLineDashPattern([],0); },
   });
   // legend
   const used = new Map();
@@ -992,7 +1049,7 @@ async function buildPdf(start, weeks, withProj, withNotes){
   let y = doc.lastAutoTable.finalY + 6;
   if (legendProjs.length){
     if (y > H-22){ doc.addPage(); header('Personalplanering'); y = 30; }
-    doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...MUTED); doc.text('PROJEKT', M, y); y += 4;
+    doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...MUTED); doc.text('PROJEKT', M, y); if (people.some(p=>!isOwn(p))){ doc.setLineDashPattern([0.8,0.6],0); doc.setDrawColor(151,117,63); doc.setFillColor(247,241,229); doc.setLineWidth(.3); doc.roundedRect(W-M-46, y-3, 6, 4, .8, .8, 'FD'); doc.setLineDashPattern([],0); doc.setFont('helvetica','normal'); doc.text('Inhyrd hantverkare', W-M-38, y); doc.setFont('helvetica','bold'); } y += 4;
     let x = M; doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
     for (const p of legendProjs){
       const label = p.number + (p.name?'  '+p.name:''); const w = doc.getTextWidth(label) + 9;
