@@ -1,0 +1,1072 @@
+<title>Sydbyggarna Resursplanering</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+/* Layout: dark spruce sidebar (brand + navigation) beside a calm stone workspace; the planning grid is the hero. */
+:root{
+  --bg:#EDEFEB; --surface:#FFFFFF; --surface-2:#F5F6F3; --ink:#14201B; --muted:#5D6963; --faint:#8A948E;
+  --line:#DDE2DC; --line-strong:#C2CAC3; --accent:#1E4A38; --accent-ink:#FFFFFF; --accent-soft:#E2ECE6;
+  --brass:#97753F; --side:#0F1D17; --side-ink:#E8EEE9; --side-muted:#8C9D93; --side-line:#213229; --side-hi:#1A2C23;
+  --danger:#B0412D; --ok:#2E7A55; --abs-bg:#F3E7E2; --abs-ink:#9C3A28; --abs-hatch:rgba(156,58,40,.10);
+  --sel:rgba(30,74,56,.14); --sel-line:#1E4A38; --today:rgba(151,117,63,.08); --holiday:rgba(176,65,45,.06);
+  --chip-ink:#14201B;
+  --shadow:0 1px 2px rgba(15,29,23,.05),0 10px 30px -8px rgba(15,29,23,.14);
+  --shadow-lg:0 2px 6px rgba(15,29,23,.08),0 28px 60px -12px rgba(15,29,23,.28);
+  --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B110F; --surface:#111916; --surface-2:#16201C; --ink:#E6ECE8; --muted:#9BA8A1; --faint:#6C7973;
+  --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
+  --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
+  --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
+  --sel:rgba(140,199,168,.16); --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B110F; --surface:#111916; --surface-2:#16201C; --ink:#E6ECE8; --muted:#9BA8A1; --faint:#6C7973;
+  --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
+  --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
+  --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
+  --sel:rgba(140,199,168,.16); --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+
+/* ---------- Sidebar ---------- */
+.side{background:var(--side);color:var(--side-ink);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+  padding-block:24px 20px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:20px;border-right:1px solid var(--side-line)}
+.brand{display:flex;flex-direction:column;gap:14px;padding-bottom:22px;border-bottom:1px solid var(--side-line)}
+.logo-slot{height:44px;display:flex;align-items:center}
+.logo-slot img{max-height:44px;max-width:180px;object-fit:contain}
+.mark{display:flex;align-items:center;gap:10px}
+.mark svg{flex:none}
+.mark b{font-family:var(--f-display);font-weight:700;letter-spacing:.14em;font-size:15px}
+.brand h1{margin:0;font-family:var(--f-display);font-weight:500;font-size:13px;letter-spacing:.02em;color:var(--side-muted);line-height:1.3}
+.brand h1 strong{display:block;color:var(--side-ink);font-weight:600;font-size:18px;letter-spacing:-.01em}
+.nav{display:flex;flex-direction:column;gap:2px;margin-top:20px}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;color:var(--side-muted);text-decoration:none;font-weight:500;transition:background .15s,color .15s}
+.nav a:hover{color:var(--side-ink);background:var(--side-hi)}
+.nav a[aria-current="page"]{color:var(--side-ink);background:var(--side-hi);box-shadow:inset 0 0 0 1px var(--side-line)}
+.nav a svg{opacity:.85}
+.nav .k{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--side-muted)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;font-size:12px;color:var(--side-muted)}
+.sync{display:flex;align-items:center;gap:8px}
+.sync i{width:8px;height:8px;border-radius:50%;background:#5FBF8C;box-shadow:0 0 0 3px rgba(95,191,140,.18)}
+.sync.saving i{background:#D0AC72;box-shadow:0 0 0 3px rgba(208,172,114,.2);animation:pulse 1s infinite}
+.sync.off i{background:#8C9D93;box-shadow:none}
+@keyframes pulse{50%{opacity:.4}}
+.side-foot .who{border-top:1px solid var(--side-line);padding-top:12px;line-height:1.5}
+
+/* ---------- Main ---------- */
+.main{min-width:0;padding-block:28px 64px;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 24px;margin-bottom:22px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.head h2{margin:4px 0 0;font-family:var(--f-display);font-weight:600;font-size:34px;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
+.head .sub{margin-top:6px;color:var(--muted);font-size:14px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{border:0;background:none;padding:6px 11px;border-radius:7px;font-weight:600;font-size:13px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button:hover:not([aria-pressed="true"]){color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;font-weight:600;font-size:13px;transition:border-color .15s,background .15s,transform .05s}
+.btn:hover{border-color:var(--line-strong)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.icon{padding:8px 10px}
+.btn.ghost{background:none;border-color:transparent}
+.btn.ghost:hover{background:var(--surface)}
+.btn.danger{color:var(--danger)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.navweek{display:inline-flex;align-items:center;gap:4px}
+
+.banner{display:flex;gap:10px;align-items:center;padding:12px 16px;border:1px solid var(--line);background:var(--surface);border-radius:12px;margin-bottom:16px;color:var(--muted)}
+.banner b{color:var(--ink)}
+
+/* Project legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.lg{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;font-size:12.5px;transition:opacity .15s,border-color .15s}
+.lg:hover{border-color:var(--line-strong)}
+.lg .sw{width:22px;height:22px;border-radius:50%;background:var(--c);display:grid;place-items:center;color:var(--chip-ink);font-size:9px;font-weight:700;font-family:var(--f-mono)}
+.lg .n{font-family:var(--f-mono);font-weight:600}
+.lg .t{color:var(--muted)}
+.lg .h{font-family:var(--f-mono);color:var(--faint);font-size:11px}
+.lg[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.legend.focusing .lg[aria-pressed="false"]{opacity:.45}
+.lg-hint{font-size:12px;color:var(--faint);align-self:center;margin-left:4px}
+
+/* ---------- Planning grid ---------- */
+.board{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.scroller{overflow:auto;max-height:calc(100vh - 250px);min-height:280px}
+table.plan{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;user-select:none;-webkit-user-select:none}
+.plan th,.plan td{border-bottom:1px solid var(--line);padding:0}
+.plan thead th{position:sticky;background:var(--surface);z-index:3}
+.plan thead tr:first-child th{top:0;height:44px}
+.plan thead tr:nth-child(2) th{top:44px;height:46px;border-bottom:1px solid var(--line-strong)}
+.plan .corner{left:0;z-index:5 !important;text-align:left;padding:0 18px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;vertical-align:bottom;padding-bottom:12px;border-right:1px solid var(--line-strong);min-width:248px;width:248px}
+.wkh{text-align:left;padding:0 12px !important;border-left:1px solid var(--line-strong);vertical-align:middle;white-space:nowrap}
+.wkh .w{font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:-.01em}
+.wkh .r{color:var(--faint);font-size:12px;margin-left:8px}
+.dh{min-width:84px;width:84px;font-weight:500;text-align:left;padding:0 10px !important;vertical-align:middle}
+.dh .dn{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.dh .dd{display:block;font-family:var(--f-mono);font-size:13px;color:var(--ink);font-weight:500}
+.dh.today .dd{color:var(--brass)}
+.dh.today .dn{color:var(--brass)}
+.dh.today::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;background:var(--brass);border-radius:2px}
+.dh.hol .dn{color:var(--danger)}
+.dh .hn{display:block;font-size:10px;color:var(--danger);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:76px}
+.ws{border-left:1px solid var(--line-strong) !important}
+
+.plan tbody th{position:sticky;left:0;z-index:2;background:var(--surface);text-align:left;font-weight:400;border-right:1px solid var(--line-strong)}
+.grp th{background:var(--surface-2) !important;height:34px;white-space:nowrap;padding:0 18px !important;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.grp th span{color:var(--faint);font-family:var(--f-mono);letter-spacing:0;margin-left:8px}
+.grp td{background:var(--surface-2)}
+.who{padding:0 18px !important;height:52px}
+.who .nm{display:block;font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:212px}
+.who .meta{display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--faint);margin-top:1px}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;padding:1px 6px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+.plan tbody tr:not(.grp):hover th,.plan tbody tr:not(.grp):hover td{background-color:var(--surface-2)}
+
+td.c{height:52px;width:84px;min-width:84px;max-width:84px;padding:4px !important;position:relative;cursor:cell;border-left:1px solid var(--line)}
+td.c.ws{border-left:1px solid var(--line-strong)}
+td.c.today{background:var(--today)}
+td.c.hol{background:var(--holiday)}
+td.c.sel{background:var(--sel) !important}
+td.c.sel::after{content:"";position:absolute;inset:0;border:1.5px solid var(--sel-line);pointer-events:none}
+.ro td.c{cursor:default}
+.chip{height:100%;border-radius:7px;background:var(--c);color:var(--chip-ink);display:flex;flex-direction:column;justify-content:center;padding:0 8px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);transition:opacity .15s,transform .15s}
+.chip .num{font-family:var(--f-mono);font-weight:600;font-size:13px;line-height:1.1}
+.chip .nt{font-size:10.5px;line-height:1.15;opacity:.78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip.miss{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 4px,var(--line) 4px,var(--line) 5px);color:var(--muted)}
+.abs{height:100%;border-radius:7px;background:repeating-linear-gradient(-45deg,var(--abs-bg),var(--abs-bg) 6px,var(--abs-hatch) 6px,var(--abs-hatch) 7px);color:var(--abs-ink);display:flex;flex-direction:column;justify-content:center;padding:0 8px;font-weight:600;font-size:11.5px;letter-spacing:.02em;overflow:hidden}
+.abs .nt{font-weight:400;font-size:10.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan.focus .chip:not(.on),.plan.focus .abs{opacity:.18}
+.plan.focus .chip.on{box-shadow:0 0 0 2px var(--ink)}
+tfoot th,tfoot td{position:sticky;bottom:0;background:var(--surface-2);border-top:1px solid var(--line-strong);height:40px;z-index:2}
+tfoot th{left:0;z-index:4 !important;text-align:left;padding:0 18px !important;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;border-right:1px solid var(--line-strong)}
+tfoot td{padding:0 10px !important;font-family:var(--f-mono);font-size:12px;color:var(--muted);border-left:1px solid var(--line)}
+tfoot td b{color:var(--ink);font-weight:600}
+.board-foot{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
+.board-foot kbd{font-family:var(--f-mono);font-size:11px;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:4px;padding:0 5px;color:var(--muted)}
+
+/* Empty / loading */
+.empty{padding:56px 24px;text-align:center;color:var(--muted)}
+.empty h3{font-family:var(--f-display);font-weight:600;font-size:20px;color:var(--ink);margin:0 0 6px}
+.empty p{margin:0 auto;max-width:46ch}
+.skel{height:52px;margin:6px 18px;border-radius:8px;background:linear-gradient(90deg,var(--surface-2),var(--line),var(--surface-2));background-size:200% 100%;animation:sk 1.4s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+
+/* ---------- Picker ---------- */
+.pop{position:fixed;z-index:50;width:340px;max-width:calc(100vw - 24px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;max-height:min(560px,calc(100vh - 24px));animation:pop .14s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(4px) scale(.98)}}
+.pop-h{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.pop-h .t{font-weight:600}
+.pop-h .s{font-size:12px;color:var(--faint)}
+.pop-search{margin-top:10px;width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 10px}
+.pop-b{overflow:auto;padding:8px}
+.pop-sec{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;padding:8px 8px 6px}
+.opt{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;text-align:left;padding:8px;border-radius:8px}
+.opt:hover,.opt.hl{background:var(--surface-2)}
+.opt .sw{width:28px;height:28px;border-radius:7px;background:var(--c);flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.opt .n{font-family:var(--f-mono);font-weight:600;font-size:13px}
+.opt .m{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opt .tx{min-width:0;display:flex;flex-direction:column}
+.abs-row{display:flex;flex-wrap:wrap;gap:6px;padding:0 8px 6px}
+.abs-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600;color:var(--abs-ink)}
+.abs-btn:hover{background:var(--abs-bg)}
+.pop-f{border-top:1px solid var(--line);padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.pop-f label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.note-row{display:flex;gap:6px}
+.note-row input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:7px 10px}
+.pop-actions{display:flex;justify-content:space-between;gap:8px}
+
+/* ---------- Toast ---------- */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{display:flex;align-items:center;gap:14px;background:var(--side);color:var(--side-ink);padding:10px 12px 10px 16px;border-radius:12px;box-shadow:var(--shadow-lg);font-size:13px;animation:pop .18s ease-out;max-width:calc(100vw - 32px)}
+.toast button{background:none;border:1px solid var(--side-line);color:var(--side-ink);border-radius:8px;padding:4px 10px;font-weight:600;font-size:12px}
+
+/* ---------- Overview ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kpi .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.kpi .v{font-family:var(--f-display);font-weight:600;font-size:34px;letter-spacing:-.02em;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:16px;color:var(--muted);font-weight:500;margin-left:2px}
+.kpi .d{font-size:12px;color:var(--muted);margin-top:2px}
+.meter{height:6px;border-radius:3px;background:var(--surface-2);margin-top:10px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:28px 0 12px}
+.section-h h3{margin:0;font-family:var(--f-display);font-weight:600;font-size:20px;letter-spacing:-.01em}
+.section-h p{margin:0;color:var(--faint);font-size:12.5px}
+table.mx{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%}
+.mx th,.mx td{border-bottom:1px solid var(--line);padding:0}
+.mx thead th{background:var(--surface);position:sticky;top:0;z-index:2;height:40px;font-weight:500}
+.mx .pj{position:sticky;left:0;background:var(--surface);z-index:1;text-align:left;padding:0 16px !important;min-width:248px;border-right:1px solid var(--line-strong)}
+.mx thead .pj{z-index:3}
+.pjc{display:flex;align-items:center;gap:10px;height:50px}
+.pjc .sw{width:12px;height:12px;border-radius:3px;background:var(--c);flex:none}
+.pjc .n{font-family:var(--f-mono);font-weight:600}
+.pjc .m{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.mx td.h{width:44px;min-width:44px;text-align:center;font-family:var(--f-mono);font-size:12px;border-left:1px solid var(--line)}
+.mx td.h span{display:grid;place-items:center;height:34px;margin:0 3px;border-radius:6px;color:var(--chip-ink);font-weight:600}
+.mx td.h.z{color:var(--faint)}
+.mx th.dsm{width:44px;min-width:44px;font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;border-left:1px solid var(--line)}
+.mx th.dsm b{display:block;font-family:var(--f-mono);color:var(--ink);font-weight:500;letter-spacing:0;font-size:12px}
+.mx .tot{padding:0 16px !important;text-align:right;font-family:var(--f-mono);border-left:1px solid var(--line-strong);white-space:nowrap}
+.mx .tot b{font-size:15px}
+.mx .split{color:var(--faint);font-size:11px;display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.card-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.badge{min-width:54px;height:36px;padding:0 10px;border-radius:8px;background:var(--c);color:var(--chip-ink);display:grid;place-items:center;font-family:var(--f-mono);font-weight:600;font-size:14px}
+.card-h .nm{font-weight:600;font-size:15px;line-height:1.2}
+.card-h .cl{font-size:12px;color:var(--muted)}
+.card-h .dv{margin-left:auto;text-align:right;font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.card-h .dv b{display:block;font-size:18px;color:var(--ink)}
+.crew{display:flex;flex-direction:column;gap:2px}
+.crew-r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+.crew-r .p{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crew-r .p small{color:var(--faint);font-weight:400;margin-left:6px}
+.dots{display:flex;gap:3px;align-items:center}
+.dots i{width:7px;height:14px;border-radius:2px;background:var(--line)}
+.dots i.on{background:var(--c)}
+.dots i.gap{width:6px;background:none}
+
+/* ---------- Register ---------- */
+.reg-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.panel-h{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.panel-h h3{margin:0;font-family:var(--f-display);font-weight:600;font-size:18px}
+.panel-h p{margin:2px 0 0;font-size:12.5px;color:var(--faint)}
+.tbl-wrap{overflow-x:auto}
+table.reg{border-collapse:collapse;width:100%;min-width:720px}
+.reg th{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.reg td{padding:6px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.reg tr.off td{opacity:.55}
+.reg input[type=text],.reg select{width:100%;border:1px solid transparent;background:none;border-radius:7px;padding:6px 8px}
+.reg input[type=text]:hover,.reg select:hover{border-color:var(--line)}
+.reg input[type=text]:focus,.reg select:focus{border-color:var(--accent);background:var(--surface);outline:none}
+.reg input.mono{font-family:var(--f-mono);font-weight:600}
+.reg tr.add td{background:var(--surface-2)}
+.reg tr.add input,.reg tr.add select{border-color:var(--line);background:var(--surface)}
+.swbtn{width:28px;height:28px;border-radius:7px;background:var(--c);border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.palette{display:grid;grid-template-columns:repeat(6,28px);gap:8px;padding:12px}
+.palette button{width:28px;height:28px;border-radius:7px;border:0;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.palette button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px 4px 4px;font-size:12px;font-weight:600}
+.toggle i{width:26px;height:16px;border-radius:999px;background:var(--line-strong);position:relative;transition:background .15s}
+.toggle i::after{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--surface);transition:left .15s}
+.toggle[aria-pressed="true"] i{background:var(--ok)}
+.toggle[aria-pressed="true"] i::after{left:12px}
+.rowbtns{display:flex;gap:2px;justify-content:flex-end}
+.rowbtns .btn{padding:5px 8px}
+.logo-box{display:flex;flex-wrap:wrap;align-items:center;gap:18px;padding:18px}
+.logo-prev{width:220px;height:84px;border:1px dashed var(--line-strong);border-radius:12px;display:grid;place-items:center;background:var(--surface-2);overflow:hidden}
+.logo-prev img{max-width:190px;max-height:64px;object-fit:contain}
+.muted{color:var(--muted)}
+.faint{color:var(--faint)}
+
+/* ---------- Modal ---------- */
+.scrim{position:fixed;inset:0;background:rgba(7,13,11,.48);backdrop-filter:blur(3px);z-index:70;display:grid;place-items:center;padding:16px;animation:fade .15s}
+@keyframes fade{from{opacity:0}}
+.modal{width:min(560px,100%);background:var(--surface);border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden;animation:pop .18s ease-out;max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+.modal-h{padding:22px 24px 6px}
+.modal-h h3{margin:4px 0 0;font-family:var(--f-display);font-weight:600;font-size:24px;letter-spacing:-.01em}
+.modal-b{padding:14px 24px;display:flex;flex-direction:column;gap:16px;overflow:auto}
+.field{display:flex;flex-direction:column;gap:6px}
+.field>span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.field select{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--surface-2)}
+.check{display:flex;gap:10px;align-items:center;font-size:13.5px}
+.check input{width:16px;height:16px;accent-color:var(--accent)}
+.sheet{border:1px solid var(--line);border-radius:12px;background:var(--surface-2);padding:14px;display:flex;flex-direction:column;gap:8px}
+.sheet .sh-top{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.sheet .sh-top b{font-family:var(--f-display);font-size:14px}
+.sheet .sh-top span{font-size:11px;color:var(--faint)}
+.sheet .sh-grid{display:grid;gap:2px}
+.sheet .sh-row{display:grid;gap:2px;grid-template-columns:70px repeat(var(--n),1fr)}
+.sheet .sh-row i{height:7px;border-radius:2px;background:var(--line)}
+.sheet .sh-row em{height:7px;border-radius:2px;background:var(--line-strong);opacity:.5}
+.modal-f{padding:16px 24px 22px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--line)}
+.err{color:var(--danger);font-size:12.5px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 20px;padding-block:14px;padding-right:max(16px,env(safe-area-inset-right,0px));padding-left:max(16px,env(safe-area-inset-left,0px))}
+  .brand{flex-direction:row;align-items:center;border:0;padding:0;gap:12px}
+  .brand h1 strong{font-size:15px}
+  .brand h1{font-size:11px}
+  .logo-slot{height:34px}
+  .nav{flex-direction:row;margin:0;gap:4px;flex-wrap:wrap}
+  .nav a{padding:7px 10px}
+  .nav .k{display:none}
+  .side-foot{display:none}
+  .main{padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .head h2{font-size:26px}
+  .plan .corner{min-width:150px;width:150px;padding:0 12px 12px}
+  .who{padding:0 12px !important}
+  .who .nm{max-width:130px;font-size:12.5px}
+  .grp th{padding:0 12px !important}
+  .scroller{max-height:none}
+}
+@media (max-width:520px){
+  .kpis{grid-template-columns:minmax(0,1fr)}
+  .pop{left:8px !important;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));top:auto !important;width:auto}
+  .cards{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="logo-slot" id="logoSlot"></div>
+      <h1><strong>Resursplanering</strong>Hantverkare &amp; inhyrd personal</h1>
+    </div>
+    <nav class="nav" aria-label="Vyer">
+      <a href="#planering" data-view="planering"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4v17M3 14h18"/></svg>Planering<span class="k">P</span></a>
+      <a href="#projekt" data-view="projekt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-6h4v6"/></svg>Projektöversikt<span class="k">O</span></a>
+      <a href="#register" data-view="register"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg>Personal &amp; projekt<span class="k">R</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="sync off" id="sync"><i></i><span>Ansluter…</span></div>
+      <div class="who" id="whoBox">Delad planering. Ändringar syns direkt för alla som har länken.</div>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(() => {
+/* ================= Constants ================= */
+const DAYS = ['Mån','Tis','Ons','Tor','Fre'];
+const DAYS_LONG = ['Måndag','Tisdag','Onsdag','Torsdag','Fredag'];
+const MONTHS = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+const ABS = [
+  {k:'ledig', label:'Ledig'},
+  {k:'semester', label:'Semester'},
+  {k:'sjuk', label:'Sjuk'},
+  {k:'vab', label:'VAB'},
+  {k:'utb', label:'Utbildning'},
+];
+const ABS_LABEL = Object.fromEntries(ABS.map(a => [a.k, a.label]));
+const PALETTE = ['#E8894A','#8DB8E0','#B48CE8','#A9CC9A','#EBCB6B','#B9BDB8','#6FBFB4','#E59A9A','#7E9CC9','#C5BF6E','#D08A70','#B08AB8'];
+const OWN_COMPANY = 'Sydbyggarna';
+
+/* ================= State ================= */
+const S = {
+  view: 'planering',
+  start: null,
+  weeks: 3,
+  people: [], projects: [], weeksData: new Map(), settings: {},
+  db: null, user: null, assets: null, downloads: null,
+  canWrite: true, status: 'loading', // loading | ready | nodb | timeout
+  focusProj: null,
+};
+const $main = document.getElementById('main');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+try { const w = +localStorage.getItem('sb.weeks'); if ([1,2,3,4,6].includes(w)) S.weeks = w; } catch(e) {}
+
+/* ================= Dates ================= */
+const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function mondayOf(d){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay()+6)%7); return x; }
+function addDays(d,n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+function isoWeek(d){ const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-day); const y = t.getUTCFullYear(); return {y, w: Math.ceil(((t - Date.UTC(y,0,1))/864e5 + 1)/7)}; }
+function wkKey(mon){ const {y,w} = isoWeek(mon); return y+'-W'+String(w).padStart(2,'0'); }
+const fmtShort = d => d.getDate()+' '+MONTHS[d.getMonth()];
+function fmtRange(a,b){ return a.getMonth()===b.getMonth() ? a.getDate()+'–'+b.getDate()+' '+MONTHS[b.getMonth()] : fmtShort(a)+' – '+fmtShort(b); }
+const today = new Date(); const TODAY = ymd(today);
+S.start = mondayOf(today);
+
+function easter(y){ const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1; return new Date(y,mo-1,da); }
+const holCache = {};
+function holidays(y){
+  if (holCache[y]) return holCache[y];
+  const e = easter(y), H = {};
+  const put = (d,n) => H[ymd(d)] = n;
+  put(new Date(y,0,1),'Nyårsdagen'); put(new Date(y,0,6),'Trettondedag jul');
+  put(addDays(e,-2),'Långfredagen'); put(addDays(e,1),'Annandag påsk');
+  put(new Date(y,4,1),'Första maj'); put(addDays(e,39),'Kristi himmelsfärd');
+  put(new Date(y,5,6),'Nationaldagen');
+  for (let d=19; d<=25; d++){ const x = new Date(y,5,d); if (x.getDay()===5) put(x,'Midsommarafton'); }
+  put(new Date(y,11,24),'Julafton'); put(new Date(y,11,25),'Juldagen'); put(new Date(y,11,26),'Annandag jul'); put(new Date(y,11,31),'Nyårsafton');
+  return holCache[y] = H;
+}
+const holidayName = d => holidays(d.getFullYear())[ymd(d)] || '';
+
+function columns(start, weeks){
+  const cols = [];
+  for (let i=0;i<weeks;i++){
+    const mon = addDays(start, 7*i), wk = wkKey(mon), w = isoWeek(mon).w;
+    for (let d=0; d<5; d++){ const date = addDays(mon,d); cols.push({date, wk, w, d:String(d+1), wi:i, di:d, hol:holidayName(date), today: ymd(date)===TODAY}); }
+  }
+  return cols;
+}
+
+/* ================= Data helpers ================= */
+const projById = id => S.projects.find(p => p.id===id);
+function getCell(wk,pid,d){ const w = S.weeksData.get(wk); return (w && w[pid] && w[pid][d]) || null; }
+function setLocal(wk,pid,d,val){ let w = S.weeksData.get(wk); if (!w){ w = {}; S.weeksData.set(wk,w); } if (!w[pid]) w[pid] = {}; w[pid][d] = val; }
+const activePeople = () => S.people.filter(p => p.active !== false).sort((a,b)=>(a.order??999)-(b.order??999) || a.name.localeCompare(b.name,'sv'));
+function groupsOf(people){
+  const m = new Map();
+  for (const p of people){ const c = p.company || OWN_COMPANY; if (!m.has(c)) m.set(c, []); m.get(c).push(p); }
+  return [...m.entries()].sort((a,b) => (a[0]===OWN_COMPANY?-1:b[0]===OWN_COMPANY?1:a[0].localeCompare(b[0],'sv')));
+}
+const isOwn = p => (p.company||OWN_COMPANY)===OWN_COMPANY;
+const projLabel = p => p ? (p.name ? p.number+' · '+p.name : p.number) : 'Okänt projekt';
+
+/* ================= Sync / toast ================= */
+let pending = 0;
+function syncState(){
+  const el = document.getElementById('sync');
+  if (S.status==='nodb'){ el.className='sync off'; el.lastElementChild.textContent='Ej ansluten'; return; }
+  if (S.status==='timeout'){ el.className='sync off'; el.lastElementChild.textContent='Ingen kontakt – försöker igen'; return; }
+  if (pending>0){ el.className='sync saving'; el.lastElementChild.textContent='Sparar…'; return; }
+  if (S.status==='ready'){ el.className='sync'; el.lastElementChild.textContent='Live · alla ändringar sparade'; return; }
+  el.className='sync off'; el.lastElementChild.textContent='Ansluter…';
+}
+function toast(msg, action){
+  const box = document.getElementById('toasts');
+  const t = document.createElement('div'); t.className='toast';
+  const s = document.createElement('span'); s.textContent = msg; t.appendChild(s);
+  if (action){ const b = document.createElement('button'); b.textContent = action.label; b.onclick = () => { t.remove(); action.fn(); }; t.appendChild(b); }
+  box.appendChild(t);
+  while (box.children.length > 3) box.firstChild.remove();
+  setTimeout(() => t.remove(), action ? 7000 : 3500);
+}
+function errMsg(e){
+  const c = e && e.code;
+  if (c==='invalid_argument') return 'Du har bara läsbehörighet till planeringen.';
+  if (c==='quota_exceeded') return 'Lagringsutrymmet är fullt.';
+  return 'Ändringen kunde inte sparas. Kontrollera anslutningen och försök igen.';
+}
+
+/* ================= Writes ================= */
+async function writeChanges(changes){
+  const byWk = new Map();
+  for (const c of changes){ if (!byWk.has(c.wk)) byWk.set(c.wk, {}); const w = byWk.get(c.wk); (w[c.pid] ||= {})[c.d] = c.val; }
+  for (const [wk, cells] of byWk){
+    const ref = S.db.doc('weeks/'+wk);
+    const snap = await ref.get();
+    if (snap.exists) await ref.update({cells});
+    else await ref.set({key: wk, cells});
+  }
+}
+async function commit(changes, label, undoable=true){
+  if (!S.db || !changes.length) return;
+  const prev = changes.map(c => ({...c, val: getCell(c.wk,c.pid,c.d)}));
+  for (const c of changes) setLocal(c.wk,c.pid,c.d,c.val);
+  render();
+  pending++; syncState();
+  try {
+    await writeChanges(changes);
+    if (label) toast(label, undoable ? {label:'Ångra', fn: () => commit(prev, 'Ändringen är ångrad', false)} : null);
+  } catch(e){
+    for (const c of prev) setLocal(c.wk,c.pid,c.d,c.val);
+    render(); toast(errMsg(e));
+    if (e && e.code==='invalid_argument'){ S.canWrite=false; render(); }
+  } finally { pending--; syncState(); }
+}
+async function saveDoc(path, data, merge=true){
+  if (!S.db) return false;
+  pending++; syncState();
+  try { const ref = S.db.doc(path); if (merge){ const s = await ref.get(); if (s.exists) await ref.update(data); else await ref.set(data); } else await ref.set(data); return true; }
+  catch(e){ toast(errMsg(e)); return false; }
+  finally { pending--; syncState(); }
+}
+async function deleteDoc(path){
+  if (!S.db) return;
+  pending++; syncState();
+  try { await S.db.doc(path).delete(); } catch(e){ toast(errMsg(e)); } finally { pending--; syncState(); }
+}
+
+/* ================= Logo ================= */
+const MARK_SVG = `<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#1E4A38"/><path d="M7 25V15.5L17 8l10 7.5V25" fill="none" stroke="#E8EEE9" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.5 25v-5.5h9V25" fill="none" stroke="#D0AC72" stroke-width="2.2"/></svg>`;
+function renderLogo(){
+  const slot = document.getElementById('logoSlot');
+  if (S.settings.logo){ slot.innerHTML = `<img alt="Sydbyggarna" src="/_blob/${esc(S.settings.logo)}">`; slot.firstChild.onerror = () => { slot.innerHTML = `<div class="mark">${MARK_SVG}<b>SYDBYGGARNA</b></div>`; }; }
+  else slot.innerHTML = `<div class="mark">${MARK_SVG}<b>SYDBYGGARNA</b></div>`;
+}
+
+/* ================= Shared header ================= */
+function periodText(){
+  const cols = columns(S.start, S.weeks), a = cols[0], b = cols[cols.length-1];
+  const wk = a.w===b.w ? 'Vecka '+a.w : 'Vecka '+a.w+'–'+b.w;
+  return wk+' · '+fmtRange(a.date, b.date)+' '+b.date.getFullYear();
+}
+function periodTools(){
+  return `<div class="seg" role="group" aria-label="Antal veckor">${[1,2,3,4,6].map(n=>`<button data-weeks="${n}" aria-pressed="${S.weeks===n}">${n} v</button>`).join('')}</div>
+  <div class="navweek"><button class="btn icon" data-nav="-1" aria-label="Föregående vecka"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button><button class="btn" data-nav="0">Idag</button><button class="btn icon" data-nav="1" aria-label="Nästa vecka"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button></div>`;
+}
+function bindPeriodTools(root){
+  root.querySelectorAll('[data-weeks]').forEach(b => b.onclick = () => { S.weeks = +b.dataset.weeks; try{localStorage.setItem('sb.weeks',S.weeks)}catch(e){} render(); });
+  root.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => { const n = +b.dataset.nav; S.start = n===0 ? mondayOf(new Date()) : addDays(S.start, 7*n); render(); });
+}
+function stateBlock(){
+  if (S.status==='nodb') return `<div class="board"><div class="empty"><h3>Planeringen kunde inte öppnas här</h3><p>Den delade planeringen kräver att du är inloggad på claude.ai. Öppna länken i webbläsaren eller Claude-appen och logga in.</p></div></div>`;
+  if (S.status==='loading') return `<div class="board" aria-busy="true"><div style="padding:14px 0">${'<div class="skel"></div>'.repeat(6)}</div></div>`;
+  return '';
+}
+
+/* ================= Planning view ================= */
+let rowIds = [], cols = [], sel = null, dragging = false, lastPointer = 'mouse';
+function renderPlanning(){
+  cols = columns(S.start, S.weeks);
+  const people = activePeople();
+  const groups = groupsOf(people);
+  // legend: projects occurring in period
+  const counts = new Map();
+  for (const p of people) for (const c of cols){ const v = getCell(c.wk,p.id,c.d); if (v && v.p) counts.set(v.p,(counts.get(v.p)||0)+1); }
+  const legendProjs = [...counts.keys()].map(projById).filter(Boolean).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true}));
+  if (S.focusProj && !counts.has(S.focusProj)) S.focusProj = null;
+
+  const head = `<div class="head"><div><div class="eyebrow">Planering</div><h2>${esc(periodText().split(' · ')[0])}</h2><div class="sub">${esc(periodText().split(' · ')[1])} · ${people.length} personer</div></div>
+    <div class="tools">${periodTools()}
+      ${S.canWrite && S.status==='ready' ? `<button class="btn" id="copyPrev" title="Kopierar föregående veckas planering till första veckan i vyn, bara i tomma rutor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Kopiera förra veckan</button>`:''}
+      <button class="btn primary" id="exportBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportera PDF</button>
+    </div></div>`;
+
+  const sb = stateBlock();
+  if (sb){ $main.innerHTML = head + sb; bindPlanningHead(); return; }
+  if (!people.length){
+    $main.innerHTML = head + `<div class="board"><div class="empty"><h3>Lägg till personal för att börja planera</h3><p>Under <a href="#register">Personal &amp; projekt</a> lägger du in hantverkare, inhyrda och projektnummer. Sedan fyller du i planeringen här genom att klicka eller dra över dagarna.</p></div></div>`;
+    bindPlanningHead(); return;
+  }
+
+  const legend = legendProjs.length ? `<div class="legend ${S.focusProj?'focusing':''}">${legendProjs.map(p => `<button class="lg" data-focus="${esc(p.id)}" aria-pressed="${S.focusProj===p.id}" style="--c:${esc(p.color)}"><span class="sw"></span><span class="n">${esc(p.number)}</span>${p.name?`<span class="t">${esc(p.name)}</span>`:''}<span class="h">${counts.get(p.id)} dv</span></button>`).join('')}<span class="lg-hint">Klicka på ett projekt för att markera det i planeringen</span></div>` : '';
+
+  let h = `<table class="plan ${S.focusProj?'focus':''}" id="plan"><thead><tr><th class="corner" rowspan="2">Personal</th>`;
+  for (let i=0;i<S.weeks;i++){ const a = cols[i*5], b = cols[i*5+4]; h += `<th class="wkh" colspan="5"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span></th>`; }
+  h += `</tr><tr>`;
+  for (const c of cols) h += `<th class="dh ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}" title="${esc(DAYS_LONG[c.di]+' '+fmtShort(c.date)+(c.hol?' – '+c.hol:''))}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span>${c.hol?`<span class="hn">${esc(c.hol)}</span>`:''}</th>`;
+  h += `</tr></thead><tbody>`;
+  rowIds = [];
+  for (const [company, list] of groups){
+    h += `<tr class="grp"><th>${esc(company)}<span>${company===OWN_COMPANY?'egen':'inhyrd'}</span><span>${list.length}</span></th><td colspan="${cols.length}"></td></tr>`;
+    for (const p of list){
+      const r = rowIds.length; rowIds.push(p.id);
+      h += `<tr><th class="who"><span class="nm">${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}${!isOwn(p)?esc(p.company):''}</span></th>`;
+      cols.forEach((c,ci) => {
+        const v = getCell(c.wk,p.id,c.d);
+        h += `<td class="c ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}" data-r="${r}" data-c="${ci}">${cellHTML(v)}</td>`;
+      });
+      h += `</tr>`;
+    }
+  }
+  h += `</tbody><tfoot><tr><th>Planerade</th>`;
+  for (const c of cols){ let n=0; for (const p of people){ const v = getCell(c.wk,p.id,c.d); if (v && v.p) n++; } h += `<td class="${c.di===0?'ws':''}"><b>${n}</b>/${people.length}</td>`; }
+  h += `</tr></tfoot></table>`;
+
+  $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + legend +
+    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka på en ruta eller dra över flera dagar och personer för att planera dem samtidigt.</span><span><kbd>Esc</kbd> stänger · <kbd>Del</kbd> rensar markering</span></div></div>`;
+  bindPlanningHead();
+  const table = document.getElementById('plan');
+  if (!S.canWrite) table.classList.add('ro');
+  $main.querySelectorAll('[data-focus]').forEach(b => b.onclick = () => { S.focusProj = S.focusProj===b.dataset.focus ? null : b.dataset.focus; render(); });
+  if (sel) paintSel();
+  if (!renderPlanning.scrolled){ renderPlanning.scrolled = true; }
+}
+function cellHTML(v){
+  if (!v) return '';
+  const nt = v.n ? `<span class="nt">${esc(v.n)}</span>` : '';
+  if (v.s) return `<div class="abs">${esc(ABS_LABEL[v.s]||v.s)}${nt}</div>`;
+  if (v.p){ const p = projById(v.p); if (!p) return `<div class="chip miss"><span class="num">?</span>${nt}</div>`;
+    return `<div class="chip ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}" title="${esc(projLabel(p)+(v.n?' – '+v.n:''))}"><span class="num">${esc(p.number)}</span>${nt}</div>`; }
+  if (v.n) return `<div class="chip miss"><span class="nt">${esc(v.n)}</span></div>`;
+  return '';
+}
+function bindPlanningHead(){
+  bindPeriodTools($main);
+  const ex = document.getElementById('exportBtn'); if (ex) ex.onclick = openExport;
+  const cp = document.getElementById('copyPrev'); if (cp) cp.onclick = copyPrevWeek;
+}
+function copyPrevWeek(){
+  const src = wkKey(addDays(S.start,-7)), dst = wkKey(S.start);
+  const changes = [];
+  for (const p of activePeople()) for (let d=1; d<=5; d++){
+    const v = getCell(src,p.id,String(d)); if (v && !getCell(dst,p.id,String(d))) changes.push({wk:dst,pid:p.id,d:String(d),val:{...v}});
+  }
+  if (!changes.length){ toast('Inget att kopiera: förra veckan är tom eller veckan är redan planerad.'); return; }
+  commit(changes, `${changes.length} dagar kopierade från vecka ${isoWeek(addDays(S.start,-7)).w}`);
+}
+
+/* selection */
+function selCells(){
+  if (!sel) return [];
+  const r0 = Math.min(sel.r0,sel.r1), r1 = Math.max(sel.r0,sel.r1), c0 = Math.min(sel.c0,sel.c1), c1 = Math.max(sel.c0,sel.c1);
+  const out = [];
+  for (let r=r0;r<=r1;r++) for (let c=c0;c<=c1;c++){ const col = cols[c]; if (rowIds[r] && col) out.push({pid:rowIds[r], wk:col.wk, d:col.d}); }
+  return out;
+}
+function paintSel(){
+  const t = document.getElementById('plan'); if (!t) return;
+  t.querySelectorAll('td.sel').forEach(td => td.classList.remove('sel'));
+  if (!sel) return;
+  const r0 = Math.min(sel.r0,sel.r1), r1 = Math.max(sel.r0,sel.r1), c0 = Math.min(sel.c0,sel.c1), c1 = Math.max(sel.c0,sel.c1);
+  t.querySelectorAll('td.c').forEach(td => { const r=+td.dataset.r, c=+td.dataset.c; if (r>=r0&&r<=r1&&c>=c0&&c<=c1) td.classList.add('sel'); });
+}
+$main.addEventListener('pointerdown', e => {
+  lastPointer = e.pointerType;
+  const td = e.target.closest && e.target.closest('td.c');
+  if (!td || !S.canWrite || S.view!=='planering' || e.button!==0) return;
+  if (e.pointerType==='touch') return;
+  e.preventDefault(); closePicker(false);
+  const r = +td.dataset.r, c = +td.dataset.c;
+  if (e.shiftKey && sel){ sel.r1 = r; sel.c1 = c; } else sel = {r0:r,c0:c,r1:r,c1:c};
+  dragging = true; paintSel();
+});
+document.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const td = el && el.closest && el.closest('td.c');
+  if (td){ const r=+td.dataset.r, c=+td.dataset.c; if (r!==sel.r1 || c!==sel.c1){ sel.r1=r; sel.c1=c; paintSel(); } }
+});
+document.addEventListener('pointerup', e => { if (!dragging) return; dragging = false; openPicker(e.clientX, e.clientY); });
+$main.addEventListener('click', e => {
+  if (lastPointer!=='touch') return;
+  const td = e.target.closest && e.target.closest('td.c');
+  if (!td || !S.canWrite) return;
+  sel = {r0:+td.dataset.r, c0:+td.dataset.c, r1:+td.dataset.r, c1:+td.dataset.c}; paintSel();
+  const rc = td.getBoundingClientRect(); openPicker(rc.left, rc.bottom);
+});
+
+/* ================= Picker ================= */
+let popEl = null;
+function closePicker(clearSel=true){ if (popEl){ popEl.remove(); popEl = null; } if (clearSel){ sel = null; paintSel(); } }
+function openPicker(x,y){
+  closePicker(false);
+  const cells = selCells(); if (!cells.length) return;
+  const vals = cells.map(c => getCell(c.wk,c.pid,c.d));
+  const notes = new Set(vals.map(v => (v&&v.n)||''));
+  const note0 = notes.size===1 ? [...notes][0] : '';
+  const persons = new Set(cells.map(c=>c.pid)).size, days = cells.length/persons;
+  const pname = persons===1 ? (S.people.find(p=>p.id===cells[0].pid)||{}).name : persons+' personer';
+  const projs = S.projects.filter(p => p.active!==false).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true}));
+  popEl = document.createElement('div'); popEl.className='pop'; popEl.setAttribute('role','dialog'); popEl.setAttribute('aria-label','Välj projekt');
+  popEl.innerHTML = `<div class="pop-h"><div class="t">${esc(pname)}</div><div class="s">${days===1?'1 dag':days+' dagar'}${cells.length>1?' · '+cells.length+' rutor':''}</div>
+    <input class="pop-search" id="popSearch" placeholder="Sök projektnummer eller namn" autocomplete="off"></div>
+    <div class="pop-b"><div class="pop-sec">Projekt</div><div id="popList"></div>
+    <div class="pop-sec">Frånvaro</div><div class="abs-row">${ABS.map(a=>`<button class="abs-btn" data-abs="${a.k}">${a.label}</button>`).join('')}</div></div>
+    <div class="pop-f"><label for="popNote">Notering</label><div class="note-row"><input id="popNote" placeholder="T.ex. etablering, ledig em" value="${esc(note0)}"><button class="btn" id="popNoteSave">Spara</button></div>
+    <div class="pop-actions"><button class="btn ghost danger" id="popClear">Rensa</button><button class="btn ghost" id="popClose">Stäng</button></div></div>`;
+  document.body.appendChild(popEl);
+  const list = popEl.querySelector('#popList'), search = popEl.querySelector('#popSearch'), noteIn = popEl.querySelector('#popNote');
+  let hl = 0, shown = projs;
+  const drawList = () => {
+    const q = search.value.trim().toLowerCase();
+    shown = projs.filter(p => !q || p.number.toLowerCase().includes(q) || (p.name||'').toLowerCase().includes(q) || (p.client||'').toLowerCase().includes(q));
+    hl = Math.min(hl, Math.max(0,shown.length-1));
+    list.innerHTML = shown.length ? shown.map((p,i)=>`<button class="opt ${i===hl&&q?'hl':''}" data-p="${esc(p.id)}" style="--c:${esc(p.color)}"><span class="sw"></span><span class="tx"><span class="n">${esc(p.number)}</span><span class="m">${esc(p.name||'Namnlöst projekt')}${p.client?' · '+esc(p.client):''}</span></span></button>`).join('')
+      : `<div class="faint" style="padding:8px">Inget projekt matchar. Lägg till det under Personal &amp; projekt.</div>`;
+    list.querySelectorAll('[data-p]').forEach(b => b.onclick = () => apply({p:b.dataset.p}));
+  };
+  const apply = base => {
+    const n = noteIn.value.trim(); const val = n ? {...base, n} : base;
+    const label = base.p ? `${cells.length} ${cells.length===1?'dag':'dagar'} → ${projById(base.p).number}` : `${cells.length} ${cells.length===1?'dag':'dagar'} → ${ABS_LABEL[base.s]}`;
+    commit(cells.map(c=>({...c,val})), label); closePicker();
+  };
+  drawList();
+  search.oninput = () => { hl = 0; drawList(); };
+  search.onkeydown = e => {
+    if (e.key==='ArrowDown'){ hl = Math.min(hl+1, shown.length-1); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
+    else if (e.key==='ArrowUp'){ hl = Math.max(hl-1,0); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
+    else if (e.key==='Enter' && shown[hl]){ apply({p:shown[hl].id}); }
+  };
+  popEl.querySelectorAll('[data-abs]').forEach(b => b.onclick = () => apply({s:b.dataset.abs}));
+  const saveNote = () => {
+    const n = noteIn.value.trim();
+    const ch = cells.map((c,i) => { const v = vals[i]; if (!v && !n) return null; const nv = {...(v||{})}; if (n) nv.n = n; else delete nv.n; return {...c, val: Object.keys(nv).length ? nv : null}; }).filter(Boolean);
+    commit(ch, n ? 'Notering sparad' : 'Notering borttagen'); closePicker();
+  };
+  popEl.querySelector('#popNoteSave').onclick = saveNote;
+  noteIn.onkeydown = e => { if (e.key==='Enter') saveNote(); };
+  popEl.querySelector('#popClear').onclick = () => { commit(cells.map(c=>({...c,val:null})), `${cells.length} ${cells.length===1?'ruta':'rutor'} rensade`); closePicker(); };
+  popEl.querySelector('#popClose').onclick = () => closePicker();
+  // position
+  const w = popEl.offsetWidth, hgt = popEl.offsetHeight;
+  let left = x + 12, top = y + 12;
+  if (left + w > innerWidth - 12) left = Math.max(12, x - w - 12);
+  if (top + hgt > innerHeight - 12) top = Math.max(12, innerHeight - hgt - 12);
+  popEl.style.left = left+'px'; popEl.style.top = top+'px';
+  if (lastPointer!=='touch') search.focus();
+}
+document.addEventListener('pointerdown', e => {
+  if (popEl && !popEl.contains(e.target) && !(e.target.closest && e.target.closest('td.c'))) closePicker();
+}, true);
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape'){ closePicker(); closeModal(); return; }
+  const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName||'');
+  if (typing) return;
+  if ((e.key==='Delete'||e.key==='Backspace') && sel && !popEl && S.canWrite){ const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} rutor rensade`); sel=null; paintSel(); }
+  if (e.metaKey||e.ctrlKey||e.altKey) return;
+  if (e.key==='p'||e.key==='P') location.hash='planering';
+  if (e.key==='o'||e.key==='O') location.hash='projekt';
+  if (e.key==='r'||e.key==='R') location.hash='register';
+});
+
+/* ================= Overview ================= */
+function computeStats(start, weeks){
+  const cs = columns(start, weeks), people = activePeople();
+  const proj = new Map(); let planned=0, absent=0, empty=0, capacity=0;
+  for (const p of people) for (let ci=0; ci<cs.length; ci++){
+    const c = cs[ci]; if (c.hol) continue;
+    capacity++;
+    const v = getCell(c.wk,p.id,c.d);
+    if (v && v.p){ planned++;
+      if (!proj.has(v.p)) proj.set(v.p, {id:v.p, perCol:new Array(cs.length).fill(0), total:0, own:0, hired:0, crew:new Map()});
+      const s = proj.get(v.p); s.perCol[ci]++; s.total++; isOwn(p)?s.own++:s.hired++;
+      if (!s.crew.has(p.id)) s.crew.set(p.id, {person:p, days:new Array(cs.length).fill(false), n:0});
+      const cr = s.crew.get(p.id); cr.days[ci]=true; cr.n++;
+    } else if (v && v.s) absent++; else empty++;
+  }
+  const list = [...proj.values()].map(s => ({...s, project: projById(s.id)})).filter(s=>s.project).sort((a,b)=>b.total-a.total);
+  return {cols:cs, people, list, planned, absent, empty, capacity};
+}
+function renderOverview(){
+  const head = `<div class="head"><div><div class="eyebrow">Projektöversikt</div><h2>${esc(periodText().split(' · ')[0])}</h2><div class="sub">${esc(periodText().split(' · ')[1])}</div></div><div class="tools">${periodTools()}<button class="btn primary" id="exportBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportera PDF</button></div></div>`;
+  const sb = stateBlock();
+  if (sb){ $main.innerHTML = head+sb; bindPeriodTools($main); document.getElementById('exportBtn').onclick=openExport; return; }
+  const st = computeStats(S.start, S.weeks);
+  const avail = st.capacity - st.absent;
+  const util = avail ? Math.round(st.planned/avail*100) : 0;
+  const kpis = `<div class="kpis">
+    <div class="kpi"><div class="l">Pågående projekt</div><div class="v">${st.list.length}</div><div class="d">med bemanning under perioden</div></div>
+    <div class="kpi"><div class="l">Planerade dagsverken</div><div class="v">${st.planned}</div><div class="d">${st.list.reduce((a,s)=>a+s.own,0)} egna · ${st.list.reduce((a,s)=>a+s.hired,0)} inhyrda</div></div>
+    <div class="kpi"><div class="l">Beläggning</div><div class="v">${util}<small>%</small></div><div class="meter"><i style="width:${Math.min(util,100)}%"></i></div></div>
+    <div class="kpi"><div class="l">Oplanerade persondagar</div><div class="v">${st.empty}</div><div class="d">${st.absent} frånvarodagar under perioden</div></div></div>`;
+  if (!st.list.length){
+    $main.innerHTML = head + kpis + `<div class="board"><div class="empty"><h3>Inga projekt är bemannade under perioden</h3><p>Planera personal på projekt i <a href="#planering">Planering</a>, så visas fördelningen här.</p></div></div>`;
+    bindPeriodTools($main); document.getElementById('exportBtn').onclick=openExport; return;
+  }
+  let mx = `<table class="mx"><thead><tr><th class="pj">Projekt</th>`;
+  st.cols.forEach(c => mx += `<th class="dsm ${c.di===0?'ws':''}" title="${esc('Vecka '+c.w+' '+DAYS_LONG[c.di])}">${DAYS[c.di].slice(0,2)}<b>${c.date.getDate()}</b></th>`);
+  mx += `<th class="tot">Dagsverken</th></tr></thead><tbody>`;
+  const maxH = Math.max(1, ...st.list.flatMap(s=>s.perCol));
+  for (const s of st.list){
+    const p = s.project;
+    mx += `<tr><th class="pj"><div class="pjc" style="--c:${esc(p.color)}"><span class="sw"></span><span class="n">${esc(p.number)}</span><span class="m">${esc(p.name||'')}</span></div></th>`;
+    s.perCol.forEach((n,ci) => { const c = st.cols[ci]; mx += n ? `<td class="h ${c.di===0?'ws':''}"><span style="background:color-mix(in srgb, ${esc(p.color)} ${Math.round(35+65*n/maxH)}%, transparent)">${n}</span></td>` : `<td class="h z ${c.di===0?'ws':''}">·</td>`; });
+    mx += `<td class="tot"><b>${s.total}</b><span class="split">${s.own} egna · ${s.hired} inhyrda</span></td></tr>`;
+  }
+  mx += `</tbody></table>`;
+  const cards = st.list.map(s => {
+    const p = s.project;
+    const crew = [...s.crew.values()].sort((a,b)=>b.n-a.n || a.person.name.localeCompare(b.person.name,'sv'));
+    return `<article class="card" style="--c:${esc(p.color)}"><div class="card-h"><span class="badge">${esc(p.number)}</span><div style="min-width:0"><div class="nm">${esc(p.name||'Namnlöst projekt')}</div>${p.client?`<div class="cl">${esc(p.client)}</div>`:''}</div><div class="dv"><b>${s.total}</b>dagsverken</div></div>
+      <div class="crew">${crew.map(cr => `<div class="crew-r"><span class="p">${esc(cr.person.name)}<small>${isOwn(cr.person)?(cr.person.tag||''):esc(cr.person.company)}</small></span><span class="dots" title="${cr.n} dagar">${cr.days.map((on,i)=>(i>0&&i%5===0?'<i class="gap"></i>':'')+`<i class="${on?'on':''}"></i>`).join('')}</span></div>`).join('')}</div></article>`;
+  }).join('');
+  $main.innerHTML = head + kpis +
+    `<div class="section-h"><h3>Bemanning per projekt och dag</h3><p>Antal personer på plats per dag</p></div><div class="board"><div class="scroller" style="max-height:none">${mx}</div></div>
+     <div class="section-h"><h3>Lag per projekt</h3><p>Varje stapel är en arbetsdag i perioden</p></div><div class="cards">${cards}</div>`;
+  bindPeriodTools($main); document.getElementById('exportBtn').onclick=openExport;
+}
+
+/* ================= Register ================= */
+let colorPop = null;
+function renderRegister(){
+  const head = `<div class="head"><div><div class="eyebrow">Register</div><h2>Personal &amp; projekt</h2><div class="sub">Ändringar sparas direkt när du lämnar fältet.</div></div></div>`;
+  const sb = stateBlock();
+  if (sb){ $main.innerHTML = head+sb; return; }
+  const dis = S.canWrite ? '' : 'disabled';
+  const projs = [...S.projects].sort((a,b)=>(a.active===false)-(b.active===false) || a.number.localeCompare(b.number,'sv',{numeric:true}));
+  const people = [...S.people].sort((a,b)=>(a.order??999)-(b.order??999));
+  const companies = [...new Set([OWN_COMPANY, ...S.people.map(p=>p.company).filter(Boolean)])];
+  const nextColor = PALETTE.find(c => !S.projects.some(p=>p.color===c)) || PALETTE[S.projects.length % PALETTE.length];
+  let pr = `<div class="panel"><div class="panel-h"><div><h3>Projekt</h3><p>${projs.filter(p=>p.active!==false).length} aktiva · avslutade projekt döljs i projektväljaren</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th style="width:56px">Färg</th><th style="width:120px">Nummer</th><th>Projektnamn</th><th>Beställare / adress</th><th style="width:120px">Status</th><th style="width:60px"></th></tr></thead><tbody>`;
+  for (const p of projs) pr += `<tr class="${p.active===false?'off':''}"><td><button class="swbtn" data-color="${esc(p.id)}" style="--c:${esc(p.color)}" aria-label="Byt färg" ${dis}></button></td>
+    <td><input type="text" class="mono" data-pf="number" data-id="${esc(p.id)}" value="${esc(p.number)}" ${dis}></td>
+    <td><input type="text" data-pf="name" data-id="${esc(p.id)}" value="${esc(p.name||'')}" placeholder="Lägg till projektnamn" ${dis}></td>
+    <td><input type="text" data-pf="client" data-id="${esc(p.id)}" value="${esc(p.client||'')}" placeholder="—" ${dis}></td>
+    <td><button class="toggle" data-pact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Aktivt':'Avslutat'}</button></td>
+    <td><div class="rowbtns"><button class="btn ghost danger" data-pdel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`;
+  if (S.canWrite) pr += `<tr class="add"><td><span class="swbtn" style="--c:${nextColor};display:block"></span></td><td><input type="text" class="mono" id="npNum" placeholder="1050"></td><td><input type="text" id="npName" placeholder="Projektnamn"></td><td><input type="text" id="npClient" placeholder="Beställare / adress"></td><td colspan="2"><button class="btn primary" id="npAdd">Lägg till</button></td></tr>`;
+  pr += `</tbody></table></div></div>`;
+
+  let pe = `<div class="panel"><div class="panel-h"><div><h3>Personal</h3><p>Egen personal och inhyrda, grupperade per företag i planeringen</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th>Namn</th><th style="width:200px">Företag</th><th style="width:170px">Roll</th><th style="width:120px">I planeringen</th><th style="width:130px"></th></tr></thead><tbody>`;
+  people.forEach((p,i) => pe += `<tr class="${p.active===false?'off':''}"><td><input type="text" data-uf="name" data-id="${esc(p.id)}" value="${esc(p.name)}" ${dis}></td>
+    <td><input type="text" data-uf="company" data-id="${esc(p.id)}" value="${esc(p.company||OWN_COMPANY)}" list="companies" ${dis}></td>
+    <td><input type="text" data-uf="tag" data-id="${esc(p.id)}" value="${esc(p.tag||'')}" placeholder="—" list="roles" ${dis}></td>
+    <td><button class="toggle" data-uact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Visas':'Dold'}</button></td>
+    <td><div class="rowbtns"><button class="btn ghost" data-up="${i}" aria-label="Flytta upp" ${dis||(i===0?'disabled':'')}>↑</button><button class="btn ghost" data-down="${i}" aria-label="Flytta ned" ${dis||(i===people.length-1?'disabled':'')}>↓</button><button class="btn ghost danger" data-udel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`);
+  if (S.canWrite) pe += `<tr class="add"><td><input type="text" id="nuName" placeholder="För- och efternamn"></td><td><input type="text" id="nuCompany" value="${OWN_COMPANY}" list="companies"></td><td><input type="text" id="nuTag" placeholder="T.ex. Lärling" list="roles"></td><td colspan="2"><button class="btn primary" id="nuAdd">Lägg till</button></td></tr>`;
+  pe += `</tbody></table></div></div><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist><datalist id="roles"><option value="Lärling"><option value="Skolepåg"><option value="Arbetsledare"><option value="Snickare"><option value="Platschef"></datalist>`;
+
+  const logo = `<div class="panel"><div class="panel-h"><div><h3>Logotyp</h3><p>Visas i sidomenyn och överst på varje PDF. PNG eller JPG med transparent eller vit bakgrund fungerar bäst.</p></div></div>
+    <div class="logo-box"><div class="logo-prev">${S.settings.logo?`<img alt="Logotyp" src="/_blob/${esc(S.settings.logo)}">`:`<div class="mark" style="color:var(--ink)">${MARK_SVG}<b>SYDBYGGARNA</b></div>`}</div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">${S.assets?`<label class="btn primary" for="logoFile">Ladda upp logotyp</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>`:`<span class="faint" style="max-width:40ch">Endast ägare och redigerare kan byta logotyp.</span>`}${S.settings.logo&&S.assets?`<button class="btn ghost" id="logoReset">Återställ till standardmärke</button>`:''}</div></div></div>`;
+
+  $main.innerHTML = head + `<div class="reg-grid">${pr}${pe}${logo}</div>`;
+  if (!S.canWrite) return;
+  $main.querySelectorAll('[data-pf]').forEach(inp => inp.onchange = () => { const v = inp.value.trim(); if (inp.dataset.pf==='number' && !v){ inp.value = projById(inp.dataset.id).number; return; } saveDoc('projects/'+inp.dataset.id, {[inp.dataset.pf]: v}); });
+  $main.querySelectorAll('[data-uf]').forEach(inp => inp.onchange = () => { const v = inp.value.trim(); if (inp.dataset.uf==='name' && !v) return; saveDoc('people/'+inp.dataset.id, {[inp.dataset.uf]: inp.dataset.uf==='company' ? (v||OWN_COMPANY) : v}); });
+  $main.querySelectorAll('[data-pact]').forEach(b => b.onclick = () => { const p = projById(b.dataset.pact); saveDoc('projects/'+p.id, {active: p.active===false}); });
+  $main.querySelectorAll('[data-uact]').forEach(b => b.onclick = () => { const p = S.people.find(x=>x.id===b.dataset.uact); saveDoc('people/'+p.id, {active: p.active===false}); });
+  const armDelete = (b, fn) => { if (b.dataset.armed){ fn(); return; } b.dataset.armed='1'; b.textContent='Ta bort?'; setTimeout(()=>{ if (b.isConnected){ delete b.dataset.armed; b.textContent='✕'; } }, 3000); };
+  $main.querySelectorAll('[data-pdel]').forEach(b => b.onclick = () => armDelete(b, () => { deleteDoc('projects/'+b.dataset.pdel); toast('Projektet är borttaget. Planerade dagar visas med frågetecken.'); }));
+  $main.querySelectorAll('[data-udel]').forEach(b => b.onclick = () => armDelete(b, () => { deleteDoc('people/'+b.dataset.udel); toast('Personen är borttagen'); }));
+  const move = async (i, dir) => {
+    const arr = [...people]; const j = i+dir; [arr[i],arr[j]] = [arr[j],arr[i]];
+    for (let k=0;k<arr.length;k++) if ((arr[k].order??-1)!==k){ arr[k].order = k; await saveDoc('people/'+arr[k].id, {order:k}); }
+  };
+  $main.querySelectorAll('[data-up]').forEach(b => b.onclick = () => move(+b.dataset.up,-1));
+  $main.querySelectorAll('[data-down]').forEach(b => b.onclick = () => move(+b.dataset.down,1));
+  $main.querySelectorAll('[data-color]').forEach(b => b.onclick = e => { e.stopPropagation(); openColor(b, b.dataset.color); });
+  const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40) || 'x';
+  document.getElementById('npAdd').onclick = async () => {
+    const num = document.getElementById('npNum').value.trim(); if (!num){ document.getElementById('npNum').focus(); return; }
+    if (S.projects.some(p=>p.number===num)){ toast('Projekt '+num+' finns redan.'); return; }
+    const id = 'p'+slug(num); if (await saveDoc('projects/'+id, {number:num, name:document.getElementById('npName').value.trim(), client:document.getElementById('npClient').value.trim(), color:nextColor, active:true}, false)) toast('Projekt '+num+' tillagt');
+  };
+  document.getElementById('nuAdd').onclick = async () => {
+    const name = document.getElementById('nuName').value.trim(); if (!name){ document.getElementById('nuName').focus(); return; }
+    let id = slug(name), k = 2; while (S.people.some(p=>p.id===id)) id = slug(name)+'-'+(k++);
+    if (await saveDoc('people/'+id, {name, company:document.getElementById('nuCompany').value.trim()||OWN_COMPANY, tag:document.getElementById('nuTag').value.trim(), order:S.people.length, active:true}, false)) toast(name+' tillagd');
+  };
+  const lf = document.getElementById('logoFile');
+  if (lf) lf.onchange = async () => {
+    const f = lf.files[0]; if (!f) return;
+    try { const r = await S.assets.upload(f); await saveDoc('settings/main', {logo: r.id}); toast('Logotypen är uppdaterad'); }
+    catch(e){ toast(e && e.code==='too_large' ? 'Filen är för stor. Välj en bild under 2 MB.' : e && e.code==='unsupported_type' ? 'Använd PNG, JPG, WebP eller SVG.' : 'Logotypen kunde inte laddas upp.'); }
+  };
+  const lr = document.getElementById('logoReset'); if (lr) lr.onclick = () => saveDoc('settings/main', {logo: ''});
+}
+function openColor(anchor, pid){
+  if (colorPop) colorPop.remove();
+  const p = projById(pid);
+  colorPop = document.createElement('div'); colorPop.className='pop'; colorPop.style.width='auto';
+  colorPop.innerHTML = `<div class="palette">${PALETTE.map(c=>`<button style="--c:${c}" data-c="${c}" aria-pressed="${p.color===c}" aria-label="Färg ${c}"></button>`).join('')}</div>`;
+  document.body.appendChild(colorPop);
+  const r = anchor.getBoundingClientRect(); colorPop.style.left = Math.min(r.left, innerWidth-colorPop.offsetWidth-12)+'px'; colorPop.style.top = (r.bottom+6)+'px';
+  colorPop.querySelectorAll('[data-c]').forEach(b => b.onclick = () => { saveDoc('projects/'+pid, {color:b.dataset.c}); colorPop.remove(); colorPop=null; });
+  setTimeout(() => document.addEventListener('pointerdown', function h(e){ if (colorPop && !colorPop.contains(e.target)){ colorPop.remove(); colorPop=null; } document.removeEventListener('pointerdown',h,true); }, true));
+}
+
+/* ================= PDF export ================= */
+let modalEl = null;
+function closeModal(){ if (modalEl){ modalEl.remove(); modalEl=null; } }
+function openExport(){
+  closeModal();
+  const base = mondayOf(new Date());
+  const opts = []; for (let i=-2;i<=10;i++){ const m = addDays(base,7*i); opts.push(m); }
+  const curKey = ymd(S.start);
+  if (!opts.some(m=>ymd(m)===curKey)) opts.unshift(S.start);
+  let n = Math.min(Math.max(S.weeks,1),3);
+  modalEl = document.createElement('div'); modalEl.className='scrim';
+  modalEl.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="exH"><div class="modal-h"><div class="eyebrow">Exportera</div><h3 id="exH">Planering som PDF</h3></div>
+    <div class="modal-b">
+      <label class="field"><span>Från vecka</span><select id="exStart">${opts.map(m=>`<option value="${ymd(m)}" ${ymd(m)===curKey?'selected':''}>Vecka ${isoWeek(m).w} · ${fmtRange(m, addDays(m,4))} ${m.getFullYear()}</option>`).join('')}</select></label>
+      <div class="field"><span>Period</span><div class="seg" id="exWeeks">${[1,2,3].map(k=>`<button data-n="${k}" aria-pressed="${k===n}">${k} ${k===1?'vecka':'veckor'}</button>`).join('')}</div></div>
+      <label class="check"><input type="checkbox" id="exProj" checked> Bifoga projektfördelning (vem är på vilket projekt)</label>
+      <label class="check"><input type="checkbox" id="exNotes" checked> Visa noteringar i rutorna</label>
+      <div class="sheet" aria-hidden="true" id="exSheet"></div>
+      <div class="err" id="exErr" hidden></div>
+    </div>
+    <div class="modal-f"><button class="btn ghost" id="exCancel">Avbryt</button><button class="btn primary" id="exGo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Skapa PDF</button></div></div>`;
+  document.body.appendChild(modalEl);
+  const drawSheet = () => {
+    const st = new Date(document.getElementById('exStart').value+'T00:00');
+    const a = isoWeek(st).w, b = isoWeek(addDays(st,7*(n-1))).w;
+    const rows = Math.min(activePeople().length, 7);
+    let g = '';
+    for (let r=0;r<rows;r++){ g += `<div class="sh-row" style="--n:${n*5}"><em></em>`; for (let c=0;c<n*5;c++){ const p = activePeople()[r]; const col = columns(st,n)[c]; const v = p && getCell(col.wk,p.id,col.d); const pr = v&&v.p&&projById(v.p); g += `<i style="${pr?'background:'+esc(pr.color):''}"></i>`; } g += `</div>`; }
+    document.getElementById('exSheet').innerHTML = `<div class="sh-top"><b>Sydbyggarna Resursplanering</b><span>${a===b?'Vecka '+a:'Vecka '+a+'–'+b} · A4 liggande</span></div><div class="sh-grid">${g}</div>`;
+  };
+  drawSheet();
+  document.getElementById('exStart').onchange = drawSheet;
+  modalEl.querySelectorAll('#exWeeks [data-n]').forEach(b => b.onclick = () => { n = +b.dataset.n; modalEl.querySelectorAll('#exWeeks [data-n]').forEach(x=>x.setAttribute('aria-pressed', x===b)); drawSheet(); });
+  document.getElementById('exCancel').onclick = closeModal;
+  modalEl.addEventListener('pointerdown', e => { if (e.target===modalEl) closeModal(); });
+  document.getElementById('exGo').onclick = async () => {
+    const btn = document.getElementById('exGo'), err = document.getElementById('exErr');
+    btn.disabled = true; btn.lastChild.textContent = 'Skapar…'; err.hidden = true;
+    try {
+      const st = new Date(document.getElementById('exStart').value+'T00:00');
+      const {blob, name} = await buildPdf(st, n, document.getElementById('exProj').checked, document.getElementById('exNotes').checked);
+      if (!S.downloads) throw {code:'unavailable'};
+      await S.downloads.save({filename:name, data:blob});
+      closeModal(); toast('PDF sparad: '+name);
+    } catch(e){
+      if (e && e.code==='declined'){ btn.disabled=false; btn.lastChild.textContent='Skapa PDF'; return; }
+      err.textContent = (e && (e.code==='unavailable'||e.code==='not_granted')) ? 'Nedladdning är inte tillgänglig i den här vyn. Öppna planeringen i claude.ai och försök igen.' : 'PDF:en kunde inte skapas. Försök igen om en stund.';
+      err.hidden = false; btn.disabled=false; btn.lastChild.textContent='Skapa PDF';
+    }
+  };
+}
+const hexRgb = h => { const x = h.replace('#',''); return [parseInt(x.slice(0,2),16),parseInt(x.slice(2,4),16),parseInt(x.slice(4,6),16)]; };
+async function logoData(){
+  if (!S.settings.logo) return null;
+  try {
+    const res = await fetch('/_blob/'+S.settings.logo); if (!res.ok) return null;
+    const blob = await res.blob(); const url = URL.createObjectURL(blob);
+    const img = await new Promise((ok,no)=>{ const i = new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=url; });
+    const w = img.naturalWidth || 400, h = img.naturalHeight || 120, scale = Math.min(1, 1200/w);
+    const cv = document.createElement('canvas'); cv.width = Math.round(w*scale); cv.height = Math.round(h*scale);
+    cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height); URL.revokeObjectURL(url);
+    return {data: cv.toDataURL('image/png'), ratio: cv.width/cv.height};
+  } catch(e){ return null; }
+}
+async function buildPdf(start, weeks, withProj, withNotes){
+  if (!window.jspdf) throw {code:'lib'};
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 12;
+  const cs = columns(start, weeks), people = activePeople(), groups = groupsOf(people);
+  const a = cs[0], b = cs[cs.length-1];
+  const period = (a.w===b.w ? 'Vecka '+a.w : 'Vecka '+a.w+'–'+b.w) + '  ·  ' + fmtRange(a.date,b.date)+' '+b.date.getFullYear();
+  const logo = await logoData();
+  const INK = [20,32,27], SPRUCE = [30,74,56], BRASS = [151,117,63], MUTED = [93,105,99], LINE = [221,226,220];
+  const header = (title) => {
+    let x = M;
+    if (logo){ const h = 11, w = Math.min(h*logo.ratio, 60); doc.addImage(logo.data,'PNG',M,9,w,w/logo.ratio); x = M + w + 6; }
+    else { doc.setFillColor(...SPRUCE); doc.roundedRect(M,9,11,11,2,2,'F'); doc.setDrawColor(232,238,233); doc.setLineWidth(.7); doc.lines([[4,-3],[4,3]],M+1.8,15.2); doc.line(M+1.8,15.2,M+1.8,18.5); doc.line(M+9.8,15.2,M+9.8,18.5); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...INK); doc.text('SYDBYGGARNA', M+14, 16.4, {charSpace:.6}); x = M + 52; }
+    doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.setTextColor(...INK);
+    doc.text('Sydbyggarna Resursplanering', W/2, 14.2, {align:'center'});
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...MUTED);
+    doc.text(title+'  ·  '+period, W/2, 19.4, {align:'center'});
+    doc.setFontSize(8); doc.text('Utskriven '+today.getDate()+' '+MONTHS[today.getMonth()]+' '+today.getFullYear(), W-M, 14.2, {align:'right'});
+    doc.setDrawColor(...BRASS); doc.setLineWidth(.5); doc.line(M, 24, W-M, 24);
+  };
+  const footer = () => {
+    const pages = doc.internal.getNumberOfPages();
+    for (let i=1;i<=pages;i++){ doc.setPage(i); doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED); doc.text('Sydbyggarna · Resursplanering', M, H-6); doc.text('Sida '+i+' av '+pages, W-M, H-6, {align:'right'}); }
+  };
+  // page 1: grid
+  header('Personalplanering');
+  const head1 = [{content:'Personal', rowSpan:2, styles:{halign:'left', valign:'bottom'}}];
+  for (let i=0;i<weeks;i++){ const x0 = cs[i*5], x1 = cs[i*5+4]; head1.push({content:'Vecka '+x0.w+'   '+fmtRange(x0.date,x1.date), colSpan:5, styles:{halign:'left'}}); }
+  const head2 = cs.map(c => ({content: DAYS[c.di]+' '+c.date.getDate()+'/'+(c.date.getMonth()+1) + (c.hol?'\n'+c.hol:''), styles: c.hol?{textColor:[176,65,45]}:{}}));
+  const body = [], meta = [];
+  for (const [company, list] of groups){
+    body.push([{content: (company + (company===OWN_COMPANY?'  ·  egen personal':'  ·  inhyrd')).toUpperCase(), colSpan: cs.length+1, styles:{fillColor:[245,246,243], textColor:MUTED, fontStyle:'bold', fontSize:6.5, cellPadding:{top:1.6,bottom:1.6,left:2}}}]); meta.push(null);
+    for (const p of list){
+      const row = [p.name + (p.tag?'  ('+p.tag+')':'')], m = [null];
+      for (const c of cs){
+        const v = getCell(c.wk,p.id,c.d);
+        if (!v){ row.push(''); m.push(null); continue; }
+        if (v.s){ row.push(ABS_LABEL[v.s] + (withNotes&&v.n?'\n'+v.n:'')); m.push({abs:true}); continue; }
+        const pr = v.p && projById(v.p);
+        row.push((pr?pr.number:(v.p?'?':'')) + (withNotes&&v.n?'\n'+v.n:'')); m.push(pr?{color:pr.color}:null);
+      }
+      body.push(row); meta.push(m);
+    }
+  }
+  const dayW = (W - 2*M - 46) / cs.length;
+  const colStyles = {0:{cellWidth:46, halign:'left', fontStyle:'bold', textColor:INK}};
+  doc.autoTable({
+    startY: 28, head:[head1, head2], body, theme:'grid', margin:{left:M, right:M, top:28, bottom:12},
+    styles:{font:'helvetica', fontSize: weeks===3?6.6:7.4, cellPadding:{top:1.5,bottom:1.5,left:1.2,right:1.2}, lineColor:LINE, lineWidth:.15, textColor:INK, halign:'center', valign:'middle', minCellHeight: 7.2, overflow:'linebreak'},
+    headStyles:{fillColor:[255,255,255], textColor:INK, fontStyle:'bold', lineColor:[194,202,195], fontSize:7.2},
+    columnStyles: Object.assign(colStyles, Object.fromEntries(cs.map((c,i)=>[i+1,{cellWidth:dayW}]))),
+    didParseCell: d => {
+      if (d.section!=='body') return;
+      const m = meta[d.row.index]; if (!m || d.column.index===0) return;
+      const x = m[d.column.index]; if (!x) return;
+      if (x.abs){ d.cell.styles.fillColor=[243,231,226]; d.cell.styles.textColor=[156,58,40]; d.cell.styles.fontStyle='bold'; }
+      else if (x.color){ d.cell.styles.fillColor = hexRgb(x.color); d.cell.styles.fontStyle='bold'; }
+    },
+    didDrawPage: d => { if (d.pageNumber>1) header('Personalplanering'); },
+  });
+  // legend
+  const used = new Map();
+  for (const p of people) for (const c of cs){ const v = getCell(c.wk,p.id,c.d); if (v&&v.p&&projById(v.p)) used.set(v.p,true); }
+  const legendProjs = [...used.keys()].map(projById).sort((x,y)=>x.number.localeCompare(y.number,'sv',{numeric:true}));
+  let y = doc.lastAutoTable.finalY + 6;
+  if (legendProjs.length){
+    if (y > H-22){ doc.addPage(); header('Personalplanering'); y = 30; }
+    doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...MUTED); doc.text('PROJEKT', M, y); y += 4;
+    let x = M; doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
+    for (const p of legendProjs){
+      const label = p.number + (p.name?'  '+p.name:''); const w = doc.getTextWidth(label) + 9;
+      if (x + w > W - M){ x = M; y += 5.5; }
+      doc.setFillColor(...hexRgb(p.color)); doc.roundedRect(x, y-3, 4, 4, .8, .8, 'F');
+      doc.setTextColor(...INK); doc.text(label, x+5.5, y); x += w + 4;
+    }
+  }
+  // page 2: project distribution
+  if (withProj){
+    const st = computeStats(start, weeks);
+    if (st.list.length){
+      doc.addPage(); header('Projektfördelning');
+      const pbody = [], pmeta = [];
+      for (const s of st.list){
+        const crew = [...s.crew.values()].sort((a,b)=>b.n-a.n);
+        const perWeek = []; for (let i=0;i<weeks;i++) perWeek.push(s.perCol.slice(i*5,i*5+5).reduce((a,b)=>a+b,0));
+        pbody.push([s.project.number, s.project.name||'—', crew.map(c => c.person.name+' ('+c.n+' d)').join(', '), ...perWeek.map(String), String(s.total)]);
+        pmeta.push(s.project.color);
+      }
+      const wkHead = []; for (let i=0;i<weeks;i++) wkHead.push('v.'+cs[i*5].w);
+      doc.autoTable({
+        startY: 30, head:[['Projekt','Namn','Personal (dagar i perioden)',...wkHead,'Totalt']], body:pbody, theme:'grid', margin:{left:M,right:M,top:30,bottom:12},
+        styles:{font:'helvetica', fontSize:8, cellPadding:2.2, lineColor:LINE, lineWidth:.15, textColor:INK, valign:'middle'},
+        headStyles:{fillColor:[255,255,255], textColor:INK, fontStyle:'bold', lineColor:[194,202,195]},
+        columnStyles: Object.assign({0:{cellWidth:20, fontStyle:'bold', halign:'center'}, 1:{cellWidth:52}}, Object.fromEntries([...wkHead.map((_,i)=>[3+i,{cellWidth:16, halign:'center'}]), [3+weeks,{cellWidth:18, halign:'center', fontStyle:'bold'}]])),
+        didParseCell: d => { if (d.section==='body' && d.column.index===0) d.cell.styles.fillColor = hexRgb(pmeta[d.row.index]); },
+        didDrawPage: d => { if (d.pageNumber>2) header('Projektfördelning'); },
+      });
+    }
+  }
+  footer();
+  const name = `Sydbyggarna_Resursplanering_v${a.w}${a.w!==b.w?'-'+b.w:''}_${b.date.getFullYear()}.pdf`;
+  return {blob: doc.output('blob'), name};
+}
+
+/* ================= Router / render ================= */
+function render(){
+  document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.dataset.view===S.view ? 'page' : 'false'));
+  const scr = document.getElementById('scroller'); const sl = scr ? scr.scrollLeft : 0, stp = scr ? scr.scrollTop : 0;
+  if (S.view==='projekt') renderOverview();
+  else if (S.view==='register') renderRegister();
+  else renderPlanning();
+  const scr2 = document.getElementById('scroller'); if (scr2 && scr){ scr2.scrollLeft = sl; scr2.scrollTop = stp; }
+  syncState();
+}
+function route(){
+  const h = location.hash.replace('#','');
+  const v = ['planering','projekt','register'].includes(h) ? h : 'planering';
+  if (v!==S.view){ S.view = v; sel = null; closePicker(false); }
+  render();
+}
+addEventListener('hashchange', route);
+S.view = ['planering','projekt','register'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'planering';
+renderLogo(); render();
+
+/* ================= Boot ================= */
+let rerenderQueued = false;
+const queueRender = () => { if (rerenderQueued) return; rerenderQueued = true; requestAnimationFrame(() => { rerenderQueued = false; if (!dragging && !popEl && !(document.activeElement && /INPUT|SELECT/.test(document.activeElement.tagName) && S.view==='register')) render(); else setTimeout(queueRender, 400); }); };
+async function boot(){
+  if (!window.claude || !window.claude.use){ S.status='nodb'; render(); return; }
+  const [db, user, assets, downloads] = await Promise.all(['db','user','assets','downloads'].map(n => window.claude.use(n).catch(()=>null)));
+  S.db = db; S.user = user; S.assets = assets; S.downloads = downloads;
+  if (!db){ S.status='nodb'; render(); return; }
+  if (user){ try { const w = await user.can('data.write'); if (w===false) S.canWrite = false; } catch(e){} }
+  const got = {people:false, projects:false, weeks:false};
+  const timer = setTimeout(() => { if (S.status!=='ready'){ S.status='timeout'; render(); } }, 10000);
+  const ready = () => { if (got.people && got.projects && got.weeks && S.status!=='ready'){ S.status='ready'; clearTimeout(timer); render(); } };
+  const fail = e => { clearTimeout(timer); S.status='ready'; if (e && e.code==='revoked') S.canWrite=false; render(); };
+  db.collection('people').onSnapshot(s => { S.people = s.docs.map(d => ({id:d.id, ...d.data()})); got.people = true; ready(); queueRender(); }, fail);
+  db.collection('projects').onSnapshot(s => { S.projects = s.docs.map(d => ({id:d.id, ...d.data(), number:String(d.data().number??'')})); got.projects = true; ready(); queueRender(); }, fail);
+  db.collection('weeks').onSnapshot(s => { const m = new Map(); for (const d of s.docs){ m.set(d.id, JSON.parse(JSON.stringify(d.data().cells||{}))); } S.weeksData = m; got.weeks = true; ready(); queueRender(); }, fail);
+  db.doc('settings/main').onSnapshot(s => { S.settings = s.exists ? {...s.data()} : {}; renderLogo(); queueRender(); }, () => {});
+}
+boot();
+})();
+</script>
