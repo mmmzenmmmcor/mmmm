@@ -13,7 +13,7 @@
   --brass:#97753F; --side:#0F1D17; --side-ink:#E8EEE9; --side-muted:#8C9D93; --side-line:#213229; --side-hi:#1A2C23;
   --danger:#B0412D; --ok:#2E7A55; --abs-bg:#F3E7E2; --abs-ink:#9C3A28; --abs-hatch:rgba(156,58,40,.10);
   --sel:rgba(30,74,56,.14); --sel-line:#1E4A38; --today:rgba(151,117,63,.08); --holiday:rgba(176,65,45,.06);
-  --chip-ink:#14201B; --hired-bg:#F7F1E5; --cap:#DCE3DD; --st-red-bg:#FBE3DF; --st-red:#A3341F; --st-green-bg:#DCF0E2; --st-green:#1F6B43; --st-amber-bg:#FBEFCB; --st-amber:#855700; --st-grey-bg:#ECEEEA; --st-grey:#5D6963;
+  --chip-ink:#14201B; --hired-bg:#F7F1E5; --we-bg:#F1F3EF; --bygg-bg:#EAF1F7; --bygg-ink:#2F6086; --cap:#DCE3DD; --st-red-bg:#FBE3DF; --st-red:#A3341F; --st-green-bg:#DCF0E2; --st-green:#1F6B43; --st-amber-bg:#FBEFCB; --st-amber:#855700; --st-grey-bg:#ECEEEA; --st-grey:#5D6963;
   --shadow:0 1px 2px rgba(15,29,23,.05),0 10px 30px -8px rgba(15,29,23,.14);
   --shadow-lg:0 2px 6px rgba(15,29,23,.08),0 28px 60px -12px rgba(15,29,23,.28);
   --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
@@ -25,7 +25,7 @@
   --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
   --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
   --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
-  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --cap:#25332C; --st-red-bg:#3A1C17; --st-red:#F2A090; --st-green-bg:#16301F; --st-green:#8FD3A8; --st-amber-bg:#352A10; --st-amber:#EBC66E; --st-grey-bg:#1E2824; --st-grey:#9BA8A1; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --we-bg:#0E1513; --bygg-bg:#10202B; --bygg-ink:#9CC6EE; --cap:#25332C; --st-red-bg:#3A1C17; --st-red:#F2A090; --st-green-bg:#16301F; --st-green:#8FD3A8; --st-amber-bg:#352A10; --st-amber:#EBC66E; --st-grey-bg:#1E2824; --st-grey:#9BA8A1; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
   --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
   color-scheme:dark}}
@@ -34,7 +34,7 @@
   --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
   --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
   --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
-  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --cap:#25332C; --st-red-bg:#3A1C17; --st-red:#F2A090; --st-green-bg:#16301F; --st-green:#8FD3A8; --st-amber-bg:#352A10; --st-amber:#EBC66E; --st-grey-bg:#1E2824; --st-grey:#9BA8A1; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --we-bg:#0E1513; --bygg-bg:#10202B; --bygg-ink:#9CC6EE; --cap:#25332C; --st-red-bg:#3A1C17; --st-red:#F2A090; --st-green-bg:#16301F; --st-green:#8FD3A8; --st-amber-bg:#352A10; --st-amber:#EBC66E; --st-grey-bg:#1E2824; --st-grey:#9BA8A1; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
   --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
   color-scheme:dark}
@@ -175,7 +175,7 @@ td.c.sel::after{content:"";position:absolute;inset:0;border:1.5px solid var(--se
 .chip.miss{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 4px,var(--line) 4px,var(--line) 5px);color:var(--muted)}
 .abs{height:100%;border-radius:7px;background:repeating-linear-gradient(-45deg,var(--abs-bg),var(--abs-bg) 6px,var(--abs-hatch) 6px,var(--abs-hatch) 7px);color:var(--abs-ink);display:flex;flex-direction:column;justify-content:center;padding:0 8px;font-weight:600;font-size:11.5px;letter-spacing:.02em;overflow:hidden}
 .abs .nt{font-weight:400;font-size:10.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.plan.focus .chip:not(.on),.plan.focus .abs{opacity:.18}
+.plan.focus .chip:not(.on),.plan.focus .abs,.plan.focus .part:not(.on){opacity:.18}
 .plan.focus .chip.on{box-shadow:0 0 0 2px var(--ink)}
 tfoot th,tfoot td{position:sticky;bottom:0;background:var(--surface-2);border-top:1px solid var(--line-strong);height:40px;z-index:2}
 tfoot th{left:0;z-index:4 !important;text-align:left;padding:0 18px !important;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;border-right:1px solid var(--line-strong)}
@@ -192,13 +192,13 @@ tfoot td b{color:var(--ink);font-weight:600}
 @keyframes sk{to{background-position:-200% 0}}
 
 /* ---------- Picker ---------- */
-.pop{position:fixed;z-index:50;width:340px;max-width:calc(100vw - 24px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;max-height:min(560px,calc(100vh - 24px));animation:pop .14s ease-out}
+.pop{position:fixed;z-index:50;width:360px;overflow:hidden;max-width:calc(100vw - 24px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;max-height:min(560px,calc(100vh - 24px));animation:pop .14s ease-out}
 @keyframes pop{from{opacity:0;transform:translateY(4px) scale(.98)}}
 .pop-h{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
 .pop-h .t{font-weight:600}
 .pop-h .s{font-size:12px;color:var(--faint)}
 .pop-search{margin-top:10px;width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 10px}
-.pop-b{overflow:auto;padding:8px}
+.pop-b{overflow:auto;padding:8px;flex:1;min-height:0}
 .pop-sec{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;padding:8px 8px 6px}
 .opt{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;text-align:left;padding:8px;border-radius:8px}
 .opt:hover,.opt.hl{background:var(--surface-2)}
@@ -485,7 +485,7 @@ table.dt{width:100%;border-collapse:collapse;min-width:820px}
 .im-sum{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);color:var(--accent);border-radius:10px;padding:10px 12px;font-size:13px}
 .im-sum svg{flex:none;margin-top:2px}
 .im-tbl{min-width:760px}
-.im-tbl th.n,.im-tbl td.n{width:58px;text-align:center}
+.im-tbl th.n,.im-tbl td.n{width:50px;text-align:center}
 .im-tbl td.n input{text-align:center;font-family:var(--f-mono);font-weight:600;border-color:var(--line);background:var(--surface-2)}
 .im-tbl select{border-color:var(--line) !important;background:var(--surface-2) !important}
 .im-tbl input,.im-tbl select{border:1px solid var(--line) !important;border-radius:7px;background:var(--surface-2) !important;padding:6px 8px;width:100%}
@@ -498,6 +498,78 @@ a.btn{text-decoration:none;color:inherit}
 .spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:rot .7s linear infinite;display:inline-block}
 @keyframes rot{to{transform:rotate(360deg)}}
 @media (max-width:900px){.two{grid-template-columns:minmax(0,1fr)}.search{min-width:0;width:100%}}
+
+
+/* ---------- Weekends, holidays, construction holiday ---------- */
+.plan .dh.we,.plan td.c.we,.plan tfoot td.we,.need td.nc.we,.bal td.bn.we{min-width:62px;width:62px;max-width:62px}
+td.c.we,.bal td.bn.we,.need td.nc.we{background:var(--we-bg)}
+.dh.we .dn{color:var(--muted)}
+td.c.bygg,.bal td.bn.bygg,.need td.nc.bygg{background:var(--bygg-bg)}
+.dh.bygg{box-shadow:inset 0 3px 0 var(--bygg-ink)}
+.wkh.bygg{background:var(--bygg-bg) !important}
+.wkh-i{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.bygg-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bygg-ink);border:1px solid currentColor;border-radius:999px;padding:1px 7px}
+.wk-copy{margin-left:auto;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:7px;padding:3px 8px;font-size:11.5px;font-weight:600;opacity:.75;transition:opacity .15s,border-color .15s}
+.wk-copy:hover{opacity:1;border-color:var(--line-strong);color:var(--ink)}
+.mk{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.mk i{width:16px;height:12px;border-radius:3px;border:1px solid var(--line)}
+.mk-hol{background:var(--holiday);border-color:var(--danger) !important;opacity:.8}
+.mk-we{background:var(--we-bg)}
+.mk-bygg{background:var(--bygg-bg);border-color:var(--bygg-ink) !important}
+.cnt-b{font-family:var(--f-mono);font-size:10.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:0 6px;margin-left:2px}
+
+/* ---------- Split days ---------- */
+.split{height:100%;display:flex;flex-direction:column;gap:2px;position:relative}
+.part{flex:1;min-height:0;border-radius:5px;display:flex;align-items:center;gap:4px;padding:0 6px;overflow:hidden;font-size:11px;transition:opacity .15s}
+.part .hf{font-size:8.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.55;width:14px;flex:none}
+.part .num{font-family:var(--f-mono);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.part.pj{background:var(--c);color:var(--chip-ink);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.part.pabs{background:repeating-linear-gradient(-45deg,var(--abs-bg),var(--abs-bg) 5px,var(--abs-hatch) 5px,var(--abs-hatch) 6px);color:var(--abs-ink)}
+.part.pabs .num{font-family:var(--f-body);font-size:10.5px}
+.part.empty{border:1px dashed var(--line-strong);color:var(--faint)}
+.part.miss{background:var(--surface-2);color:var(--muted)}
+.plan.focus .part.on{box-shadow:0 0 0 2px var(--ink)}
+.ndot{position:absolute;right:3px;top:3px;width:6px;height:6px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 1.5px var(--surface)}
+.we .chip .nt,.we .abs .nt{display:none}
+
+/* ---------- Drag & drop ---------- */
+.chip,.abs,.split{cursor:grab}
+.ro .chip,.ro .abs,.ro .split{cursor:default}
+td.c.drop{background:var(--sel) !important}
+td.c.drop::after{content:"";position:absolute;inset:2px;border:2px dashed var(--sel-line);border-radius:8px;pointer-events:none}
+td.c.drag-src>*{opacity:.35}
+.ghost{position:fixed;left:0;top:0;z-index:90;pointer-events:none;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.ghost-c{transform:rotate(-2deg);box-shadow:var(--shadow-lg);border-radius:8px}
+.ghost-c>*{height:100%}
+.ghost-l{font-size:11px;font-weight:700;background:var(--side);color:var(--side-ink);border-radius:6px;padding:2px 8px}
+.ghost.copy .ghost-l{background:var(--accent);color:var(--accent-ink)}
+
+/* ---------- Picker additions ---------- */
+.pop-ht{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.pop-cp{display:flex;gap:2px}
+.pop-cp .btn{padding:6px 7px}
+.part-seg{display:flex;margin-top:10px;width:100%}
+.part-seg button{flex:1}
+.abs-btn.quick{color:var(--ink);border-style:dashed}
+
+/* ---------- Dashboard additions ---------- */
+.wb.we{width:22px}
+.wb i.off{background:var(--we-bg);box-shadow:inset 0 0 0 1px var(--line)}
+.wb i.half{display:flex;gap:1px;background:none}
+.wb i.half b{flex:1;height:100%;border-radius:2px;background:var(--surface-2)}
+.wb i.half b.abs{background:repeating-linear-gradient(-45deg,var(--abs-bg),var(--abs-bg) 2px,var(--abs-ink) 2px,var(--abs-ink) 3px);opacity:.7}
+.ch-off{fill:var(--we-bg)}
+.ch-off.hol{fill:var(--holiday)}
+.ch-day.hol{fill:var(--danger)}
+.mgr{display:inline-flex;align-items:center;gap:8px}
+.role{font-family:var(--f-mono);font-size:10px;font-weight:600;color:var(--brass);border:1px solid currentColor;border-radius:4px;padding:0 4px;line-height:15px}
+.staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2px 18px;padding:12px 18px 16px}
+.st{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);min-width:0}
+.st .nm{font-weight:600;font-size:13.5px}
+.st .meta{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--faint)}
+.st-p{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;font-size:12px}
+.badge.xs{min-width:0;height:20px;font-size:11px;border-radius:5px;padding:0 6px}
+.tag.staff{background:none;color:var(--brass);border:1px solid var(--brass);font-family:var(--f-mono)}
 
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -553,26 +625,33 @@ a.btn{text-decoration:none;color:inherit}
 <script>
 (() => {
 /* ================= Constants ================= */
-const DAYS = ['Mån','Tis','Ons','Tor','Fre'];
-const DAYS_LONG = ['Måndag','Tisdag','Onsdag','Torsdag','Fredag'];
+const DAYS = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+const DAYS_LONG = ['Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag','Söndag'];
 const MONTHS = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
 const ABS = [
-  {k:'ledig', label:'Ledig'},
-  {k:'semester', label:'Semester'},
-  {k:'sjuk', label:'Sjuk'},
-  {k:'vab', label:'VAB'},
-  {k:'utb', label:'Utbildning'},
+  {k:'ledig', label:'Ledig'}, {k:'semester', label:'Semester'}, {k:'sjuk', label:'Sjuk'}, {k:'vab', label:'VAB'},
+  {k:'foraldra', label:'Föräldraledig'}, {k:'atf', label:'ATF'}, {k:'lakare', label:'Läkarbesök'}, {k:'tandlakare', label:'Tandläkare'},
+  {k:'komp', label:'Kompledig'}, {k:'tjl', label:'Tjänstledig'}, {k:'utb', label:'Utbildning'}, {k:'ovrigt', label:'Övrig frånvaro'},
+];
+const QUICK = [
+  {label:'Ledig em', part:'em', s:'ledig'}, {label:'Ledig fm', part:'fm', s:'ledig'},
+  {label:'Läkarbesök em', part:'em', s:'lakare'}, {label:'Läkarbesök fm', part:'fm', s:'lakare'}, {label:'ATF em', part:'em', s:'atf'},
 ];
 const ABS_LABEL = Object.fromEntries(ABS.map(a => [a.k, a.label]));
 const PALETTE = ['#E8894A','#8DB8E0','#B48CE8','#A9CC9A','#EBCB6B','#B9BDB8','#6FBFB4','#E59A9A','#7E9CC9','#C5BF6E','#D08A70','#B08AB8'];
 const OWN_COMPANY = 'Sydbyggarna';
 const ROLES = [
-  {g:'Yrkesroll', items:['Träarbetare','Arbetsledare','Platschef']},
+  {g:'Tjänstemän', items:['Arbetsledare (AL)','Platschef (PC)','Projektchef (PrC)','Arbetschef (AC)','Entreprenadingenjör (EI)']},
+  {g:'Yrkesroll', items:['Träarbetare']},
   {g:'Underentreprenör', items:['UE-Träarbetare']},
   {g:'Lärling', items:['Lärling 70%','Lärling 80%','Lärling 90%']},
   {g:'Skolpraktik (APL)', items:['APL ÅR-1','APL ÅR-2','APL ÅR-3']},
 ];
 const ALL_ROLES = ROLES.flatMap(r => r.items);
+const STAFF_ROLES = new Set(ROLES[0].items);
+const STAFF = 'Tjänstemän';
+const isStaff = p => STAFF_ROLES.has(p.tag);
+const roleShort = t => (String(t||'').match(/\(([^)]+)\)\s*$/)||[])[1] || t;
 const COUNTRIES = ['Sverige','Afghanistan','Albanien','Algeriet','Argentina','Armenien','Australien','Azerbajdzjan','Belgien','Bosnien och Hercegovina','Brasilien','Bulgarien','Chile','Colombia','Cypern','Danmark','Egypten','Eritrea','Estland','Etiopien','Filippinerna','Finland','Frankrike','Georgien','Ghana','Grekland','Indien','Indonesien','Irak','Iran','Irland','Island','Italien','Japan','Jordanien','Kanada','Kazakstan','Kenya','Kina','Kosovo','Kroatien','Kuba','Lettland','Libanon','Litauen','Luxemburg','Marocko','Mexiko','Moldavien','Montenegro','Nederländerna','Nigeria','Nordmakedonien','Norge','Pakistan','Palestina','Peru','Polen','Portugal','Rumänien','Ryssland','Schweiz','Serbien','Slovakien','Slovenien','Somalia','Spanien','Storbritannien','Sudan','Sydafrika','Syrien','Thailand','Tjeckien','Tunisien','Turkiet','Tyskland','Ukraina','Ungern','USA','Uzbekistan','Vietnam','Vitryssland','Österrike'];
 const LANGS = ['Svenska','Engelska','Albanska','Arabiska','Bosniska','Bulgariska','Danska','Dari','Estniska','Finska','Franska','Grekiska','Hindi','Italienska','Kinesiska','Kroatiska','Kurdiska','Lettiska','Litauiska','Nederländska','Norska','Pashto','Persiska','Polska','Portugisiska','Rumänska','Ryska','Serbiska','Slovakiska','Somaliska','Spanska','Tagalog','Thai','Tigrinja','Tjeckiska','Turkiska','Tyska','Ukrainska','Ungerska','Urdu','Vietnamesiska'];
 const LANG_CODE = {Svenska:'SV',Engelska:'EN',Albanska:'SQ',Arabiska:'AR',Bosniska:'BS',Bulgariska:'BG',Danska:'DA',Dari:'PRS',Estniska:'ET',Finska:'FI',Franska:'FR',Grekiska:'EL',Hindi:'HI',Italienska:'IT',Kinesiska:'ZH',Kroatiska:'HR',Kurdiska:'KU',Lettiska:'LV',Litauiska:'LT',Nederländska:'NL',Norska:'NO',Pashto:'PS',Persiska:'FA',Polska:'PL',Portugisiska:'PT',Rumänska:'RO',Ryska:'RU',Serbiska:'SR',Slovakiska:'SK',Somaliska:'SO',Spanska:'ES',Tagalog:'TL',Thai:'TH',Tigrinja:'TI',Tjeckiska:'CS',Turkiska:'TR',Tyska:'DE',Ukrainska:'UK',Ungerska:'HU',Urdu:'UR',Vietnamesiska:'VI'};
@@ -610,20 +689,24 @@ function holidays(y){
   const e = easter(y), H = {};
   const put = (d,n) => H[ymd(d)] = n;
   put(new Date(y,0,1),'Nyårsdagen'); put(new Date(y,0,6),'Trettondedag jul');
-  put(addDays(e,-2),'Långfredagen'); put(addDays(e,1),'Annandag påsk');
+  put(addDays(e,-2),'Långfredagen'); put(addDays(e,-1),'Påskafton'); put(e,'Påskdagen'); put(addDays(e,1),'Annandag påsk'); put(addDays(e,49),'Pingstdagen');
   put(new Date(y,4,1),'Första maj'); put(addDays(e,39),'Kristi himmelsfärd');
   put(new Date(y,5,6),'Nationaldagen');
-  for (let d=19; d<=25; d++){ const x = new Date(y,5,d); if (x.getDay()===5) put(x,'Midsommarafton'); }
+  for (let d=19; d<=25; d++){ const x = new Date(y,5,d); if (x.getDay()===5){ put(x,'Midsommarafton'); put(addDays(x,1),'Midsommardagen'); } }
+  for (let d=31; d<=37; d++){ const x = new Date(y,9,d); if (x.getDay()===6) put(x,'Alla helgons dag'); }
   put(new Date(y,11,24),'Julafton'); put(new Date(y,11,25),'Juldagen'); put(new Date(y,11,26),'Annandag jul'); put(new Date(y,11,31),'Nyårsafton');
   return holCache[y] = H;
 }
 const holidayName = d => holidays(d.getFullYear())[ymd(d)] || '';
 
+function byggRange(){ const b = (S.settings && S.settings.bygg) || {}; return {from: b.from==null ? 28 : +b.from, to: b.to==null ? 31 : +b.to}; }
+function isBygg(w){ const r = byggRange(); return r.from > 0 && w >= r.from && w <= r.to; }
 function columns(start, weeks){
   const cols = [];
   for (let i=0;i<weeks;i++){
     const mon = addDays(start, 7*i), wk = wkKey(mon), w = isoWeek(mon).w;
-    for (let d=0; d<5; d++){ const date = addDays(mon,d); cols.push({date, wk, w, d:String(d+1), wi:i, di:d, hol:holidayName(date), today: ymd(date)===TODAY}); }
+    const bygg = isBygg(w);
+    for (let d=0; d<7; d++){ const date = addDays(mon,d), hol = holidayName(date), we = d>=5; cols.push({date, wk, w, d:String(d+1), wi:i, di:d, hol, we, bygg, off: we || !!hol || bygg, today: ymd(date)===TODAY}); }
   }
   return cols;
 }
@@ -631,14 +714,37 @@ function columns(start, weeks){
 /* ================= Data helpers ================= */
 const projById = id => S.projects.find(p => p.id===id);
 function getCell(wk,pid,d){ const w = S.weeksData.get(wk); return (w && w[pid] && w[pid][d]) || null; }
-function setLocal(wk,pid,d,val){ let w = S.weeksData.get(wk); if (!w){ w = {}; S.weeksData.set(wk,w); } if (!w[pid]) w[pid] = {}; w[pid][d] = val; }
+function setLocal(wk,pid,d,val){ let w = S.weeksData.get(wk); if (!w){ w = {}; S.weeksData.set(wk,w); } if (!w[pid]) w[pid] = {}; w[pid][d] = cleanVal(val); }
+/* A cell is one full-day item {p}|{s} or a split day {fm, em}; n is a note. */
+const itemOf = o => o && (o.p || o.s) ? (o.p ? {p:o.p} : {s:o.s}) : null;
+function partsOf(v){ if (!v) return []; if (v.fm || v.em) return [itemOf(v.fm), itemOf(v.em)]; const it = itemOf(v); return it ? [it] : []; }
+const sameItem = (a,b) => (!a && !b) || (!!a && !!b && (a.p||null)===(b.p||null) && (a.s||null)===(b.s||null));
+function loadOf(v){ const ps = partsOf(v), w = ps.length===2 ? .5 : 1, proj = {}; let abs = 0; for (const it of ps){ if (!it) continue; if (it.p) proj[it.p] = (proj[it.p]||0) + w; else abs += w; } return {proj, abs, work: Object.values(proj).reduce((a,b)=>a+b,0)}; }
+function cleanVal(v){
+  if (!v) return null; const o = {};
+  if (v.fm || v.em){ const a = itemOf(v.fm), b = itemOf(v.em); if (sameItem(a,b)){ if (a) Object.assign(o,a); } else { o.fm = a; o.em = b; } }
+  else { const it = itemOf(v); if (it) Object.assign(o,it); }
+  if (v.n) o.n = v.n;
+  return Object.keys(o).length ? o : null;
+}
+function fullShape(v){ /* every field written, so a merge-update can never leave stale fields behind */
+  v = cleanVal(v); if (!v) return null;
+  const fi = it => it ? {p: it.p||null, s: it.s||null} : null;
+  if (v.fm || v.em) return {p:null, s:null, fm:fi(v.fm), em:fi(v.em), n:v.n||null};
+  return {p:v.p||null, s:v.s||null, fm:null, em:null, n:v.n||null};
+}
+const fmtN = x => Number.isInteger(x) ? String(x) : (Math.round(x*10)/10).toFixed(1).replace('.',',').replace(',0','');
+const itemLabel = it => !it ? '–' : it.p ? ((projById(it.p)||{}).number || '?') : (ABS_LABEL[it.s] || it.s);
+function cellText(v, withNote=true){ const ps = partsOf(v); let t = ps.length===2 ? itemLabel(ps[0])+' fm / '+itemLabel(ps[1])+' em' : ps.length ? itemLabel(ps[0]) : ''; if (withNote && v && v.n) t += (t?'\n':'') + v.n; return t; }
+const craftPeople = () => activePeople().filter(p => !isStaff(p));
 const activePeople = () => S.people.filter(p => p.active !== false).sort((a,b)=>(a.order??999)-(b.order??999) || a.name.localeCompare(b.name,'sv'));
 function groupsOf(people){
   const m = new Map();
-  for (const p of people){ const c = p.company || OWN_COMPANY; if (!m.has(c)) m.set(c, []); m.get(c).push(p); }
-  return [...m.entries()].sort((a,b) => (a[0]===OWN_COMPANY?-1:b[0]===OWN_COMPANY?1:a[0].localeCompare(b[0],'sv')));
+  for (const p of people){ const c = isStaff(p) ? STAFF : (p.company || OWN_COMPANY); if (!m.has(c)) m.set(c, []); m.get(c).push(p); }
+  const rank = k => k===OWN_COMPANY ? 0 : k===STAFF ? 1 : 2;
+  return [...m.entries()].sort((a,b) => rank(a[0])-rank(b[0]) || a[0].localeCompare(b[0],'sv'));
 }
-const isOwn = p => (p.company||OWN_COMPANY)===OWN_COMPANY;
+const isOwn = p => isStaff(p) || (p.company||OWN_COMPANY)===OWN_COMPANY;
 const projLabel = p => p ? (p.name ? p.number+' · '+p.name : p.number) : 'Okänt projekt';
 
 /* ================= Sync / toast ================= */
@@ -670,7 +776,7 @@ function errMsg(e){
 /* ================= Writes ================= */
 async function writeChanges(changes){
   const byWk = new Map();
-  for (const c of changes){ if (!byWk.has(c.wk)) byWk.set(c.wk, {}); const w = byWk.get(c.wk); (w[c.pid] ||= {})[c.d] = c.val; }
+  for (const c of changes){ if (!byWk.has(c.wk)) byWk.set(c.wk, {}); const w = byWk.get(c.wk); (w[c.pid] ||= {})[c.d] = fullShape(c.val); }
   for (const [wk, cells] of byWk){
     const ref = S.db.doc('weeks/'+wk);
     const snap = await ref.get();
@@ -678,17 +784,21 @@ async function writeChanges(changes){
     else await ref.set({key: wk, cells});
   }
 }
+const UNDO = [];
+function undo(){ const prev = UNDO.pop(); if (!prev){ toast('Det finns inget att ångra.'); return; } commit(prev, 'Ändringen är ångrad', false); }
 async function commit(changes, label, undoable=true){
   if (!S.db || !changes.length) return;
-  const prev = changes.map(c => ({...c, val: getCell(c.wk,c.pid,c.d)}));
+  const prev = changes.map(c => ({...c, val: cleanVal(getCell(c.wk,c.pid,c.d))}));
+  if (undoable){ UNDO.push(prev); if (UNDO.length > 60) UNDO.shift(); }
   for (const c of changes) setLocal(c.wk,c.pid,c.d,c.val);
   render();
   pending++; syncState();
   try {
     await writeChanges(changes);
-    if (label) toast(label, undoable ? {label:'Ångra', fn: () => commit(prev, 'Ändringen är ångrad', false)} : null);
+    if (label) toast(label, undoable ? {label:'Ångra', fn: undo} : null);
   } catch(e){
     for (const c of prev) setLocal(c.wk,c.pid,c.d,c.val);
+    if (undoable) UNDO.pop();
     render(); toast(errMsg(e));
     if (e && e.code==='invalid_argument'){ S.canWrite=false; render(); }
   } finally { pending--; syncState(); }
@@ -736,19 +846,23 @@ function stateBlock(){
 
 /* ================= Planning view ================= */
 let rowIds = [], cols = [], sel = null, dragging = false, lastPointer = 'mouse';
+let dragCand = null, chipDrag = null;
+function colCls(c){ return [c.di===0?'ws':'', c.today?'today':'', c.hol?'hol':'', c.we?'we':'', c.bygg?'bygg':''].join(' '); }
 function renderPlanning(){
   cols = columns(S.start, S.weeks);
   const people = activePeople();
   const groups = groupsOf(people);
-  // legend: projects occurring in period
   const counts = new Map();
-  for (const p of people) for (const c of cols){ const v = getCell(c.wk,p.id,c.d); if (v && v.p) counts.set(v.p,(counts.get(v.p)||0)+1); }
+  for (const p of people) for (const c of cols){ const L = loadOf(getCell(c.wk,p.id,c.d)); for (const [pid,w] of Object.entries(L.proj)) counts.set(pid,(counts.get(pid)||0)+w); }
   const legendProjs = [...counts.keys()].map(projById).filter(Boolean).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true}));
   if (S.focusProj && !counts.has(S.focusProj)) S.focusProj = null;
+  const firstW = isoWeek(S.start).w, nextW = isoWeek(addDays(S.start,7)).w;
+  const ready = S.canWrite && S.status==='ready';
 
   const head = `<div class="head"><div><div class="eyebrow">Planering</div><h2>${esc(periodText().split(' · ')[0])}</h2><div class="sub">${esc(periodText().split(' · ')[1])} · ${people.length} personer</div></div>
     <div class="tools">${periodTools()}
-      ${S.canWrite && S.status==='ready' ? `<button class="btn" id="copyPrev" title="Kopierar föregående veckas planering till första veckan i vyn, bara i tomma rutor"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Kopiera förra veckan</button>`:''}
+      ${ready ? `<button class="btn" id="undoBtn" ${UNDO.length?'':'disabled'} title="Ångra senaste ändringen (Ctrl+Z)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Ångra${UNDO.length?`<span class="cnt-b">${UNDO.length}</span>`:''}</button>
+      <button class="btn" id="copyNext" title="Kopierar hela planeringen för vecka ${firstW} till vecka ${nextW}. Dagar som är tomma i vecka ${firstW} lämnas orörda."><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Kopiera v.${firstW} → v.${nextW}</button>`:''}
       <button class="btn primary" id="exportBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportera PDF</button>
     </div></div>`;
   const langsInUse = [...new Set(people.flatMap(p => p.langs || []))].sort((a,b)=>a.localeCompare(b,'sv'));
@@ -762,80 +876,114 @@ function renderPlanning(){
     bindPlanningHead(); return;
   }
 
-  const legend = legendProjs.length ? `<div class="legend ${S.focusProj?'focusing':''}">${legendProjs.map(p => `<button class="lg" data-focus="${esc(p.id)}" aria-pressed="${S.focusProj===p.id}" style="--c:${esc(p.color)}"><span class="sw"></span><span class="n">${esc(p.number)}</span>${p.name?`<span class="t">${esc(p.name)}</span>`:''}<span class="h">${counts.get(p.id)} dv</span></button>`).join('')}<span class="lg-hint">Klicka på ett projekt för att markera det i planeringen</span></div>` : '';
+  const legend = legendProjs.length ? `<div class="legend ${S.focusProj?'focusing':''}">${legendProjs.map(p => `<button class="lg" data-focus="${esc(p.id)}" aria-pressed="${S.focusProj===p.id}" style="--c:${esc(p.color)}"><span class="sw"></span><span class="n">${esc(p.number)}</span>${p.name?`<span class="t">${esc(p.name)}</span>`:''}<span class="h">${fmtN(counts.get(p.id))} dv</span></button>`).join('')}<span class="lg-hint">Klicka på ett projekt för att markera det i planeringen</span></div>` : '';
+  const keys = `<span class="mk"><i class="mk-hol"></i>Röd dag</span><span class="mk"><i class="mk-we"></i>Helg</span>${cols.some(c=>c.bygg)?`<span class="mk"><i class="mk-bygg"></i>Byggsemester</span>`:''}${groups.some(([c])=>c!==OWN_COMPANY)?`<span class="hired-key"><i></i>Inhyrd</span>`:''}`;
 
   let h = `<table class="plan ${S.focusProj?'focus':''}" id="plan"><thead><tr><th class="corner" rowspan="2">Personal</th>`;
-  for (let i=0;i<S.weeks;i++){ const a = cols[i*5], b = cols[i*5+4]; h += `<th class="wkh" colspan="5"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span></th>`; }
+  for (let i=0;i<S.weeks;i++){
+    const a = cols[i*7], b = cols[i*7+6], prevW = isoWeek(addDays(a.date,-7)).w;
+    h += `<th class="wkh ${a.bygg?'bygg':''}" colspan="7"><div class="wkh-i"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span>${a.bygg?`<span class="bygg-tag">Byggsemester</span>`:''}${ready?`<button class="wk-copy" data-copyto="${i}" title="Kopiera planeringen från vecka ${prevW} till vecka ${a.w}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>från v.${prevW}</button>`:''}</div></th>`;
+  }
   h += `</tr><tr>`;
-  for (const c of cols) h += `<th class="dh ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}" title="${esc(DAYS_LONG[c.di]+' '+fmtShort(c.date)+(c.hol?' – '+c.hol:''))}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span>${c.hol?`<span class="hn">${esc(c.hol)}</span>`:''}</th>`;
+  for (const c of cols) h += `<th class="dh ${colCls(c)}" title="${esc(DAYS_LONG[c.di]+' '+fmtShort(c.date)+(c.hol?' – '+c.hol:'')+(c.bygg?' – byggsemester':''))}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span>${c.hol?`<span class="hn">${esc(c.hol)}</span>`:''}</th>`;
   h += `</tr></thead><tbody>`;
   rowIds = [];
   for (const [company, list] of groups){
-    h += `<tr class="grp"><th>${esc(company)}<span>${company===OWN_COMPANY?'egen':'inhyrd'}</span><span>${list.length}</span></th><td colspan="${cols.length}"></td></tr>`;
+    h += `<tr class="grp"><th>${esc(company)}<span>${company===OWN_COMPANY?'egen':company===STAFF?'Sydbyggarna':'inhyrd'}</span><span>${list.length}</span></th><td colspan="${cols.length}"></td></tr>`;
     for (const p of list){
       const r = rowIds.length; rowIds.push(p.id);
       const langs = p.langs || [];
       const dim = S.langFilter && !langs.includes(S.langFilter);
-      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div></div></th>`;
-      cols.forEach((c,ci) => {
-        const v = getCell(c.wk,p.id,c.d);
-        h += `<td class="c ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}" data-r="${r}" data-c="${ci}">${cellHTML(v)}</td>`;
-      });
+      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag ${isStaff(p)?'staff':''}" title="${esc(p.tag)}">${esc(isStaff(p)?roleShort(p.tag):p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div></div></th>`;
+      cols.forEach((c,ci) => { h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(getCell(c.wk,p.id,c.d))}</td>`; });
       h += `</tr>`;
     }
   }
   h += `</tbody><tfoot><tr><th>Planerade</th>`;
-  for (const c of cols){ let n=0; for (const p of people){ const v = getCell(c.wk,p.id,c.d); if (v && v.p) n++; } h += `<td class="${c.di===0?'ws':''}"><b>${n}</b>/${people.length}</td>`; }
+  for (const c of cols){ let n=0; for (const p of people) n += loadOf(getCell(c.wk,p.id,c.d)).work; h += `<td class="${colCls(c)}">${c.off && !n ? '' : `<b>${fmtN(n)}</b>${c.off?'':'/'+people.length}`}</td>`; }
   h += `</tr></tfoot></table>`;
 
-  $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + `<div class="bar2">${legend}<div class="bar2-r">${groups.some(([c])=>c!==OWN_COMPANY)?`<span class="hired-key"><i></i>Inhyrd hantverkare</span>`:''}${filterBar}</div></div>` +
-    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka på en ruta eller dra över flera dagar och personer för att planera dem samtidigt.</span><span><kbd>Esc</kbd> stänger · <kbd>Del</kbd> rensar markering</span></div></div>`;
+  $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + `<div class="bar2">${legend}<div class="bar2-r">${keys}${filterBar}</div></div>` +
+    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka på en ruta eller dra över flera för att planera. <b>Dra ett projekt</b> till en annan person eller dag för att flytta det, håll <kbd>Alt</kbd> för att kopiera.</span><span><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd> kopiera och klistra in · <kbd>Ctrl</kbd>+<kbd>Z</kbd> ångra · <kbd>Del</kbd> rensa</span></div></div>`;
   bindPlanningHead();
   const table = document.getElementById('plan');
   if (!S.canWrite) table.classList.add('ro');
   $main.querySelectorAll('[data-focus]').forEach(b => b.onclick = () => { S.focusProj = S.focusProj===b.dataset.focus ? null : b.dataset.focus; render(); });
+  $main.querySelectorAll('[data-copyto]').forEach(b => b.onclick = e => { e.stopPropagation(); const mon = addDays(S.start, 7*(+b.dataset.copyto)); copyWeek(addDays(mon,-7), mon); });
   const lf = document.getElementById('langFilter'); if (lf) lf.onchange = () => { S.langFilter = lf.value; render(); };
   if (sel) paintSel();
-  if (!renderPlanning.scrolled){ renderPlanning.scrolled = true; }
+}
+function cellTitle(v){
+  const ps = partsOf(v), lab = it => !it ? 'tomt' : it.p ? projLabel(projById(it.p)) : (ABS_LABEL[it.s]||it.s);
+  const t = ps.length===2 ? 'Förmiddag: '+lab(ps[0])+'\nEftermiddag: '+lab(ps[1]) : ps.length ? lab(ps[0]) : '';
+  return t + (v && v.n ? (t?'\n':'')+v.n : '');
+}
+function partHTML(it, half){
+  const lab = `<span class="hf">${half}</span>`;
+  if (!it) return `<div class="part empty">${lab}<span class="num">–</span></div>`;
+  if (it.s) return `<div class="part pabs">${lab}<span class="num">${esc(ABS_LABEL[it.s]||it.s)}</span></div>`;
+  const p = projById(it.p); if (!p) return `<div class="part miss">${lab}<span class="num">?</span></div>`;
+  return `<div class="part pj ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}">${lab}<span class="num">${esc(p.number)}</span></div>`;
 }
 function cellHTML(v){
-  if (!v) return '';
-  const nt = v.n ? `<span class="nt">${esc(v.n)}</span>` : '';
-  if (v.s) return `<div class="abs">${esc(ABS_LABEL[v.s]||v.s)}${nt}</div>`;
-  if (v.p){ const p = projById(v.p); if (!p) return `<div class="chip miss"><span class="num">?</span>${nt}</div>`;
-    return `<div class="chip ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}" title="${esc(projLabel(p)+(v.n?' – '+v.n:''))}"><span class="num">${esc(p.number)}</span>${nt}</div>`; }
-  if (v.n) return `<div class="chip miss"><span class="nt">${esc(v.n)}</span></div>`;
-  return '';
+  const ps = partsOf(v);
+  if (!ps.length && !(v && v.n)) return '';
+  const title = esc(cellTitle(v));
+  if (ps.length===2) return `<div class="split" title="${title}">${partHTML(ps[0],'fm')}${partHTML(ps[1],'em')}${v.n?'<i class="ndot"></i>':''}</div>`;
+  const it = ps[0], nt = v.n ? `<span class="nt">${esc(v.n)}</span>` : '';
+  if (!it) return `<div class="chip miss" title="${title}"><span class="nt">${esc(v.n)}</span></div>`;
+  if (it.s) return `<div class="abs" title="${title}">${esc(ABS_LABEL[it.s]||it.s)}${nt}</div>`;
+  const p = projById(it.p); if (!p) return `<div class="chip miss" title="${title}"><span class="num">?</span>${nt}</div>`;
+  return `<div class="chip ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}" title="${title}"><span class="num">${esc(p.number)}</span>${nt}</div>`;
 }
 function bindPlanningHead(){
   bindPeriodTools($main);
   const ex = document.getElementById('exportBtn'); if (ex) ex.onclick = openExport;
-  const cp = document.getElementById('copyPrev'); if (cp) cp.onclick = copyPrevWeek;
+  const cn = document.getElementById('copyNext'); if (cn) cn.onclick = () => copyWeek(S.start, addDays(S.start,7));
+  const ub = document.getElementById('undoBtn'); if (ub) ub.onclick = undo;
 }
-function copyPrevWeek(){
-  const src = wkKey(addDays(S.start,-7)), dst = wkKey(S.start);
-  const changes = [];
-  for (const p of activePeople()) for (let d=1; d<=5; d++){
-    const v = getCell(src,p.id,String(d)); if (v && !getCell(dst,p.id,String(d))) changes.push({wk:dst,pid:p.id,d:String(d),val:{...v}});
+function copyWeek(srcMon, dstMon){
+  const src = wkKey(srcMon), dst = wkKey(dstMon), changes = [];
+  for (const p of activePeople()) for (let d=1; d<=7; d++){
+    const v = cleanVal(getCell(src,p.id,String(d)));
+    if (v && JSON.stringify(v)!==JSON.stringify(cleanVal(getCell(dst,p.id,String(d))))) changes.push({wk:dst, pid:p.id, d:String(d), val:v});
   }
-  if (!changes.length){ toast('Inget att kopiera: förra veckan är tom eller veckan är redan planerad.'); return; }
-  commit(changes, `${changes.length} dagar kopierade från vecka ${isoWeek(addDays(S.start,-7)).w}`);
+  const sw = isoWeek(srcMon).w, dw = isoWeek(dstMon).w;
+  if (!changes.length){ toast(`Inget att kopiera: vecka ${sw} är tom eller redan lika vecka ${dw}.`); return; }
+  commit(changes, `Vecka ${sw} kopierad till vecka ${dw} · ${changes.length} ${changes.length===1?'dag':'dagar'}`);
 }
 
-/* selection */
+/* selection, drag & drop, clipboard */
+const cellAt = (r,c) => (rowIds[r] && cols[c]) ? getCell(cols[c].wk, rowIds[r], cols[c].d) : null;
+const refAt = (r,c) => ({pid:rowIds[r], wk:cols[c].wk, d:cols[c].d});
+function selBox(){ return {r0:Math.min(sel.r0,sel.r1), r1:Math.max(sel.r0,sel.r1), c0:Math.min(sel.c0,sel.c1), c1:Math.max(sel.c0,sel.c1)}; }
 function selCells(){
   if (!sel) return [];
-  const r0 = Math.min(sel.r0,sel.r1), r1 = Math.max(sel.r0,sel.r1), c0 = Math.min(sel.c0,sel.c1), c1 = Math.max(sel.c0,sel.c1);
-  const out = [];
-  for (let r=r0;r<=r1;r++) for (let c=c0;c<=c1;c++){ const col = cols[c]; if (rowIds[r] && col) out.push({pid:rowIds[r], wk:col.wk, d:col.d}); }
+  const b = selBox(), out = [];
+  for (let r=b.r0;r<=b.r1;r++) for (let c=b.c0;c<=b.c1;c++){ if (rowIds[r] && cols[c]) out.push(refAt(r,c)); }
   return out;
 }
 function paintSel(){
   const t = document.getElementById('plan'); if (!t) return;
   t.querySelectorAll('td.sel').forEach(td => td.classList.remove('sel'));
   if (!sel) return;
-  const r0 = Math.min(sel.r0,sel.r1), r1 = Math.max(sel.r0,sel.r1), c0 = Math.min(sel.c0,sel.c1), c1 = Math.max(sel.c0,sel.c1);
-  t.querySelectorAll('td.c').forEach(td => { const r=+td.dataset.r, c=+td.dataset.c; if (r>=r0&&r<=r1&&c>=c0&&c<=c1) td.classList.add('sel'); });
+  const b = selBox();
+  t.querySelectorAll('td.c').forEach(td => { const r=+td.dataset.r, c=+td.dataset.c; if (r>=b.r0&&r<=b.r1&&c>=b.c0&&c<=b.c1) td.classList.add('sel'); });
+}
+function copySel(){
+  if (!sel) return;
+  const b = selBox(), vals = [];
+  for (let r=b.r0;r<=b.r1;r++){ const row = []; for (let c=b.c0;c<=b.c1;c++) row.push(cleanVal(cellAt(r,c))); vals.push(row); }
+  S.clip = {vals, h:vals.length, w:vals[0].length};
+  const one = S.clip.h*S.clip.w===1;
+  toast(one ? `Kopierat: ${cellText(vals[0][0],false)||'tom ruta'}. Markera en annan ruta och tryck Ctrl+V.` : `Kopierat ${S.clip.h*S.clip.w} rutor. Markera var de ska börja och tryck Ctrl+V.`);
+}
+function pasteSel(){
+  if (!S.clip || !sel || !S.canWrite) return;
+  const b = selBox(), changes = [];
+  if (S.clip.h*S.clip.w===1){ const v = S.clip.vals[0][0]; for (const c of selCells()) changes.push({...c, val: v?JSON.parse(JSON.stringify(v)):null}); }
+  else for (let i=0;i<S.clip.h;i++) for (let j=0;j<S.clip.w;j++){ const r = b.r0+i, c = b.c0+j; if (rowIds[r] && cols[c]){ const v = S.clip.vals[i][j]; changes.push({...refAt(r,c), val: v?JSON.parse(JSON.stringify(v)):null}); } }
+  commit(changes, `Inklistrat i ${changes.length} ${changes.length===1?'ruta':'rutor'}`);
 }
 $main.addEventListener('pointerdown', e => {
   lastPointer = e.pointerType;
@@ -844,16 +992,53 @@ $main.addEventListener('pointerdown', e => {
   if (e.pointerType==='touch') return;
   e.preventDefault(); closePicker(false);
   const r = +td.dataset.r, c = +td.dataset.c;
+  if (!e.shiftKey && partsOf(cellAt(r,c)).length && e.target.closest('.chip,.abs,.split')){
+    dragCand = {r, c, x:e.clientX, y:e.clientY, html: td.innerHTML, w: td.offsetWidth-8, h: td.offsetHeight-8};
+    return;
+  }
   if (e.shiftKey && sel){ sel.r1 = r; sel.c1 = c; } else sel = {r0:r,c0:c,r1:r,c1:c};
   dragging = true; paintSel();
 });
+function dropTargetAt(x,y){ const el = document.elementFromPoint(x,y); return el && el.closest && el.closest('td.c'); }
 document.addEventListener('pointermove', e => {
+  if (dragCand && !chipDrag && Math.hypot(e.clientX-dragCand.x, e.clientY-dragCand.y) > 5){
+    sel = null; paintSel();
+    const g = document.createElement('div'); g.className = 'ghost'; g.innerHTML = `<div class="ghost-c" style="width:${dragCand.w}px;height:${dragCand.h}px">${dragCand.html}</div><span class="ghost-l"></span>`;
+    document.body.appendChild(g); chipDrag = {...dragCand, g, over:null};
+    document.getElementById('plan')?.querySelector(`td.c[data-r="${dragCand.r}"][data-c="${dragCand.c}"]`)?.classList.add('drag-src');
+  }
+  if (chipDrag){
+    const copy = e.altKey || e.ctrlKey || e.metaKey;
+    chipDrag.g.style.transform = `translate(${e.clientX+10}px, ${e.clientY+10}px)`;
+    chipDrag.g.querySelector('.ghost-l').textContent = copy ? '+ Kopiera' : 'Flytta';
+    chipDrag.g.classList.toggle('copy', copy);
+    const td = dropTargetAt(e.clientX, e.clientY);
+    if (td !== chipDrag.over){ chipDrag.over?.classList.remove('drop'); chipDrag.over = td; td?.classList.add('drop'); }
+    return;
+  }
   if (!dragging) return;
-  const el = document.elementFromPoint(e.clientX, e.clientY);
-  const td = el && el.closest && el.closest('td.c');
+  const td = dropTargetAt(e.clientX, e.clientY);
   if (td){ const r=+td.dataset.r, c=+td.dataset.c; if (r!==sel.r1 || c!==sel.c1){ sel.r1=r; sel.c1=c; paintSel(); } }
 });
-document.addEventListener('pointerup', e => { if (!dragging) return; dragging = false; openPicker(e.clientX, e.clientY); });
+document.addEventListener('pointerup', e => {
+  if (chipDrag){
+    const d = chipDrag; chipDrag = null; dragCand = null; d.g.remove(); d.over?.classList.remove('drop');
+    document.querySelectorAll('td.drag-src').forEach(x=>x.classList.remove('drag-src'));
+    const td = dropTargetAt(e.clientX, e.clientY);
+    if (!td) return;
+    const r = +td.dataset.r, c = +td.dataset.c;
+    if (r===d.r && c===d.c) return;
+    const copy = e.altKey || e.ctrlKey || e.metaKey;
+    const v = cleanVal(cellAt(d.r,d.c)); if (!v) return;
+    const changes = [{...refAt(r,c), val: JSON.parse(JSON.stringify(v))}];
+    if (!copy) changes.push({...refAt(d.r,d.c), val:null});
+    const who = (S.people.find(p=>p.id===rowIds[r])||{}).name || '';
+    commit(changes, `${cellText(v,false)} ${copy?'kopierad':'flyttad'} till ${who}, ${dayLabel(cols[c])}`);
+    return;
+  }
+  if (dragCand){ const d = dragCand; dragCand = null; sel = {r0:d.r,c0:d.c,r1:d.r,c1:d.c}; paintSel(); openPicker(e.clientX, e.clientY); return; }
+  if (!dragging) return; dragging = false; openPicker(e.clientX, e.clientY);
+});
 $main.addEventListener('click', e => {
   if (lastPointer!=='touch') return;
   const td = e.target.closest && e.target.closest('td.c');
@@ -863,7 +1048,7 @@ $main.addEventListener('click', e => {
 });
 
 /* ================= Picker ================= */
-let popEl = null;
+let popEl = null, pickPart = 'hel';
 function closePicker(clearSel=true){ if (popEl){ popEl.remove(); popEl = null; } if (clearSel){ sel = null; paintSel(); } }
 function openPicker(x,y){
   closePicker(false);
@@ -874,12 +1059,16 @@ function openPicker(x,y){
   const persons = new Set(cells.map(c=>c.pid)).size, days = cells.length/persons;
   const pname = persons===1 ? (S.people.find(p=>p.id===cells[0].pid)||{}).name : persons+' personer';
   const projs = S.projects.filter(p => p.active!==false).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true}));
-  popEl = document.createElement('div'); popEl.className='pop'; popEl.setAttribute('role','dialog'); popEl.setAttribute('aria-label','Välj projekt');
-  popEl.innerHTML = `<div class="pop-h"><div class="t">${esc(pname)}</div><div class="s">${days===1?'1 dag':days+' dagar'}${cells.length>1?' · '+cells.length+' rutor':''}</div>
+  pickPart = 'hel';
+  popEl = document.createElement('div'); popEl.className='pop'; popEl.setAttribute('role','dialog'); popEl.setAttribute('aria-label','Välj projekt eller frånvaro');
+  popEl.innerHTML = `<div class="pop-h"><div class="pop-ht"><div><div class="t">${esc(pname)}</div><div class="s">${days===1?'1 dag':days+' dagar'}${cells.length>1?' · '+cells.length+' rutor':''}</div></div>
+      <div class="pop-cp"><button class="btn ghost icon" id="popCopy" title="Kopiera (Ctrl+C)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button><button class="btn ghost icon" id="popPaste" title="Klistra in (Ctrl+V)" ${S.clip?'':'disabled'}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6"/></svg></button></div></div>
+    <div class="seg part-seg" role="group" aria-label="Del av dagen"><button data-part="hel" aria-pressed="true">Heldag</button><button data-part="fm" aria-pressed="false">Förmiddag</button><button data-part="em" aria-pressed="false">Eftermiddag</button></div>
     <input class="pop-search" id="popSearch" placeholder="Sök projektnummer eller namn" autocomplete="off"></div>
     <div class="pop-b"><div class="pop-sec">Projekt</div><div id="popList"></div>
-    <div class="pop-sec">Frånvaro</div><div class="abs-row">${ABS.map(a=>`<button class="abs-btn" data-abs="${a.k}">${a.label}</button>`).join('')}</div></div>
-    <div class="pop-f"><label for="popNote">Notering</label><div class="note-row"><input id="popNote" placeholder="T.ex. etablering, ledig em" value="${esc(note0)}"><button class="btn" id="popNoteSave">Spara</button></div>
+    <div class="pop-sec">Frånvaro</div><div class="abs-row">${ABS.map(a=>`<button class="abs-btn" data-abs="${a.k}">${a.label}</button>`).join('')}</div>
+    <div class="pop-sec">Snabbval</div><div class="abs-row">${QUICK.map((q,i)=>`<button class="abs-btn quick" data-quick="${i}">${q.label}</button>`).join('')}</div></div>
+    <div class="pop-f"><label for="popNote">Notering</label><div class="note-row"><input id="popNote" placeholder="T.ex. etablering, tandläkare 13.00" value="${esc(note0)}"><button class="btn" id="popNoteSave">Spara</button></div>
     <div class="pop-actions"><button class="btn ghost danger" id="popClear">Rensa</button><button class="btn ghost" id="popClose">Stäng</button></div></div>`;
   document.body.appendChild(popEl);
   const list = popEl.querySelector('#popList'), search = popEl.querySelector('#popSearch'), noteIn = popEl.querySelector('#popNote');
@@ -892,29 +1081,52 @@ function openPicker(x,y){
       : `<div class="faint" style="padding:8px">Inget projekt matchar. Lägg till det under Personal &amp; projekt.</div>`;
     list.querySelectorAll('[data-p]').forEach(b => b.onclick = () => apply({p:b.dataset.p}));
   };
-  const apply = base => {
-    const n = noteIn.value.trim(); const val = n ? {...base, n} : base;
-    const label = base.p ? `${cells.length} ${cells.length===1?'dag':'dagar'} → ${projById(base.p).number}` : `${cells.length} ${cells.length===1?'dag':'dagar'} → ${ABS_LABEL[base.s]}`;
-    commit(cells.map(c=>({...c,val})), label); closePicker();
+  const PART_TXT = {hel:'', fm:' (fm)', em:' (em)'};
+  const apply = (item, part=pickPart) => {
+    const n = noteIn.value.trim();
+    const ch = cells.map((c,i) => {
+      const cur = vals[i]; let nv;
+      if (part==='hel') nv = {...item};
+      else {
+        const ps = partsOf(cur);
+        let fm = ps.length===2 ? ps[0] : ps[0]||null, em = ps.length===2 ? ps[1] : ps[0]||null;
+        if (part==='fm') fm = item; else em = item;
+        nv = sameItem(fm,em) ? {...fm} : {fm, em};
+      }
+      const note = notes.size===1 ? n : (n || (cur && cur.n) || '');
+      if (note) nv.n = note;
+      return {...c, val: cleanVal(nv)};
+    });
+    const what = item.p ? (projById(item.p)||{}).number : ABS_LABEL[item.s];
+    commit(ch, `${cells.length} ${cells.length===1?'dag':'dagar'} → ${what}${PART_TXT[part]}`); closePicker();
   };
   drawList();
+  popEl.querySelectorAll('[data-part]').forEach(b => b.onclick = () => { pickPart = b.dataset.part; popEl.querySelectorAll('[data-part]').forEach(x => x.setAttribute('aria-pressed', x===b)); search.focus(); });
   search.oninput = () => { hl = 0; drawList(); };
   search.onkeydown = e => {
     if (e.key==='ArrowDown'){ hl = Math.min(hl+1, shown.length-1); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
     else if (e.key==='ArrowUp'){ hl = Math.max(hl-1,0); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
     else if (e.key==='Enter' && shown[hl]){ apply({p:shown[hl].id}); }
+    else if ((e.ctrlKey||e.metaKey) && !search.value){
+      const k = e.key.toLowerCase();
+      if (k==='c'){ e.preventDefault(); e.stopPropagation(); copySel(); closePicker(false); }
+      else if (k==='v' && S.clip){ e.preventDefault(); e.stopPropagation(); pasteSel(); closePicker(); }
+      else if (k==='z'){ e.preventDefault(); e.stopPropagation(); closePicker(); undo(); }
+    }
   };
   popEl.querySelectorAll('[data-abs]').forEach(b => b.onclick = () => apply({s:b.dataset.abs}));
+  popEl.querySelectorAll('[data-quick]').forEach(b => b.onclick = () => { const q = QUICK[+b.dataset.quick]; apply({s:q.s}, q.part); });
+  popEl.querySelector('#popCopy').onclick = () => { copySel(); closePicker(false); };
+  popEl.querySelector('#popPaste').onclick = () => { pasteSel(); closePicker(); };
   const saveNote = () => {
     const n = noteIn.value.trim();
-    const ch = cells.map((c,i) => { const v = vals[i]; if (!v && !n) return null; const nv = {...(v||{})}; if (n) nv.n = n; else delete nv.n; return {...c, val: Object.keys(nv).length ? nv : null}; }).filter(Boolean);
+    const ch = cells.map((c,i) => { const v = cleanVal(vals[i]); if (!v && !n) return null; const nv = {...(v||{})}; if (n) nv.n = n; else delete nv.n; return {...c, val: cleanVal(nv)}; }).filter(Boolean);
     commit(ch, n ? 'Notering sparad' : 'Notering borttagen'); closePicker();
   };
   popEl.querySelector('#popNoteSave').onclick = saveNote;
   noteIn.onkeydown = e => { if (e.key==='Enter') saveNote(); };
   popEl.querySelector('#popClear').onclick = () => { commit(cells.map(c=>({...c,val:null})), `${cells.length} ${cells.length===1?'ruta':'rutor'} rensade`); closePicker(); };
   popEl.querySelector('#popClose').onclick = () => closePicker();
-  // position
   const w = popEl.offsetWidth, hgt = popEl.offsetHeight;
   let left = x + 12, top = y + 12;
   if (left + w > innerWidth - 12) left = Math.max(12, x - w - 12);
@@ -929,6 +1141,12 @@ document.addEventListener('keydown', e => {
   if (e.key==='Escape'){ closePicker(); closeModal(); return; }
   const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName||'');
   if (typing) return;
+  if ((e.ctrlKey||e.metaKey) && !e.altKey && S.view==='planering' && !modalEl){
+    const k = e.key.toLowerCase();
+    if (k==='z'){ e.preventDefault(); undo(); return; }
+    if (k==='c' && sel){ e.preventDefault(); copySel(); return; }
+    if (k==='v' && sel && S.clip){ e.preventDefault(); pasteSel(); return; }
+  }
   if ((e.key==='Delete'||e.key==='Backspace') && sel && !popEl && S.canWrite){ const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} rutor rensade`); sel=null; paintSel(); }
   if (e.metaKey||e.ctrlKey||e.altKey) return;
   if (!modalEl && /^[1-5]$/.test(e.key)) location.hash = ['oversikt','planering','behov','projekt','register'][+e.key-1];
@@ -936,18 +1154,19 @@ document.addEventListener('keydown', e => {
 
 /* ================= Overview ================= */
 function computeStats(start, weeks){
-  const cs = columns(start, weeks), people = activePeople();
+  const cs = columns(start, weeks), people = craftPeople();
   const proj = new Map(); let planned=0, absent=0, empty=0, capacity=0;
   for (const p of people) for (let ci=0; ci<cs.length; ci++){
-    const c = cs[ci]; if (c.hol) continue;
-    capacity++;
-    const v = getCell(c.wk,p.id,c.d);
-    if (v && v.p){ planned++;
-      if (!proj.has(v.p)) proj.set(v.p, {id:v.p, perCol:new Array(cs.length).fill(0), total:0, own:0, hired:0, crew:new Map()});
-      const s = proj.get(v.p); s.perCol[ci]++; s.total++; isOwn(p)?s.own++:s.hired++;
+    const c = cs[ci], L = loadOf(getCell(c.wk,p.id,c.d));
+    for (const [pid,w] of Object.entries(L.proj)){
+      if (!proj.has(pid)) proj.set(pid, {id:pid, perCol:new Array(cs.length).fill(0), total:0, own:0, hired:0, crew:new Map()});
+      const s = proj.get(pid); s.perCol[ci]+=w; s.total+=w; isOwn(p)?s.own+=w:s.hired+=w;
       if (!s.crew.has(p.id)) s.crew.set(p.id, {person:p, days:new Array(cs.length).fill(false), n:0});
-      const cr = s.crew.get(p.id); cr.days[ci]=true; cr.n++;
-    } else if (v && v.s) absent++; else empty++;
+      const cr = s.crew.get(p.id); cr.days[ci]=true; cr.n+=w;
+    }
+    planned += L.work;
+    if (c.off) continue;
+    capacity++; absent += L.abs; empty += Math.max(0, 1 - L.work - L.abs);
   }
   const list = [...proj.values()].map(s => ({...s, project: projById(s.id)})).filter(s=>s.project).sort((a,b)=>b.total-a.total);
   return {cols:cs, people, list, planned, absent, empty, capacity};
@@ -961,9 +1180,9 @@ function renderOverview(){
   const util = avail ? Math.round(st.planned/avail*100) : 0;
   const kpis = `<div class="kpis">
     <div class="kpi"><div class="l">Pågående projekt</div><div class="v">${st.list.length}</div><div class="d">med bemanning under perioden</div></div>
-    <div class="kpi"><div class="l">Planerade dagsverken</div><div class="v">${st.planned}</div><div class="d">${st.list.reduce((a,s)=>a+s.own,0)} egna · ${st.list.reduce((a,s)=>a+s.hired,0)} inhyrda</div></div>
+    <div class="kpi"><div class="l">Planerade dagsverken</div><div class="v">${fmtN(st.planned)}</div><div class="d">${fmtN(st.list.reduce((a,s)=>a+s.own,0))} egna · ${fmtN(st.list.reduce((a,s)=>a+s.hired,0))} inhyrda</div></div>
     <div class="kpi"><div class="l">Beläggning</div><div class="v">${util}<small>%</small></div><div class="meter"><i style="width:${Math.min(util,100)}%"></i></div></div>
-    <div class="kpi"><div class="l">Oplanerade persondagar</div><div class="v">${st.empty}</div><div class="d">${st.absent} frånvarodagar under perioden</div></div></div>`;
+    <div class="kpi"><div class="l">Oplanerade persondagar</div><div class="v">${fmtN(st.empty)}</div><div class="d">${fmtN(st.absent)} frånvarodagar under perioden</div></div></div>`;
   if (!st.list.length){
     $main.innerHTML = head + kpis + `<div class="board"><div class="empty"><h3>Inga projekt är bemannade under perioden</h3><p>Planera personal på projekt i <a href="#planering">Planering</a>, så visas fördelningen här.</p></div></div>`;
     bindPeriodTools($main); document.getElementById('exportBtn').onclick=openExport; return;
@@ -975,15 +1194,15 @@ function renderOverview(){
   for (const s of st.list){
     const p = s.project;
     mx += `<tr><th class="pj"><div class="pjc" style="--c:${esc(p.color)}"><span class="sw"></span><span class="n">${esc(p.number)}</span><span class="m">${esc(p.name||'')}</span></div></th>`;
-    s.perCol.forEach((n,ci) => { const c = st.cols[ci]; mx += n ? `<td class="h ${c.di===0?'ws':''}"><span style="background:color-mix(in srgb, ${esc(p.color)} ${Math.round(35+65*n/maxH)}%, transparent)">${n}</span></td>` : `<td class="h z ${c.di===0?'ws':''}">·</td>`; });
-    mx += `<td class="tot"><b>${s.total}</b><span class="split">${s.own} egna · ${s.hired} inhyrda</span></td></tr>`;
+    s.perCol.forEach((n,ci) => { const c = st.cols[ci]; mx += n ? `<td class="h ${c.di===0?'ws':''} ${c.we?'we':''}"><span style="background:color-mix(in srgb, ${esc(p.color)} ${Math.round(35+65*n/maxH)}%, transparent)">${fmtN(n)}</span></td>` : `<td class="h z ${c.di===0?'ws':''}">·</td>`; });
+    mx += `<td class="tot"><b>${fmtN(s.total)}</b><span class="split">${fmtN(s.own)} egna · ${fmtN(s.hired)} inhyrda</span></td></tr>`;
   }
   mx += `</tbody></table>`;
   const cards = st.list.map(s => {
     const p = s.project;
     const crew = [...s.crew.values()].sort((a,b)=>b.n-a.n || a.person.name.localeCompare(b.person.name,'sv'));
-    return `<article class="card" style="--c:${esc(p.color)}"><div class="card-h"><span class="badge">${esc(p.number)}</span><div style="min-width:0"><div class="nm">${esc(p.name||'Namnlöst projekt')}</div>${p.client?`<div class="cl">${esc(p.client)}</div>`:''}</div><div class="dv"><b>${s.total}</b>dagsverken</div></div>
-      <div class="crew">${crew.map(cr => `<div class="crew-r"><span class="p" style="display:flex;align-items:center;gap:8px">${avatarHTML(cr.person,24)}${esc(cr.person.name)}<small>${isOwn(cr.person)?(cr.person.tag||''):esc(cr.person.company)}</small></span><span class="dots" title="${cr.n} dagar">${cr.days.map((on,i)=>(i>0&&i%5===0?'<i class="gap"></i>':'')+`<i class="${on?'on':''}"></i>`).join('')}</span></div>`).join('')}</div></article>`;
+    return `<article class="card" style="--c:${esc(p.color)}"><div class="card-h"><span class="badge">${esc(p.number)}</span><div style="min-width:0"><div class="nm">${esc(p.name||'Namnlöst projekt')}</div>${p.client?`<div class="cl">${esc(p.client)}</div>`:''}</div><div class="dv"><b>${fmtN(s.total)}</b>dagsverken</div></div>
+      <div class="crew">${crew.map(cr => `<div class="crew-r"><span class="p" style="display:flex;align-items:center;gap:8px">${avatarHTML(cr.person,24)}${esc(cr.person.name)}<small>${isOwn(cr.person)?(cr.person.tag||''):esc(cr.person.company)}</small></span><span class="dots" title="${fmtN(cr.n)} dagar">${cr.days.map((on,i)=>(i>0&&i%7===0?'<i class="gap"></i>':'')+`<i class="${on?'on':''}"></i>`).join('')}</span></div>`).join('')}</div></article>`;
   }).join('');
   $main.innerHTML = head + kpis +
     `<div class="section-h"><h3>Bemanning per projekt och dag</h3><p>Antal personer på plats per dag</p></div><div class="board"><div class="scroller" style="max-height:none">${mx}</div></div>
@@ -1002,7 +1221,7 @@ function renderRegister(){
   const people = [...S.people].sort((a,b)=>(a.order??999)-(b.order??999));
   const companies = [...new Set([OWN_COMPANY, ...S.people.map(p=>p.company).filter(Boolean)])];
   const nextColor = PALETTE.find(c => !S.projects.some(p=>p.color===c)) || PALETTE[S.projects.length % PALETTE.length];
-  let pr = `<div class="panel"><div class="panel-h"><div><h3>Projekt</h3><p>${projs.filter(p=>p.active!==false).length} aktiva · avslutade projekt döljs i projektväljaren</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th style="width:56px">Färg</th><th style="width:120px">Nummer</th><th>Projektnamn</th><th>Beställare / adress</th><th style="width:180px">Platschef</th><th style="width:120px">Status</th><th style="width:60px"></th></tr></thead><tbody>`;
+  let pr = `<div class="panel"><div class="panel-h"><div><h3>Projekt</h3><p>${projs.filter(p=>p.active!==false).length} aktiva · avslutade projekt döljs i projektväljaren</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th style="width:56px">Färg</th><th style="width:120px">Nummer</th><th>Projektnamn</th><th>Beställare / adress</th><th style="width:200px">Platsledning</th><th style="width:120px">Status</th><th style="width:60px"></th></tr></thead><tbody>`;
   for (const p of projs) pr += `<tr class="${p.active===false?'off':''}"><td><button class="swbtn" data-color="${esc(p.id)}" style="--c:${esc(p.color)}" aria-label="Byt färg" ${dis}></button></td>
     <td><input type="text" class="mono" data-pf="number" data-id="${esc(p.id)}" value="${esc(p.number)}" ${dis}></td>
     <td><input type="text" data-pf="name" data-id="${esc(p.id)}" value="${esc(p.name||'')}" placeholder="Lägg till projektnamn" ${dis}></td>
@@ -1010,7 +1229,7 @@ function renderRegister(){
     <td><input type="text" data-pf="manager" data-id="${esc(p.id)}" value="${esc(p.manager||'')}" placeholder="—" list="managers" ${dis}></td>
     <td><button class="toggle" data-pact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Aktivt':'Avslutat'}</button></td>
     <td><div class="rowbtns"><button class="btn ghost danger" data-pdel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`;
-  if (S.canWrite) pr += `<tr class="add"><td><span class="swbtn" style="--c:${nextColor};display:block"></span></td><td><input type="text" class="mono" id="npNum" placeholder="1050"></td><td><input type="text" id="npName" placeholder="Projektnamn"></td><td><input type="text" id="npClient" placeholder="Beställare / adress"></td><td><input type="text" id="npMgr" placeholder="Platschef" list="managers"></td><td colspan="2"><button class="btn primary" id="npAdd">Lägg till</button></td></tr>`;
+  if (S.canWrite) pr += `<tr class="add"><td><span class="swbtn" style="--c:${nextColor};display:block"></span></td><td><input type="text" class="mono" id="npNum" placeholder="1050"></td><td><input type="text" id="npName" placeholder="Projektnamn"></td><td><input type="text" id="npClient" placeholder="Beställare / adress"></td><td><input type="text" id="npMgr" placeholder="Platsledning" list="managers"></td><td colspan="2"><button class="btn primary" id="npAdd">Lägg till</button></td></tr>`;
   pr += `</tbody></table></div></div>`;
 
   const roleSelect = (attrs, cur) => {
@@ -1027,13 +1246,18 @@ function renderRegister(){
     <td><button class="toggle" data-uact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Visas':'Dold'}</button></td>
     <td><div class="rowbtns"><button class="btn ghost" data-up="${i}" aria-label="Flytta upp" ${dis||(i===0?'disabled':'')}>↑</button><button class="btn ghost" data-down="${i}" aria-label="Flytta ned" ${dis||(i===people.length-1?'disabled':'')}>↓</button><button class="btn ghost danger" data-udel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`; });
   if (S.canWrite) pe += `<tr class="add"><td><input type="text" id="nuName" placeholder="För- och efternamn"></td><td><input type="text" id="nuCompany" value="${OWN_COMPANY}" list="companies"></td><td>${roleSelect('id="nuTag"','')}</td><td>${countrySelect('id="nuCountry"','')}</td><td class="faint" style="font-size:12px">Språk läggs till efter att personen skapats</td><td colspan="2"><button class="btn primary" id="nuAdd">Lägg till</button></td></tr>`;
-  pe += `</tbody></table></div></div><datalist id="managers">${[...new Set(S.projects.map(x=>x.manager).filter(Boolean))].map(m=>`<option value="${esc(m)}">`).join('')}</datalist><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>`;
+  pe += `</tbody></table></div></div><datalist id="managers">${[...new Set([...S.people.filter(isStaff).map(x=>x.name), ...S.projects.map(x=>x.manager).filter(Boolean)])].map(m=>`<option value="${esc(m)}">`).join('')}</datalist><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>`;
 
   const logo = `<div class="panel"><div class="panel-h"><div><h3>Logotyp</h3><p>Visas i sidomenyn och överst på varje PDF. PNG eller JPG med transparent eller vit bakgrund fungerar bäst.</p></div></div>
     <div class="logo-box"><div class="logo-prev">${S.settings.logo?`<img alt="Logotyp" src="/_blob/${esc(S.settings.logo)}">`:`<div class="mark" style="color:var(--ink)">${MARK_SVG}<b>SYDBYGGARNA</b></div>`}</div>
     <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">${S.assets?`<label class="btn primary" for="logoFile">Ladda upp logotyp</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>`:`<span class="faint" style="max-width:40ch">Endast ägare och redigerare kan byta logotyp.</span>`}${S.settings.logo&&S.assets?`<button class="btn ghost" id="logoReset">Återställ till standardmärke</button>`:''}</div></div></div>`;
 
-  $main.innerHTML = head + `<div class="reg-grid">${pr}${pe}${logo}</div>`;
+  const br = byggRange();
+  const settingsPanel = `<div class="panel"><div class="panel-h"><div><h3>Byggsemester</h3><p>Veckorna markeras i planeringen och räknas inte som ordinarie arbetstid. Planerat arbete under semestern syns och räknas ändå.</p></div></div>
+    <div class="logo-box"><label class="field" style="width:120px"><span>Från vecka</span><input type="number" id="byFrom" min="0" max="53" value="${br.from}" ${dis}></label><label class="field" style="width:120px"><span>Till vecka</span><input type="number" id="byTo" min="0" max="53" value="${br.to}" ${dis}></label><span class="faint" style="font-size:12px;max-width:40ch">Sätt 0 för att stänga av markeringen.</span></div></div>`;
+  $main.innerHTML = head + `<div class="reg-grid">${pr}${pe}${settingsPanel}${logo}</div>`;
+  const bf = document.getElementById('byFrom'), bt = document.getElementById('byTo');
+  if (bf && S.canWrite){ const sv = () => { const f = Math.max(0, Math.min(53, parseInt(bf.value)||0)), t = Math.max(f, Math.min(53, parseInt(bt.value)||0)); saveDoc('settings/main', {bygg:{from:f, to:t}}); }; bf.onchange = sv; bt.onchange = sv; }
   if (!S.canWrite) return;
   $main.querySelectorAll('[data-pf]').forEach(inp => inp.onchange = () => { const v = inp.value.trim(); if (inp.dataset.pf==='number' && !v){ inp.value = projById(inp.dataset.id).number; return; } saveDoc('projects/'+inp.dataset.id, {[inp.dataset.pf]: v}); });
   $main.querySelectorAll('[data-uf]').forEach(inp => inp.onchange = () => { const v = inp.value.trim(); if (inp.dataset.uf==='name' && !v) return; saveDoc('people/'+inp.dataset.id, {[inp.dataset.uf]: inp.dataset.uf==='company' ? (v||OWN_COMPANY) : v}); });
@@ -1091,6 +1315,7 @@ function openExport(){
   const curKey = ymd(S.start);
   if (!opts.some(m=>ymd(m)===curKey)) opts.unshift(S.start);
   let n = Math.min(Math.max(S.weeks,1),3);
+  const anyWeekend = columns(S.start, 3).some(c => c.we && activePeople().some(p => partsOf(getCell(c.wk,p.id,c.d)).length));
   modalEl = document.createElement('div'); modalEl.className='scrim';
   modalEl.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="exH"><div class="modal-h"><div class="eyebrow">Exportera</div><h3 id="exH">Planering som PDF</h3></div>
     <div class="modal-b">
@@ -1098,6 +1323,7 @@ function openExport(){
       <div class="field"><span>Period</span><div class="seg" id="exWeeks">${[1,2,3].map(k=>`<button data-n="${k}" aria-pressed="${k===n}">${k} ${k===1?'vecka':'veckor'}</button>`).join('')}</div></div>
       <label class="check"><input type="checkbox" id="exProj" checked> Bifoga projektfördelning (vem är på vilket projekt)</label>
       <label class="check"><input type="checkbox" id="exNotes" checked> Visa noteringar i rutorna</label>
+      <label class="check"><input type="checkbox" id="exWe" ${anyWeekend?'checked':''}> Ta med lördag och söndag</label>
       <div class="sheet" aria-hidden="true" id="exSheet"></div>
       <div class="err" id="exErr" hidden></div>
     </div>
@@ -1108,11 +1334,12 @@ function openExport(){
     const a = isoWeek(st).w, b = isoWeek(addDays(st,7*(n-1))).w;
     const rows = Math.min(activePeople().length, 7);
     let g = '';
-    for (let r=0;r<rows;r++){ g += `<div class="sh-row" style="--n:${n*5}"><em></em>`; for (let c=0;c<n*5;c++){ const p = activePeople()[r]; const col = columns(st,n)[c]; const v = p && getCell(col.wk,p.id,col.d); const pr = v&&v.p&&projById(v.p); g += `<i style="${pr?'background:'+esc(pr.color):''}"></i>`; } g += `</div>`; }
+    const we = document.getElementById('exWe')?.checked, cl = columns(st,n).filter(c => we || !c.we);
+    for (let r=0;r<rows;r++){ g += `<div class="sh-row" style="--n:${cl.length}"><em></em>`; for (const col of cl){ const p = activePeople()[r]; const pid = p && Object.keys(loadOf(getCell(col.wk,p.id,col.d)).proj)[0]; const pr = pid && projById(pid); g += `<i style="${pr?'background:'+esc(pr.color):''}"></i>`; } g += `</div>`; }
     document.getElementById('exSheet').innerHTML = `<div class="sh-top"><b>Sydbyggarna Resursplanering</b><span>${a===b?'Vecka '+a:'Vecka '+a+'–'+b} · A4 liggande</span></div><div class="sh-grid">${g}</div>`;
   };
   drawSheet();
-  document.getElementById('exStart').onchange = drawSheet;
+  document.getElementById('exStart').onchange = drawSheet; document.getElementById('exWe').onchange = drawSheet;
   modalEl.querySelectorAll('#exWeeks [data-n]').forEach(b => b.onclick = () => { n = +b.dataset.n; modalEl.querySelectorAll('#exWeeks [data-n]').forEach(x=>x.setAttribute('aria-pressed', x===b)); drawSheet(); });
   document.getElementById('exCancel').onclick = closeModal;
   modalEl.addEventListener('pointerdown', e => { if (e.target===modalEl) closeModal(); });
@@ -1121,7 +1348,7 @@ function openExport(){
     btn.disabled = true; btn.lastChild.textContent = 'Skapar…'; err.hidden = true;
     try {
       const st = new Date(document.getElementById('exStart').value+'T00:00');
-      const {blob, name} = await buildPdf(st, n, document.getElementById('exProj').checked, document.getElementById('exNotes').checked);
+      const {blob, name} = await buildPdf(st, n, document.getElementById('exProj').checked, document.getElementById('exNotes').checked, document.getElementById('exWe').checked);
       if (!S.downloads) throw {code:'unavailable'};
       await S.downloads.save({filename:name, data:blob});
       closeModal(); toast('PDF sparad: '+name);
@@ -1145,13 +1372,13 @@ async function logoData(){
     return {data: cv.toDataURL('image/png'), ratio: cv.width/cv.height};
   } catch(e){ return null; }
 }
-async function buildPdf(start, weeks, withProj, withNotes){
+async function buildPdf(start, weeks, withProj, withNotes, withWeekend){
   if (!window.jspdf) throw {code:'lib'};
   const {jsPDF} = window.jspdf;
   const doc = new jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
   const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 12;
-  const cs = columns(start, weeks), people = activePeople(), groups = groupsOf(people);
-  const a = cs[0], b = cs[cs.length-1];
+  const allCs = columns(start, weeks), cs = allCs.filter(c => withWeekend || !c.we), people = activePeople(), groups = groupsOf(people);
+  const a = allCs[0], b = allCs[allCs.length-1];
   const period = (a.w===b.w ? 'Vecka '+a.w : 'Vecka '+a.w+'–'+b.w) + '  ·  ' + fmtRange(a.date,b.date)+' '+b.date.getFullYear();
   const logo = await logoData();
   const INK = [20,32,27], SPRUCE = [30,74,56], BRASS = [151,117,63], MUTED = [93,105,99], LINE = [221,226,220];
@@ -1173,19 +1400,20 @@ async function buildPdf(start, weeks, withProj, withNotes){
   // page 1: grid
   header('Personalplanering');
   const head1 = [{content:'Personal', rowSpan:2, styles:{halign:'left', valign:'bottom'}}];
-  for (let i=0;i<weeks;i++){ const x0 = cs[i*5], x1 = cs[i*5+4]; head1.push({content:'Vecka '+x0.w+'   '+fmtRange(x0.date,x1.date), colSpan:5, styles:{halign:'left'}}); }
-  const head2 = cs.map(c => ({content: DAYS[c.di]+' '+c.date.getDate()+'/'+(c.date.getMonth()+1) + (c.hol?'\n'+c.hol:''), styles: c.hol?{textColor:[176,65,45]}:{}}));
+  for (let i=0;i<weeks;i++){ const wc = cs.filter(c=>c.wi===i), x0 = wc[0], x1 = wc[wc.length-1]; head1.push({content:'Vecka '+x0.w+'   '+fmtRange(x0.date,x1.date)+(x0.bygg?'   · Byggsemester':''), colSpan:wc.length, styles:{halign:'left'}}); }
+  const head2 = cs.map(c => ({content: DAYS[c.di]+' '+c.date.getDate()+'/'+(c.date.getMonth()+1) + (c.hol?'\n'+c.hol:''), styles: c.hol?{textColor:[176,65,45]}:c.we||c.bygg?{fillColor:[240,242,238]}:{}}));
   const body = [], meta = [];
   for (const [company, list] of groups){
-    body.push([{content: (company + (company===OWN_COMPANY?'  ·  egen personal':'  ·  inhyrd')).toUpperCase(), colSpan: cs.length+1, styles:{fillColor:[245,246,243], textColor:MUTED, fontStyle:'bold', fontSize:6.5, cellPadding:{top:1.6,bottom:1.6,left:2}}}]); meta.push(null);
+    body.push([{content: (company + (company===OWN_COMPANY?'  ·  egen personal':company===STAFF?'  ·  Sydbyggarna':'  ·  inhyrd')).toUpperCase(), colSpan: cs.length+1, styles:{fillColor:[245,246,243], textColor:MUTED, fontStyle:'bold', fontSize:6.5, cellPadding:{top:1.6,bottom:1.6,left:2}}}]); meta.push(null);
     for (const p of list){
-      const row = [p.name + (p.tag?'  ('+p.tag+')':'') + ((p.langs||[]).length?'\n'+(p.langs||[]).map(langCode).join(' '):'')], m = [isOwn(p)?null:{hired:true}];
+      const row = [p.name + (p.tag?'  ('+roleShort(p.tag)+')':'') + ((p.langs||[]).length?'\n'+(p.langs||[]).map(langCode).join(' '):'')], m = [isOwn(p)?null:{hired:true}];
       for (const c of cs){
-        const v = getCell(c.wk,p.id,c.d);
-        if (!v){ row.push(''); m.push(null); continue; }
-        if (v.s){ row.push(ABS_LABEL[v.s] + (withNotes&&v.n?'\n'+v.n:'')); m.push({abs:true}); continue; }
-        const pr = v.p && projById(v.p);
-        row.push((pr?pr.number:(v.p?'?':'')) + (withNotes&&v.n?'\n'+v.n:'')); m.push(pr?{color:pr.color}:null);
+        const v = getCell(c.wk,p.id,c.d), ps = partsOf(v);
+        row.push(cellText(v, withNotes));
+        if (!ps.length){ m.push(c.we||c.bygg?{off:true}:null); continue; }
+        const col = it => it && it.p && projById(it.p) ? projById(it.p).color : it && it.s ? 'abs' : null;
+        const c1 = col(ps[0]), c2 = ps.length===2 ? col(ps[1]) : c1;
+        m.push(!c1 && !c2 ? null : c1===c2 ? (c1==='abs' ? {abs:true} : {color:c1}) : {c1, c2});
       }
       body.push(row); meta.push(m);
     }
@@ -1203,8 +1431,16 @@ async function buildPdf(start, weeks, withProj, withNotes){
       if (d.column.index===0){ if (m[0] && m[0].hired){ d.cell.styles.fillColor=[247,241,229]; d.cell.styles.textColor=[110,84,40]; } return; }
       if (String(d.cell.raw||'').includes('\n')) d.cell.styles.fontSize = (weeks===3?5.4:6.2);
       const x = m[d.column.index]; if (!x) return;
+      if (x.off){ d.cell.styles.fillColor=[244,245,242]; return; }
       if (x.abs){ d.cell.styles.fillColor=[243,231,226]; d.cell.styles.textColor=[156,58,40]; d.cell.styles.fontStyle='bold'; }
       else if (x.color){ d.cell.styles.fillColor = hexRgb(x.color); d.cell.styles.fontStyle='bold'; }
+      else if (x.c1 || x.c2){ d.cell.styles.fillColor = false; d.cell.styles.fontStyle='bold'; d.cell.styles.fontSize = 5.6; }
+    },
+    willDrawCell: d => {
+      if (d.section!=='body' || d.column.index===0) return; const m = meta[d.row.index]; const x = m && m[d.column.index]; if (!x || !(x.c1 || x.c2)) return;
+      const fill = c => c==='abs' ? [243,231,226] : c ? hexRgb(c) : [255,255,255];
+      doc.setFillColor(...fill(x.c1)); doc.rect(d.cell.x, d.cell.y, d.cell.width, d.cell.height/2, 'F');
+      doc.setFillColor(...fill(x.c2)); doc.rect(d.cell.x, d.cell.y + d.cell.height/2, d.cell.width, d.cell.height/2, 'F');
     },
     didDrawPage: d => { if (d.pageNumber>1) header('Personalplanering'); },
     didDrawCell: d => { if (d.section!=='body' || d.column.index!==0) return; const m = meta[d.row.index]; if (!m || !m[0] || !m[0].hired) return;
@@ -1212,7 +1448,7 @@ async function buildPdf(start, weeks, withProj, withNotes){
   });
   // legend
   const used = new Map();
-  for (const p of people) for (const c of cs){ const v = getCell(c.wk,p.id,c.d); if (v&&v.p&&projById(v.p)) used.set(v.p,true); }
+  for (const p of people) for (const c of cs){ for (const pid of Object.keys(loadOf(getCell(c.wk,p.id,c.d)).proj)) if (projById(pid)) used.set(pid,true); }
   const legendProjs = [...used.keys()].map(projById).sort((x,y)=>x.number.localeCompare(y.number,'sv',{numeric:true}));
   let y = doc.lastAutoTable.finalY + 6;
   if (legendProjs.length){
@@ -1234,11 +1470,11 @@ async function buildPdf(start, weeks, withProj, withNotes){
       const pbody = [], pmeta = [];
       for (const s of st.list){
         const crew = [...s.crew.values()].sort((a,b)=>b.n-a.n);
-        const perWeek = []; for (let i=0;i<weeks;i++) perWeek.push(s.perCol.slice(i*5,i*5+5).reduce((a,b)=>a+b,0));
-        pbody.push([s.project.number, s.project.name||'—', crew.map(c => c.person.name+' ('+c.n+' d)').join(', '), ...perWeek.map(String), String(s.total)]);
+        const perWeek = []; for (let i=0;i<weeks;i++) perWeek.push(st.cols.reduce((a,c,ci)=>a+(c.wi===i?s.perCol[ci]:0),0));
+        pbody.push([s.project.number, s.project.name||'—', crew.map(c => c.person.name+' ('+fmtN(c.n)+' d)').join(', '), ...perWeek.map(fmtN), fmtN(s.total)]);
         pmeta.push(s.project.color);
       }
-      const wkHead = []; for (let i=0;i<weeks;i++) wkHead.push('v.'+cs[i*5].w);
+      const wkHead = []; for (let i=0;i<weeks;i++) wkHead.push('v.'+allCs[i*7].w);
       doc.autoTable({
         startY: 30, head:[['Projekt','Namn','Personal (dagar i perioden)',...wkHead,'Totalt']], body:pbody, theme:'grid', margin:{left:M,right:M,top:30,bottom:12},
         styles:{font:'helvetica', fontSize:8, cellPadding:2.2, lineColor:LINE, lineWidth:.15, textColor:INK, valign:'middle'},
@@ -1367,14 +1603,15 @@ async function writeNeed(changes, metaByWk){
   finally { pending--; syncState(); }
 }
 function balance(cs){
-  const people = activePeople();
+  const people = craftPeople();
   return cs.map(c => {
     let avail = 0, planned = 0, need = 0; const free = [], perProj = {};
     for (const p of people){
-      const v = getCell(c.wk,p.id,c.d);
-      if (v && v.p){ (perProj[v.p] ||= {need:0, planned:0, crew:[]}); perProj[v.p].planned++; perProj[v.p].crew.push(p); }
-      if (c.hol || (v && v.s)) continue;
-      avail++; if (v && v.p) planned++; else free.push(p);
+      const L = loadOf(getCell(c.wk,p.id,c.d));
+      for (const [pid,w] of Object.entries(L.proj)){ (perProj[pid] ||= {need:0, planned:0, crew:[]}); perProj[pid].planned += w; perProj[pid].crew.push(p); }
+      if (c.off){ avail += L.work; planned += L.work; continue; }
+      const cap = Math.max(0, 1 - L.abs); avail += cap; planned += Math.min(L.work, cap);
+      if (L.work + L.abs < 1) free.push(p);
     }
     const dm = S.demand.get(c.wk);
     if (dm && dm.need) for (const [pid,days] of Object.entries(dm.need)){ const n = +(days||{})[c.d] || 0; if (n){ need += n; (perProj[pid] ||= {need:0, planned:0, crew:[]}).need = n; } }
@@ -1393,19 +1630,20 @@ function projectSummary(B){
     .filter(s => s.project).sort((a,b) => (b.short-a.short) || (b.need-a.need) || (b.planned-a.planned));
 }
 const STATUS_PILL = {
-  under: s => `<span class="pill red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12l7 7 7-7"/></svg>Underbemannat · ${s.short} dv</span>`,
-  over: s => `<span class="pill amber"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Överbemannat · ${s.over} dv</span>`,
+  under: s => `<span class="pill red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12l7 7 7-7"/></svg>Underbemannat · ${fmtN(s.short)} dv</span>`,
+  over: s => `<span class="pill amber"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Överbemannat · ${fmtN(s.over)} dv</span>`,
   ok: () => `<span class="pill green"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>I balans</span>`,
   none: () => `<span class="pill grey">Inget behov angivet</span>`,
 };
 const balPill = n => n > 0 ? `<span class="pill amber">+${n} överskott</span>` : n < 0 ? `<span class="pill red">${n} underskott</span>` : `<span class="pill green">I balans</span>`;
 const dayLabel = c => DAYS[c.di]+' '+c.date.getDate()+'/'+(c.date.getMonth()+1);
+function managerHTML(name){ const p = S.people.find(x => x.name===name); return p ? `<span class="mgr">${avatarHTML(p,24)}<span>${esc(name)}</span>${p.tag?`<span class="role">${esc(roleShort(p.tag))}</span>`:''}</span>` : esc(name); }
 
 /* ---------- Import of weekly letters ---------- */
 function weekOptions(){ const base = mondayOf(new Date()); const out = []; for (let i=-1;i<=12;i++) out.push(addDays(base,7*i)); return out; }
 function openImport(){
   closeModal(); closePicker();
-  const managers = [...new Set(S.projects.map(p=>p.manager).filter(Boolean))];
+  const managers = [...new Set([...S.people.filter(isStaff).map(p=>p.name), ...S.projects.map(p=>p.manager).filter(Boolean)])];
   const opts = weekOptions(), nextMon = addDays(mondayOf(new Date()),7);
   let rows = [], stage = 'paste', from = '', text = '', busy = false, err = '', summary = '';
   modalEl = document.createElement('div'); modalEl.className='scrim';
@@ -1415,7 +1653,7 @@ function openImport(){
   const projOpts = cur => S.projects.filter(p=>p.active!==false).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true})).map(p=>`<option value="${esc(p.id)}" ${cur===p.id?'selected':''}>${esc(p.number)}${p.name?' · '+esc(p.name):''}</option>`).join('');
   const draw = () => {
     if (stage==='paste'){
-      body.innerHTML = `<div class="im-grid"><label class="field"><span>Från platschef</span><input id="imFrom" list="imMgr" value="${esc(from)}" placeholder="Namn på platschefen"><datalist id="imMgr">${managers.map(m=>`<option value="${esc(m)}">`).join('')}</datalist></label></div>
+      body.innerHTML = `<div class="im-grid"><label class="field"><span>Från platsledning</span><input id="imFrom" list="imMgr" value="${esc(from)}" placeholder="Namn, t.ex. platschefen"><datalist id="imMgr">${managers.map(m=>`<option value="${esc(m)}">`).join('')}</datalist></label></div>
         <label class="field"><span>Veckobrevet</span><textarea id="imText" rows="11" placeholder="Klistra in veckobrevet här, till exempel:&#10;&#10;Projekt 1039 – v.47 behöver vi 5 träarbetare mån–fre, plus 2 extra tis–ons för gjutning.&#10;1044: 3 man hela veckan, v.48 räcker det med 2.">${esc(text)}</textarea></label>
         <p class="im-note">${S.sample ? 'Claude läser brevet och föreslår behov per projekt och dag. Inget sparas förrän du har granskat förslaget.' : 'Automatisk tolkning är inte tillgänglig i den här vyn. Fyll i behovet manuellt i nästa steg.'}</p>
         ${err?`<div class="err">${esc(err)}</div>`:''}`;
@@ -1423,7 +1661,7 @@ function openImport(){
       const ti = body.querySelector('#imText'), fi = body.querySelector('#imFrom');
       ti.oninput = () => text = ti.value; fi.oninput = () => from = fi.value;
       foot.querySelector('#imCancel').onclick = closeModal;
-      foot.querySelector('#imManual').onclick = () => { if (!rows.length) rows.push({pid:'', mon:ymd(nextMon), days:[0,0,0,0,0], note:''}); stage='review'; draw(); };
+      foot.querySelector('#imManual').onclick = () => { if (!rows.length) rows.push({pid:'', mon:ymd(nextMon), days:[0,0,0,0,0,0,0], note:''}); stage='review'; draw(); };
       const pb = foot.querySelector('#imParse'); if (pb) pb.onclick = parse;
       if (!busy) ti.focus();
     } else {
@@ -1449,7 +1687,7 @@ function openImport(){
           r.pid = id; r.unknown = ''; draw();
         }
       });
-      body.querySelector('#imAdd').onclick = () => { rows.push({pid:'', mon:ymd(nextMon), days:[0,0,0,0,0], note:''}); draw(); };
+      body.querySelector('#imAdd').onclick = () => { rows.push({pid:'', mon:ymd(nextMon), days:[0,0,0,0,0,0,0], note:''}); draw(); };
       foot.querySelector('#imBack').onclick = () => { stage='paste'; err=''; draw(); };
       foot.querySelector('#imSave').onclick = save;
     }
@@ -1459,16 +1697,16 @@ function openImport(){
     busy = true; err = ''; draw();
     const wkList = opts.slice(1, 10).map(m => `v.${isoWeek(m).w} = ${fmtRange(m, addDays(m,4))} ${addDays(m,4).getFullYear()}`).join('; ');
     const projList = S.projects.filter(p=>p.active!==false).map(p => `${p.number}${p.name?' "'+p.name+'"':''}${p.manager?' (platschef '+p.manager+')':''}`).join('; ');
-    const prompt = `Du hjälper byggföretaget Sydbyggarna att läsa platschefers veckobrev och ta ut BEMANNINGSBEHOV: hur många personer (hantverkare) varje projekt behöver per arbetsdag måndag–fredag.
+    const prompt = `Du hjälper byggföretaget Sydbyggarna att läsa platschefers veckobrev och ta ut BEMANNINGSBEHOV: hur många personer (hantverkare) varje projekt behöver per dag måndag–söndag.
 Idag är det ${fmtShort(today)} ${today.getFullYear()}, vecka ${isoWeek(today).w}. Kommande veckor: ${wkList}.
 Kända projekt: ${projList || 'inga ännu'}.
 
 Svara ENDAST med JSON i exakt detta format:
-{"rows":[{"project":"1039","week":47,"days":[5,7,7,5,5],"note":"kort notering, t.ex. yrkesroller eller moment"}],"summary":"En mening på svenska som sammanfattar behovet."}
+{"rows":[{"project":"1039","week":47,"days":[5,7,7,5,5,0,0],"note":"kort notering, t.ex. yrkesroller eller moment"}],"summary":"En mening på svenska som sammanfattar behovet."}
 
 Regler:
-- "days" är antal personer som behövs måndag, tisdag, onsdag, torsdag, fredag.
-- "4 snickare hela veckan" blir [4,4,4,4,4]. "2 st tis–tor" blir [0,2,2,2,0]. Flera roller samma dag summeras och nämns i "note".
+- "days" är sju tal: antal personer som behövs måndag, tisdag, onsdag, torsdag, fredag, lördag, söndag.
+- "4 snickare hela veckan" blir [4,4,4,4,4,0,0] (helg bara om brevet nämner helgarbete). "2 st tis–tor" blir [0,2,2,2,0,0,0]. "3 man lördag" blir [0,0,0,0,0,3,0]. Flera roller samma dag summeras och nämns i "note".
 - Om veckan inte anges, anta vecka ${isoWeek(nextMon).w}. "Nästa vecka" betyder vecka ${isoWeek(nextMon).w}.
 - "project" ska vara projektnumret. Om projektet inte finns bland de kända, skriv numret eller namnet som det står i brevet.
 - Ta bara med behov som faktiskt står i brevet. Hitta inte på något.
@@ -1484,7 +1722,7 @@ ${text.trim()}
         const num = String(r.project||'').trim();
         const pid = known.get(num) || (S.projects.find(p=>p.name && p.name.toLowerCase()===num.toLowerCase())||{}).id || '';
         const m = opts.find(o => isoWeek(o).w === +r.week) || nextMon;
-        const days = [0,1,2,3,4].map(i => Math.max(0, Math.min(99, parseInt((r.days||[])[i])||0)));
+        const days = [0,1,2,3,4,5,6].map(i => Math.max(0, Math.min(99, parseInt((r.days||[])[i])||0)));
         return {pid, unknown: pid?'':num, mon: ymd(m), days, note: String(r.note||'').slice(0,120)};
       });
       summary = res && res.summary ? String(res.summary).slice(0,300) : '';
@@ -1517,35 +1755,35 @@ function renderDemand(){
   const cs = columns(S.start, S.weeks), B = balance(cs), summ = projectSummary(B);
   const sumNeed = B.reduce((a,b)=>a+b.need,0);
   let t = `<table class="plan bal"><thead><tr><th class="corner" rowspan="2">Balans per dag</th>`;
-  for (let i=0;i<S.weeks;i++){ const a = cs[i*5], b = cs[i*5+4]; t += `<th class="wkh" colspan="5"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span></th>`; }
-  t += `</tr><tr>${cs.map(c=>`<th class="dh ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span></th>`).join('')}</tr></thead><tbody>`;
-  const line = (label, hint, f) => `<tr><th class="who"><span class="nm">${label}</span><span class="meta">${hint}</span></th>${B.map(b=>`<td class="bn ${b.c.di===0?'ws':''}">${f(b)}</td>`).join('')}</tr>`;
+  for (let i=0;i<S.weeks;i++){ const a = cs[i*7], b = cs[i*7+6]; t += `<th class="wkh ${a.bygg?'bygg':''}" colspan="7"><div class="wkh-i"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span>${a.bygg?'<span class="bygg-tag">Byggsemester</span>':''}</div></th>`; }
+  t += `</tr><tr>${cs.map(c=>`<th class="dh ${colCls(c)}" title="${esc(c.hol||'')}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span></th>`).join('')}</tr></thead><tbody>`;
+  const line = (label, hint, f) => `<tr><th class="who"><span class="nm">${label}</span><span class="meta">${hint}</span></th>${B.map(b=>`<td class="bn ${colCls(b.c)}">${f(b)}</td>`).join('')}</tr>`;
   t += line('Behov', 'från veckobreven', b => b.need ? `<b>${b.need}</b>` : '<span class="faint">–</span>');
-  t += line('Tillgänglig personal', 'ej frånvarande', b => b.c.hol ? '<span class="faint">röd dag</span>' : b.avail);
-  t += line('Planerat', 'på projekt i planeringen', b => b.planned);
-  t += line('Lediga resurser', 'tillgängliga men oplanerade', b => b.free.length ? `<span data-tip="${tipId(`<div class="tt-h">${dayLabel(b.c)} · lediga</div>${b.free.map(p=>`<div class="tt-r">${avatarHTML(p,18)}<span>${esc(p.name)}</span></div>`).join('')}`)}" class="freeb">${b.free.length}</span>` : '0');
-  t += `<tr class="balrow"><th class="who"><span class="nm">Balans</span><span class="meta">tillgängligt minus behov</span></th>${B.map(b=>`<td class="bn ${b.c.di===0?'ws':''}">${b.need||b.avail ? `<span class="bv ${b.bal<0?'neg':b.bal>0?'pos':'zero'}">${b.bal>0?'+':''}${b.bal}</span>` : ''}</td>`).join('')}</tr></tbody></table>`;
+  t += line('Tillgänglig personal', 'hantverkare, ej frånvarande', b => b.c.off && !b.avail ? '<span class="faint">–</span>' : fmtN(b.avail));
+  t += line('Planerat', 'på projekt i planeringen', b => b.c.off && !b.planned ? '<span class="faint">–</span>' : fmtN(b.planned));
+  t += line('Lediga resurser', 'tillgängliga men oplanerade', b => b.free.length ? `<span data-tip="${tipId(`<div class="tt-h">${dayLabel(b.c)} · lediga</div>${b.free.map(p=>`<div class="tt-r">${avatarHTML(p,18)}<span>${esc(p.name)}</span></div>`).join('')}`)}" class="freeb">${b.free.length}</span>` : b.c.off ? '' : '0');
+  t += `<tr class="balrow"><th class="who"><span class="nm">Balans</span><span class="meta">tillgängligt minus behov</span></th>${B.map(b=>`<td class="bn ${colCls(b.c)}">${b.need ? `<span class="bv ${b.bal<0?'neg':b.bal>0?'pos':'zero'}">${b.bal>0?'+':''}${fmtN(b.bal)}</span>` : ''}</td>`).join('')}</tr></tbody></table>`;
 
   const projects = S.projects.filter(p=>p.active!==false).sort((a,b)=>{ const sa = summ.find(s=>s.pid===a.id), sb2 = summ.find(s=>s.pid===b.id); return ((sb2?sb2.need+sb2.planned:0) - (sa?sa.need+sa.planned:0)) || a.number.localeCompare(b.number,'sv',{numeric:true}); });
-  let m = `<table class="plan need"><thead><tr><th class="corner">Projekt</th>${cs.map(c=>`<th class="dh ${c.di===0?'ws':''} ${c.today?'today':''}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span></th>`).join('')}<th class="dh sumh">Behov / plan</th></tr></thead><tbody>`;
+  let m = `<table class="plan need"><thead><tr><th class="corner">Projekt</th>${cs.map(c=>`<th class="dh ${colCls(c)}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span></th>`).join('')}<th class="dh sumh">Behov / plan</th></tr></thead><tbody>`;
   for (const p of projects){
     const s = summ.find(x=>x.pid===p.id) || {need:0, planned:0, short:0, over:0, status:'none'};
     const metas = [...new Set(cs.map(c=>c.wk))].map(wk=>needMeta(wk,p.id)).filter(Boolean);
     const lastMeta = metas[metas.length-1];
-    m += `<tr><th class="who"><div class="whoi"><span class="badge sm" style="--c:${esc(p.color)}">${esc(p.number)}</span><div class="wt"><span class="nm">${esc(p.name||'Namnlöst projekt')}</span><span class="meta">${p.manager?esc(p.manager):'Ingen platschef angiven'}${lastMeta&&lastMeta.at?` · brev ${esc(fmtShort(new Date(lastMeta.at+'T00:00')))}`:''}</span></div></div></th>`;
+    m += `<tr><th class="who"><div class="whoi"><span class="badge sm" style="--c:${esc(p.color)}">${esc(p.number)}</span><div class="wt"><span class="nm">${esc(p.name||'Namnlöst projekt')}</span><span class="meta">${p.manager?esc(p.manager):'Ingen platsledning angiven'}${lastMeta&&lastMeta.at?` · brev ${esc(fmtShort(new Date(lastMeta.at+'T00:00')))}`:''}</span></div></div></th>`;
     cs.forEach((c,ci) => {
       const n = getNeed(c.wk,p.id,c.d), pl = (B[ci].perProj[p.id]||{}).planned || 0;
       const st = !n ? '' : pl < n ? 'under' : pl > n ? 'over' : 'ok';
       const meta = needMeta(c.wk,p.id);
-      m += `<td class="nc ${c.di===0?'ws':''} ${st}" ${meta&&meta.note&&c.di===0?`data-tip="${tipId(`<div class="tt-h">${esc(p.number)} · v.${c.w}</div><div class="tt-n">${esc(meta.note)}</div>${meta.from?`<div class="tt-f">${esc(meta.from)}</div>`:''}`)}"`:''}><input type="number" min="0" max="99" class="ni" data-pid="${esc(p.id)}" data-ci="${ci}" value="${n||''}" placeholder="–" aria-label="Behov ${esc(p.number)} ${esc(dayLabel(c))}" ${S.canWrite?'':'disabled'}><span class="pl">${pl} plan</span></td>`;
+ m += `<td class="nc ${colCls(c)} ${st}" ${meta&&meta.note&&c.di===0?`data-tip="${tipId(`<div class="tt-h">${esc(p.number)} · v.${c.w}</div><div class="tt-n">${esc(meta.note)}</div>${meta.from?`<div class="tt-f">${esc(meta.from)}</div>`:''}`)}"`:''}><input type="number" min="0" max="99" class="ni" data-pid="${esc(p.id)}" data-ci="${ci}" value="${n||''}" placeholder="–" aria-label="Behov ${esc(p.number)} ${esc(dayLabel(c))}" ${S.canWrite?'':'disabled'}><span class="pl">${fmtN(pl)} plan</span></td>`;
     });
-    m += `<td class="sumc"><span class="mono"><b>${s.need}</b> / ${s.planned}</span>${STATUS_PILL[s.status](s)}</td></tr>`;
+    m += `<td class="sumc"><span class="mono"><b>${s.need}</b> / ${fmtN(s.plannedOnNeed||0)}</span>${STATUS_PILL[s.status](s)}</td></tr>`;
   }
   m += `</tbody></table>`;
 
   const shortages = [];
   B.forEach(b => { for (const [pid,x] of Object.entries(b.perProj)) if (x.need > x.planned){ const p = projById(pid); if (p) shortages.push({b, p, n: x.need - x.planned}); } });
-  const shortHTML = shortages.length ? shortages.slice(0,14).map(s => `<div class="li"><span class="badge sm" style="--c:${esc(s.p.color)}">${esc(s.p.number)}</span><span class="li-t">${esc(dayLabel(s.b.c))}</span><span class="li-v neg">behöver ${s.n} till</span><span class="li-x">${s.b.free.length ? avatarStack(s.b.free,4) : '<span class="faint">ingen ledig</span>'}</span></div>`).join('') + (shortages.length>14?`<div class="faint" style="padding:8px 0">+ ${shortages.length-14} till</div>`:'') : `<div class="ok-empty"><span class="pill green">I balans</span> Inga projekt saknar personal under perioden${sumNeed?'':' (inget behov inläst ännu)'}.</div>`;
+  const shortHTML = shortages.length ? shortages.slice(0,14).map(s => `<div class="li"><span class="badge sm" style="--c:${esc(s.p.color)}">${esc(s.p.number)}</span><span class="li-t">${esc(dayLabel(s.b.c))}</span><span class="li-v neg">behöver ${fmtN(s.n)} till</span><span class="li-x">${s.b.free.length ? avatarStack(s.b.free,4) : '<span class="faint">ingen ledig</span>'}</span></div>`).join('') + (shortages.length>14?`<div class="faint" style="padding:8px 0">+ ${shortages.length-14} till</div>`:'') : `<div class="ok-empty"><span class="pill green">I balans</span> Inga projekt saknar personal under perioden${sumNeed?'':' (inget behov inläst ännu)'}.</div>`;
   const freeDays = B.filter(b=>!b.c.hol && b.free.length);
   const freeHTML = freeDays.length ? freeDays.map(b => `<div class="li"><span class="li-t" style="min-width:88px">${esc(dayLabel(b.c))}</span><span class="li-x" style="margin-left:0">${avatarStack(b.free,6)}</span><span class="li-v">${b.free.length} ${b.free.length===1?'person':'personer'}</span></div>`).join('') : `<div class="ok-empty">All tillgänglig personal är planerad.</div>`;
 
@@ -1579,18 +1817,19 @@ function balanceChart(B, width){
     const cx = padL + colW*i + colW/2, x0 = cx - bw/2;
     if (i>0 && b.c.di===0) g += `<line x1="${padL+colW*i}" x2="${padL+colW*i}" y1="${padT}" y2="${H-14}" class="ch-wk"/>`;
     if (b.c.di===0) g += `<text x="${padL+colW*i+4}" y="${H-4}" class="ch-wkl">Vecka ${b.c.w}</text>`;
+    if (b.c.off) g += `<rect x="${padL+colW*i+1}" y="${padT}" width="${colW-2}" height="${plotH}" class="ch-off ${b.c.hol?'hol':''}"/>`;
     g += `<path d="${rt(x0, y(b.avail), bw, base-y(b.avail), 4)}" class="ch-cap"/>`;
     g += `<path d="${rt(x0+3, y(Math.min(b.planned,b.avail||b.planned)), bw-6, base-y(Math.min(b.planned,b.avail||b.planned)), 3)}" class="ch-plan"/>`;
     if (b.need) g += `<line x1="${x0-5}" x2="${x0+bw+5}" y1="${y(b.need)}" y2="${y(b.need)}" class="ch-need"/>`;
-    g += `<text x="${cx}" y="${base+16}" class="ch-day ${b.c.today?'today':''}" text-anchor="middle">${DAYS[b.c.di].slice(0,2)} ${b.c.date.getDate()}</text>`;
-    if (b.need && b.bal<0) g += `<text x="${cx}" y="${base+31}" class="ch-def" text-anchor="middle">▼${-b.bal}</text>`;
-    else if (b.need && b.bal>0) g += `<text x="${cx}" y="${base+31}" class="ch-sur" text-anchor="middle">+${b.bal}</text>`;
+    g += `<text x="${cx}" y="${base+16}" class="ch-day ${b.c.today?'today':''} ${b.c.hol?'hol':''}" text-anchor="middle">${colW<34 ? DAYS[b.c.di][0] : DAYS[b.c.di].slice(0,2)} ${b.c.date.getDate()}</text>`;
+    if (b.need && b.bal<0) g += `<text x="${cx}" y="${base+31}" class="ch-def" text-anchor="middle">▼${fmtN(-b.bal)}</text>`;
+    else if (b.need && b.bal>0) g += `<text x="${cx}" y="${base+31}" class="ch-sur" text-anchor="middle">+${fmtN(b.bal)}</text>`;
     const tip = `<div class="tt-h">${esc(DAYS_LONG[b.c.di])} ${b.c.date.getDate()} ${MONTHS[b.c.date.getMonth()]} · v.${b.c.w}${b.c.hol?' · '+esc(b.c.hol):''}</div>
-      <div class="tt-r"><i class="k cap"></i><span>Tillgänglig personal</span><b>${b.avail}</b></div>
-      <div class="tt-r"><i class="k plan"></i><span>Planerat</span><b>${b.planned}</b></div>
+      <div class="tt-r"><i class="k cap"></i><span>Tillgänglig personal</span><b>${fmtN(b.avail)}</b></div>
+      <div class="tt-r"><i class="k plan"></i><span>Planerat</span><b>${fmtN(b.planned)}</b></div>
       <div class="tt-r"><i class="k need"></i><span>Behov enligt veckobrev</span><b>${b.need||'–'}</b></div>
-      ${b.need?`<div class="tt-r tt-bal"><span>Balans</span><b class="${b.bal<0?'neg':'pos'}">${b.bal>0?'+':''}${b.bal}</b></div>`:''}
-      ${Object.entries(b.perProj).filter(([,x])=>x.need>x.planned).map(([pid,x])=>{ const p = projById(pid); return p?`<div class="tt-r"><i class="k" style="background:${esc(p.color)}"></i><span>${esc(p.number)} saknar</span><b class="neg">${x.need-x.planned}</b></div>`:''; }).join('')}`;
+      ${b.need?`<div class="tt-r tt-bal"><span>Balans</span><b class="${b.bal<0?'neg':'pos'}">${b.bal>0?'+':''}${fmtN(b.bal)}</b></div>`:''}
+      ${Object.entries(b.perProj).filter(([,x])=>x.need>x.planned).map(([pid,x])=>{ const p = projById(pid); return p?`<div class="tt-r"><i class="k" style="background:${esc(p.color)}"></i><span>${esc(p.number)} saknar</span><b class="neg">${fmtN(x.need-x.planned)}</b></div>`:''; }).join('')}`;
     g += `<rect x="${padL+colW*i}" y="${padT}" width="${colW}" height="${plotH+20}" class="ch-hit" data-tip="${tipId(tip)}"/>`;
   });
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Tillgänglig personal, planerat och behov per dag">${g}</svg>`;
@@ -1603,7 +1842,7 @@ function renderDashboard(){
   const sb = stateBlock();
   const bindHead = () => { bindPeriodTools($main); const e = document.getElementById('exportBtn'); if (e) e.onclick = openExport; const ib = document.getElementById('importBtn'); if (ib) ib.onclick = openImport; };
   if (sb){ $main.innerHTML = head + sb; bindHead(); return; }
-  const people = activePeople();
+  const people = craftPeople(), staff = activePeople().filter(isStaff);
   const cs = columns(S.start, S.weeks), B = balance(cs), summ = projectSummary(B);
   const avail = B.reduce((a,b)=>a+b.avail,0), planned = B.reduce((a,b)=>a+b.planned,0), need = B.reduce((a,b)=>a+b.need,0);
   const util = avail ? Math.round(planned/avail*100) : 0;
@@ -1613,10 +1852,10 @@ function renderDashboard(){
   const deficitDays = B.filter(b=>b.need && b.bal<0).length;
   const own = people.filter(isOwn).length;
   const kpis = `<div class="kpis">
-    <div class="kpi"><div class="l">Personal</div><div class="v">${people.length}</div><div class="d">${own} egna · ${people.length-own} inhyrda</div></div>
-    <div class="kpi"><div class="l">Beläggning</div><div class="v">${util}<small>%</small></div><div class="meter"><i style="width:${Math.min(util,100)}%"></i></div><div class="d">${planned} av ${avail} tillgängliga dagsverken planerade</div></div>
+    <div class="kpi"><div class="l">Hantverkare</div><div class="v">${people.length}</div><div class="d">${own} egna · ${people.length-own} inhyrda${staff.length?` · ${staff.length} tjänstemän`:''}</div></div>
+    <div class="kpi"><div class="l">Beläggning</div><div class="v">${util}<small>%</small></div><div class="meter"><i style="width:${Math.min(util,100)}%"></i></div><div class="d">${fmtN(planned)} av ${fmtN(avail)} tillgängliga dagsverken planerade</div></div>
     <div class="kpi"><div class="l">Behov från veckobrev</div><div class="v">${need}<small>dv</small></div><div class="d">${need?cover+' % täckt av planeringen':'Inget behov inläst för perioden'}</div></div>
-    <div class="kpi"><div class="l">Resursbalans</div><div class="v ${bal==null?'':bal<0?'neg':'pos'}">${bal==null?'–':(bal>0?'+':'')+bal}${bal==null?'':'<small>dv</small>'}</div><div class="d">${bal==null?'Läs in veckobrev för att se balansen':(bal<0?'Underskott':bal>0?'Överskott':'I balans')+` på ${needDays.length} dagar med behov`+(deficitDays?` · ${deficitDays} ${deficitDays===1?'dag':'dagar'} med för lite folk`:'')}</div></div></div>`;
+    <div class="kpi"><div class="l">Resursbalans</div><div class="v ${bal==null?'':bal<0?'neg':'pos'}">${bal==null?'–':(bal>0?'+':'')+fmtN(bal)}${bal==null?'':'<small>dv</small>'}</div><div class="d">${bal==null?'Läs in veckobrev för att se balansen':(bal<0?'Underskott':bal>0?'Överskott':'I balans')+` på ${needDays.length} dagar med behov`+(deficitDays?` · ${deficitDays} ${deficitDays===1?'dag':'dagar'} med för lite folk`:'')}</div></div></div>`;
   const chartW = Math.max(320, ($main.clientWidth || 900) - 64 - 44);
   const chart = `<div class="panel dash"><div class="panel-h"><div><h3>Resursbalans per dag</h3><p>Tillgänglig personal mot platschefernas behov</p></div>
     <div class="ch-legend"><span><i class="k cap"></i>Tillgänglig personal</span><span><i class="k plan"></i>Planerat</span><span><i class="k need"></i>Behov enligt veckobrev</span></div></div>
@@ -1625,31 +1864,39 @@ function renderDashboard(){
   const prow = summ.map(s => {
     const p = s.project, pon = s.plannedOnNeed||0, pct = s.need ? Math.min(100, Math.round(pon/s.need*100)) : 100;
     return `<tr><td><div class="cellp"><span class="badge sm" style="--c:${esc(p.color)}">${esc(p.number)}</span><div class="wt"><span class="nm">${esc(p.name||'Namnlöst projekt')}</span><span class="meta">${esc(p.client||'')}</span></div></div></td>
-      <td>${p.manager?esc(p.manager):'<span class="faint">–</span>'}</td>
-      <td><div class="prog"><span class="mono">${s.need?`${pon} / ${s.need} dv`:`${s.planned} dv planerade`}</span><span class="bar"><i class="${s.status}" style="width:${pct}%"></i></span></div></td>
+      <td>${p.manager?managerHTML(p.manager):'<span class="faint">–</span>'}</td>
+      <td><div class="prog"><span class="mono">${s.need?`${fmtN(pon)} / ${s.need} dv`:`${fmtN(s.planned)} dv planerade`}</span><span class="bar"><i class="${s.status}" style="width:${pct}%"></i></span></div></td>
       <td>${avatarStack(s.crew,5)}</td><td>${STATUS_PILL[s.status](s)}</td></tr>`;
   }).join('');
   const projTable = `<div class="panel dash"><div class="panel-h"><div><h3>Projekt <span class="cnt">${summ.length}</span></h3><p>Bemanning och behov under perioden</p></div><a class="btn ghost" href="#behov">Visa behov &amp; balans →</a></div>
-    <div class="tbl-wrap">${summ.length?`<table class="dt"><thead><tr><th>Projekt</th><th>Platschef</th><th>Bemanning</th><th>Lag</th><th>Status</th></tr></thead><tbody>${prow}</tbody></table>`:`<div class="empty"><h3>Inga projekt i perioden</h3><p>Planera personal eller läs in ett veckobrev.</p></div>`}</div></div>`;
+    <div class="tbl-wrap">${summ.length?`<table class="dt"><thead><tr><th>Projekt</th><th>Platsledning</th><th>Bemanning</th><th>Lag</th><th>Status</th></tr></thead><tbody>${prow}</tbody></table>`:`<div class="empty"><h3>Inga projekt i perioden</h3><p>Planera personal eller läs in ett veckobrev.</p></div>`}</div></div>`;
 
-  const wk0 = cs.slice(0,5);
-  const workdays = B.filter(b=>!b.c.hol).length;
+  const wk0 = cs.slice(0,7);
+  const workdays = B.filter(b=>!b.c.off).length;
   const perow = people.map(p => {
-    let pl = 0, ab = 0; for (const c of cs){ if (c.hol) continue; const v = getCell(c.wk,p.id,c.d); if (v&&v.p) pl++; else if (v&&v.s) ab++; }
-    const capd = workdays - ab, pct = capd ? Math.round(pl/capd*100) : 0;
-    const status = ab===workdays ? `<span class="pill grey">Frånvarande</span>` : pl===capd ? `<span class="pill green">Fullt planerad</span>` : pl===0 ? `<span class="pill red">Ej planerad</span>` : `<span class="pill amber">${capd-pl} ${capd-pl===1?'dag':'dagar'} ledig</span>`;
-    const tip = `<div class="tt-h">${esc(p.name)} · v.${wk0[0].w}</div>` + wk0.map(c => { const v = getCell(c.wk,p.id,c.d); const pr = v&&v.p&&projById(v.p); return `<div class="tt-r"><span class="tt-d">${DAYS[c.di]}</span>${pr?`<i class="k" style="background:${esc(pr.color)}"></i><span>${esc(pr.number)}${pr.name?' '+esc(pr.name):''}${v.n?' · '+esc(v.n):''}</span>`:v&&v.s?`<i class="k abs"></i><span>${esc(ABS_LABEL[v.s])}${v.n?' · '+esc(v.n):''}</span>`:c.hol?`<i class="k"></i><span>${esc(c.hol)}</span>`:`<i class="k"></i><span class="faint">Ej planerad</span>`}</div>`; }).join('');
-    const week = `<div class="wkbars" data-tip="${tipId(tip)}">${wk0.map(c => { const v = getCell(c.wk,p.id,c.d); const pr = v&&v.p&&projById(v.p); return `<span class="wb"><em>${pr?esc(pr.number):v&&v.s?esc(ABS_LABEL[v.s].slice(0,3)):'–'}</em><i class="${pr?'':v&&v.s?'abs':'none'}" style="${pr?'background:'+esc(pr.color):''}"></i></span>`; }).join('')}</div>`;
+    let pl = 0, ab = 0, extra = 0; for (const c of cs){ const L = loadOf(getCell(c.wk,p.id,c.d)); if (c.off){ extra += L.work; continue; } pl += L.work; ab += L.abs; }
+    const capd = workdays - ab, pct = capd ? Math.min(100, Math.round(pl/capd*100)) : 0, left = Math.max(0, capd - pl);
+    const status = ab>=workdays ? `<span class="pill grey">Frånvarande</span>` : left===0 ? `<span class="pill green">Fullt planerad</span>` : pl===0 ? `<span class="pill red">Ej planerad</span>` : `<span class="pill amber">${fmtN(left)} ${left===1?'dag':'dagar'} ledig</span>`;
+    const tip = `<div class="tt-h">${esc(p.name)} · v.${wk0[0].w}${extra?` · ${fmtN(extra)} d helg/röd dag`:''}</div>` + wk0.filter(c => !c.we || partsOf(getCell(c.wk,p.id,c.d)).length).map(c => { const v = getCell(c.wk,p.id,c.d), ps = partsOf(v); const sw = it => it && it.p && projById(it.p) ? `background:${esc(projById(it.p).color)}` : ''; return `<div class="tt-r"><span class="tt-d">${DAYS[c.di]}</span>${ps.length?`<i class="k ${ps[0]&&ps[0].s?'abs':''}" style="${sw(ps[0])}"></i><span>${esc(cellText(v,false))}${v.n?' · '+esc(v.n):''}</span>`:c.hol?`<i class="k"></i><span>${esc(c.hol)}</span>`:`<i class="k"></i><span class="faint">${c.off?'Ledig dag':'Ej planerad'}</span>`}</div>`; }).join('');
+    const bar = it => !it ? 'none' : it.s ? 'abs' : '';
+    const col = it => it && it.p && projById(it.p) ? projById(it.p).color : null;
+    const week = `<div class="wkbars" data-tip="${tipId(tip)}">${wk0.map(c => { const v = getCell(c.wk,p.id,c.d), ps = partsOf(v);
+      const lab = !ps.length ? (c.off ? '' : '–') : ps.length===2 ? '½' : esc(ps[0].p ? ((projById(ps[0].p)||{}).number||'?') : (ABS_LABEL[ps[0].s]||'').slice(0,3));
+      const inner = ps.length===2 ? `<i class="half"><b class="${bar(ps[0])}" style="${col(ps[0])?'background:'+esc(col(ps[0])):''}"></b><b class="${bar(ps[1])}" style="${col(ps[1])?'background:'+esc(col(ps[1])):''}"></b></i>` : `<i class="${ps.length?bar(ps[0]):c.off?'off':'none'}" style="${col(ps[0])?'background:'+esc(col(ps[0])):''}"></i>`;
+      return `<span class="wb ${c.we?'we':''}"><em>${lab}</em>${inner}</span>`; }).join('')}</div>`;
     const search = (p.name+' '+(p.company||'')+' '+(p.tag||'')+' '+(p.country||'')+' '+(p.langs||[]).join(' ')).toLowerCase();
     return `<tr data-q="${esc(search)}" ${dashQ && !search.includes(dashQ)?'hidden':''}><td><div class="cellp">${avatarHTML(p,36,true)}<div class="wt"><span class="nm">${esc(p.name)}</span><span class="meta">${esc(p.tag||(isOwn(p)?'Egen personal':'Inhyrd'))}</span></div></div></td>
       <td><div class="wt"><span class="nm2">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.company||OWN_COMPANY)}</span><span class="meta">${[p.country,(p.langs||[]).map(langCode).join(' ')].filter(Boolean).map(esc).join(' · ')||'&nbsp;'}</span></div></td>
       <td>${week}</td><td><div class="prog"><span class="mono">${pct}%</span><span class="bar"><i style="width:${pct}%"></i></span></div></td><td>${status}</td></tr>`;
   }).join('');
-  const peopleTable = `<div class="panel dash"><div class="panel-h"><div><h3>Personal <span class="cnt">${people.length}</span></h3><p>Vecka ${wk0[0].w} per dag · beläggning för hela perioden</p></div>
+  const peopleTable = `<div class="panel dash"><div class="panel-h"><div><h3>Hantverkare <span class="cnt">${people.length}</span></h3><p>Vecka ${wk0[0].w} per dag · beläggning för hela perioden</p></div>
     <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="dashSearch" placeholder="Sök personal, språk, land…" value="${esc(dashQ)}" autocomplete="off"></label></div>
     <div class="tbl-wrap"><table class="dt"><thead><tr><th>Person</th><th>Företag / språk</th><th>Vecka ${wk0[0].w}</th><th>Beläggning</th><th>Status</th></tr></thead><tbody id="dashPeople">${perow}</tbody></table></div></div>`;
 
-  $main.innerHTML = head + kpis + chart + `<div class="dash-stack">${projTable}${peopleTable}</div>`;
+  const staffPanel = staff.length ? `<div class="panel dash"><div class="panel-h"><div><h3>Tjänstemän <span class="cnt">${staff.length}</span></h3><p>Platsledning och projektorganisation · projekt vecka ${wk0[0].w}</p></div></div>
+    <div class="staff-grid">${staff.map(p => { const pr = [...new Set(wk0.flatMap(c => Object.keys(loadOf(getCell(c.wk,p.id,c.d)).proj)))].map(projById).filter(Boolean); const led = S.projects.filter(x => x.manager && x.manager===p.name);
+      return `<div class="st">${avatarHTML(p,40,true)}<div class="wt"><span class="nm">${esc(p.name)}</span><span class="meta"><span class="role">${esc(roleShort(p.tag))}</span>${esc(String(p.tag||'').replace(/\s*\([^)]*\)\s*$/,''))}</span><span class="st-p">${[...new Map([...pr, ...led].map(x=>[x.id,x])).values()].map(x=>`<span class="badge xs" style="--c:${esc(x.color)}">${esc(x.number)}</span>`).join('') || '<span class="faint">Inga projekt</span>'}</span></div></div>`; }).join('')}</div></div>` : '';
+  $main.innerHTML = head + kpis + chart + `<div class="dash-stack">${projTable}${peopleTable}${staffPanel}</div>`;
   bindHead();
   const si = document.getElementById('dashSearch');
   si.oninput = () => { dashQ = si.value.trim().toLowerCase(); document.querySelectorAll('#dashPeople tr').forEach(tr => tr.hidden = !!dashQ && !tr.dataset.q.includes(dashQ)); };
