@@ -13,7 +13,7 @@
   --brass:#97753F; --side:#0F1D17; --side-ink:#E8EEE9; --side-muted:#8C9D93; --side-line:#213229; --side-hi:#1A2C23;
   --danger:#B0412D; --ok:#2E7A55; --abs-bg:#F3E7E2; --abs-ink:#9C3A28; --abs-hatch:rgba(156,58,40,.10);
   --sel:rgba(30,74,56,.14); --sel-line:#1E4A38; --today:rgba(151,117,63,.08); --holiday:rgba(176,65,45,.06);
-  --chip-ink:#14201B; --hired-bg:#F7F1E5;
+  --chip-ink:#14201B; --hired-bg:#F7F1E5; --cap:#DCE3DD; --st-red-bg:#FBE3DF; --st-red:#A3341F; --st-green-bg:#DCF0E2; --st-green:#1F6B43; --st-amber-bg:#FBEFCB; --st-amber:#855700; --st-grey-bg:#ECEEEA; --st-grey:#5D6963;
   --shadow:0 1px 2px rgba(15,29,23,.05),0 10px 30px -8px rgba(15,29,23,.14);
   --shadow-lg:0 2px 6px rgba(15,29,23,.08),0 28px 60px -12px rgba(15,29,23,.28);
   --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
@@ -25,7 +25,7 @@
   --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
   --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
   --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
-  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --cap:#25332C; --st-red-bg:#3A1C17; --st-red:#F2A090; --st-green-bg:#16301F; --st-green:#8FD3A8; --st-amber-bg:#352A10; --st-amber:#EBC66E; --st-grey-bg:#1E2824; --st-grey:#9BA8A1; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
   --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
   color-scheme:dark}}
@@ -34,7 +34,7 @@
   --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
   --brass:#D0AC72; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
   --danger:#E8836F; --ok:#7CC39E; --abs-bg:#2A1A16; --abs-ink:#F09A86; --abs-hatch:rgba(240,154,134,.08);
-  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
+  --sel:rgba(140,199,168,.16); --hired-bg:#1D1A12; --cap:#25332C; --st-red-bg:#3A1C17; --st-red:#F2A090; --st-green-bg:#16301F; --st-green:#8FD3A8; --st-amber-bg:#352A10; --st-amber:#EBC66E; --st-grey-bg:#1E2824; --st-grey:#9BA8A1; --sel-line:#8CC7A8; --today:rgba(208,172,114,.07); --holiday:rgba(232,131,111,.06);
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
   --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
   color-scheme:dark}
@@ -332,6 +332,173 @@ table.reg{border-collapse:collapse;width:100%;min-width:720px}
 .modal-f{padding:16px 24px 22px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--line)}
 .err{color:var(--danger);font-size:12.5px}
 
+
+/* ---------- Avatars ---------- */
+.av{--s:30px;width:var(--s);height:var(--s);flex:none;border-radius:50%;background:var(--bg);display:inline-grid;place-items:center;overflow:hidden;box-shadow:0 0 0 2px var(--surface);position:relative;font-family:var(--f-body);color:#3B4540;font-weight:700;font-size:calc(var(--s)*.36);letter-spacing:.02em}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.av .em{font-size:calc(var(--s)*.62);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;transform:translateY(1px)}
+.av.can{cursor:pointer;transition:transform .15s}
+.av.can:hover{transform:scale(1.06)}
+.av.can:hover::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 2px var(--accent)}
+.av.more{background:var(--surface-2);color:var(--muted);font-size:10.5px;font-family:var(--f-mono);border:1px solid var(--line)}
+.avs{display:inline-flex;align-items:center}
+.avs .av{margin-left:-7px}
+.avs .av:first-child{margin-left:0}
+.whoi{display:flex;align-items:center;gap:10px;min-width:0}
+.wt{display:flex;flex-direction:column;min-width:0}
+.who .whoi .nm{max-width:168px}
+.who .whoi .meta{max-width:168px}
+.av-top{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.av-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.bgs{display:flex;gap:6px;flex-wrap:wrap}
+.bgs button{width:24px;height:24px;border-radius:50%;border:0;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.bgs button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.av-photo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px}
+.tones{display:flex;gap:4px}
+.tones button{border:1px solid transparent;background:none;border-radius:8px;font-size:18px;padding:2px 6px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.tones button[aria-pressed="true"]{border-color:var(--line-strong);background:var(--surface-2)}
+.emo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:4px;max-height:220px;overflow:auto;padding:2px}
+.emo-grid button{aspect-ratio:1;border:1px solid transparent;background:var(--surface-2);border-radius:10px;font-size:24px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;transition:transform .1s}
+.emo-grid button:hover{transform:scale(1.08);border-color:var(--line-strong)}
+.emo-grid button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
+
+/* ---------- Pills & status ---------- */
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:7px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--st-grey-bg);color:var(--st-grey)}
+.pill.red{background:var(--st-red-bg);color:var(--st-red)}
+.pill.green{background:var(--st-green-bg);color:var(--st-green)}
+.pill.amber{background:var(--st-amber-bg);color:var(--st-amber)}
+.pill.grey{background:var(--st-grey-bg);color:var(--st-grey)}
+.neg{color:var(--st-red) !important}
+.pos{color:var(--st-green) !important}
+.badge.sm{min-width:46px;height:28px;font-size:12.5px;border-radius:7px;padding:0 8px;flex:none}
+
+/* ---------- Tooltip ---------- */
+.tip{position:fixed;z-index:80;background:#1B1F1D;color:#F1F4F2;border-radius:12px;padding:10px 12px;min-width:200px;max-width:300px;box-shadow:0 12px 32px -6px rgba(0,0,0,.4);font-size:12.5px;pointer-events:none;display:flex;flex-direction:column;gap:5px}
+.tt-h{font-weight:600;font-size:13px;margin-bottom:2px}
+.tt-r{display:flex;align-items:center;gap:8px;color:#C9D1CC}
+.tt-r b{margin-left:auto;color:#F1F4F2;font-family:var(--f-mono);font-weight:600}
+.tt-r b.neg{color:#F49A88 !important}
+.tt-r b.pos{color:#8FD3A8 !important}
+.tt-r .av{box-shadow:none}
+.tt-d{font-family:var(--f-mono);font-size:11px;color:#8E9993;width:26px}
+.tt-bal{border-top:1px solid #333A36;padding-top:5px;margin-top:2px}
+.tt-n{color:#C9D1CC}
+.tt-f{color:#8E9993;font-size:11.5px}
+.k{width:10px;height:10px;border-radius:3px;background:#5B6560;flex:none;display:inline-block}
+.k.cap{background:var(--cap)}
+.tip .k.cap{background:#5B6A62}
+.k.plan{background:var(--accent)}
+.tip .k.plan{background:#8CC7A8}
+.k.need{height:3px;border-radius:2px;background:var(--brass);width:14px}
+.k.abs{background:repeating-linear-gradient(-45deg,#F3E7E2,#F3E7E2 2px,#C98F80 2px,#C98F80 3px)}
+
+/* ---------- Dashboard ---------- */
+.v.neg,.v.pos{}
+.panel.dash{margin-bottom:18px}
+.panel.dash .panel-h h3 .cnt{font-family:var(--f-mono);font-size:13px;color:var(--faint);font-weight:500;margin-left:6px}
+.ch-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted)}
+.ch-legend span{display:inline-flex;align-items:center;gap:7px}
+.ch-wrap{overflow-x:auto;padding:14px 22px 8px}
+.chart{display:block}
+.ch-grid{stroke:var(--line);stroke-width:1}
+.ch-grid.base{stroke:var(--line-strong)}
+.ch-ax{font:11px var(--f-mono);fill:var(--faint)}
+.ch-day{font:11px var(--f-body);fill:var(--muted)}
+.ch-day.today{fill:var(--brass);font-weight:700}
+.ch-wk{stroke:var(--line);stroke-dasharray:3 3}
+.ch-wkl{font:600 11px var(--f-body);fill:var(--ink)}
+.ch-cap{fill:var(--cap)}
+.ch-plan{fill:var(--accent)}
+.ch-need{stroke:var(--brass);stroke-width:2.5;stroke-linecap:round}
+.ch-def{font:700 11px var(--f-mono);fill:var(--st-red)}
+.ch-sur{font:600 11px var(--f-mono);fill:var(--st-green)}
+.ch-hit{fill:transparent;cursor:default}
+.ch-hit:hover{fill:var(--sel)}
+table.dt{width:100%;border-collapse:collapse;min-width:820px}
+.dt th{text-align:left;font-size:12.5px;font-weight:600;color:var(--ink);padding:11px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
+.dt th+th,.dt td+td{border-left:1px solid var(--line)}
+.dt td{padding:9px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.dt tbody tr:hover td{background:var(--surface-2)}
+.dt tbody tr:last-child td{border-bottom:0}
+.cellp{display:flex;align-items:center;gap:12px;min-width:0}
+.cellp .nm,.wt .nm2{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wt .nm2{font-weight:500}
+.cellp .meta,.dt .wt .meta{font-size:12px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{display:flex;flex-direction:column;gap:5px;min-width:110px}
+.prog .mono{font-size:12px;color:var(--muted)}
+.bar{display:block;height:6px;border-radius:3px;background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--accent)}
+.bar i.under{background:var(--st-red)}
+.bar i.over{background:var(--st-amber)}
+.wkbars{display:flex;gap:4px;cursor:default}
+.wb{display:flex;flex-direction:column;align-items:center;gap:4px;width:34px}
+.wb em{font-style:normal;font-family:var(--f-mono);font-size:10px;color:var(--muted);white-space:nowrap}
+.wb i{display:block;width:100%;height:6px;border-radius:3px}
+.wb i.none{background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--line)}
+.wb i.abs{background:repeating-linear-gradient(-45deg,var(--abs-bg),var(--abs-bg) 2px,var(--abs-ink) 2px,var(--abs-ink) 3px);opacity:.7}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:7px 12px;color:var(--faint);min-width:240px}
+.search input{border:0;background:none;outline:none;width:100%;color:var(--ink)}
+.dash-stack{display:flex;flex-direction:column}
+
+/* ---------- Demand ---------- */
+.bal .bn,.need td.nc{text-align:center;font-family:var(--f-mono);font-size:13px;border-left:1px solid var(--line);height:44px}
+.bal .bn.ws,.need td.nc.ws{border-left:1px solid var(--line-strong)}
+.bal .who,.need .who{height:46px}
+.bal tr.balrow th,.bal tr.balrow td{background:var(--surface-2)}
+.bv{display:inline-block;min-width:34px;padding:2px 6px;border-radius:6px;font-weight:600;font-size:12.5px}
+.bv.neg{background:var(--st-red-bg)}
+.bv.pos{background:var(--st-green-bg)}
+.bv.zero{background:var(--st-grey-bg);color:var(--st-grey)}
+.freeb{display:inline-block;min-width:26px;padding:1px 6px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:600;cursor:default}
+.need td.nc{width:84px;min-width:84px;padding:4px !important;position:relative}
+.need td.nc .ni{width:100%;height:28px;border:1px solid transparent;border-radius:7px;background:transparent;text-align:center;font:600 14px var(--f-mono);color:var(--ink);-moz-appearance:textfield}
+.need td.nc .ni::-webkit-outer-spin-button,.need td.nc .ni::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.need td.nc .ni:hover{border-color:var(--line-strong);background:var(--surface)}
+.need td.nc .ni:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.need td.nc .pl{display:block;font-size:10px;color:var(--faint);margin-top:1px}
+.need td.nc.under{background:var(--st-red-bg)}
+.need td.nc.under .pl{color:var(--st-red);font-weight:600}
+.need td.nc.over{background:var(--st-amber-bg)}
+.need td.nc.over .pl{color:var(--st-amber);font-weight:600}
+.need td.nc.ok .pl{color:var(--st-green);font-weight:600}
+.need th.sumh{min-width:200px;border-left:1px solid var(--line-strong);text-align:left;padding:0 14px !important}
+.need td.sumc{padding:0 14px !important;border-left:1px solid var(--line-strong);white-space:nowrap}
+.need td.sumc .mono{margin-right:10px;font-size:12.5px;color:var(--muted)}
+.need td.sumc .mono b{color:var(--ink)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+.card-t{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.card-t h4{margin:0;font-family:var(--f-display);font-weight:600;font-size:16px}
+.card-t .faint{font-size:12px}
+.li{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:13px;min-width:0}
+.li-t{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.li-v{font-weight:600;font-size:12.5px}
+.li-x{margin-left:auto}
+.ok-empty{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:13px;padding:10px 0;border-top:1px solid var(--line)}
+
+/* ---------- Import ---------- */
+.modal.wide{width:min(900px,100%)}
+.field input,.field textarea{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--surface-2);font:inherit;color:var(--ink);resize:vertical}
+.field textarea{min-height:200px;line-height:1.5}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.im-grid{display:grid;grid-template-columns:minmax(0,320px);gap:12px}
+.im-note{margin:0;font-size:12.5px;color:var(--muted)}
+.im-sum{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);color:var(--accent);border-radius:10px;padding:10px 12px;font-size:13px}
+.im-sum svg{flex:none;margin-top:2px}
+.im-tbl{min-width:760px}
+.im-tbl th.n,.im-tbl td.n{width:58px;text-align:center}
+.im-tbl td.n input{text-align:center;font-family:var(--f-mono);font-weight:600;border-color:var(--line);background:var(--surface-2)}
+.im-tbl select{border-color:var(--line) !important;background:var(--surface-2) !important}
+.im-tbl input,.im-tbl select{border:1px solid var(--line) !important;border-radius:7px;background:var(--surface-2) !important;padding:6px 8px;width:100%}
+.im-tbl td:first-child{min-width:230px}
+.im-tbl td:nth-child(2){min-width:150px}
+.im-tbl td:nth-last-child(2){min-width:170px}
+a.btn{text-decoration:none;color:inherit}
+.unk{font-size:11.5px;color:var(--st-amber);display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.unk .btn{padding:2px 8px;font-size:11.5px}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:rot .7s linear infinite;display:inline-block}
+@keyframes rot{to{transform:rotate(360deg)}}
+@media (max-width:900px){.two{grid-template-columns:minmax(0,1fr)}.search{min-width:0;width:100%}}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -368,9 +535,11 @@ table.reg{border-collapse:collapse;width:100%;min-width:720px}
       <h1><strong>Resursplanering</strong>Hantverkare &amp; inhyrd personal</h1>
     </div>
     <nav class="nav" aria-label="Vyer">
-      <a href="#planering" data-view="planering"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4v17M3 14h18"/></svg>Planering<span class="k">P</span></a>
-      <a href="#projekt" data-view="projekt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-6h4v6"/></svg>Projektöversikt<span class="k">O</span></a>
-      <a href="#register" data-view="register"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg>Personal &amp; projekt<span class="k">R</span></a>
+      <a href="#oversikt" data-view="oversikt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7.5" height="9" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.5"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/><rect x="3" y="15" width="7.5" height="6" rx="1.5"/></svg>Översikt</a>
+      <a href="#planering" data-view="planering"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4v17M3 14h18"/></svg>Planering</a>
+      <a href="#behov" data-view="behov"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 21h14"/><path d="M4 7h16"/><path d="M4 7l-2.5 6a3 3 0 0 0 5 0z"/><path d="M20 7l-2.5 6a3 3 0 0 0 5 0z"/></svg>Behov &amp; balans</a>
+      <a href="#projekt" data-view="projekt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-6h4v6"/></svg>Projektöversikt</a>
+      <a href="#register" data-view="register"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg>Personal &amp; projekt</a>
     </nav>
     <div class="side-foot">
       <div class="sync off" id="sync"><i></i><span>Ansluter…</span></div>
@@ -417,7 +586,7 @@ const S = {
   people: [], projects: [], weeksData: new Map(), settings: {},
   db: null, user: null, assets: null, downloads: null,
   canWrite: true, status: 'loading', // loading | ready | nodb | timeout
-  focusProj: null,
+  focusProj: null, langFilter: '', demand: new Map(), sample: null,
 };
 const $main = document.getElementById('main');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -607,7 +776,7 @@ function renderPlanning(){
       const r = rowIds.length; rowIds.push(p.id);
       const langs = p.langs || [];
       const dim = S.langFilter && !langs.includes(S.langFilter);
-      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></th>`;
+      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag">${esc(p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div></div></th>`;
       cols.forEach((c,ci) => {
         const v = getCell(c.wk,p.id,c.d);
         h += `<td class="c ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}" data-r="${r}" data-c="${ci}">${cellHTML(v)}</td>`;
@@ -762,9 +931,7 @@ document.addEventListener('keydown', e => {
   if (typing) return;
   if ((e.key==='Delete'||e.key==='Backspace') && sel && !popEl && S.canWrite){ const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} rutor rensade`); sel=null; paintSel(); }
   if (e.metaKey||e.ctrlKey||e.altKey) return;
-  if (e.key==='p'||e.key==='P') location.hash='planering';
-  if (e.key==='o'||e.key==='O') location.hash='projekt';
-  if (e.key==='r'||e.key==='R') location.hash='register';
+  if (!modalEl && /^[1-5]$/.test(e.key)) location.hash = ['oversikt','planering','behov','projekt','register'][+e.key-1];
 });
 
 /* ================= Overview ================= */
@@ -816,7 +983,7 @@ function renderOverview(){
     const p = s.project;
     const crew = [...s.crew.values()].sort((a,b)=>b.n-a.n || a.person.name.localeCompare(b.person.name,'sv'));
     return `<article class="card" style="--c:${esc(p.color)}"><div class="card-h"><span class="badge">${esc(p.number)}</span><div style="min-width:0"><div class="nm">${esc(p.name||'Namnlöst projekt')}</div>${p.client?`<div class="cl">${esc(p.client)}</div>`:''}</div><div class="dv"><b>${s.total}</b>dagsverken</div></div>
-      <div class="crew">${crew.map(cr => `<div class="crew-r"><span class="p">${esc(cr.person.name)}<small>${isOwn(cr.person)?(cr.person.tag||''):esc(cr.person.company)}</small></span><span class="dots" title="${cr.n} dagar">${cr.days.map((on,i)=>(i>0&&i%5===0?'<i class="gap"></i>':'')+`<i class="${on?'on':''}"></i>`).join('')}</span></div>`).join('')}</div></article>`;
+      <div class="crew">${crew.map(cr => `<div class="crew-r"><span class="p" style="display:flex;align-items:center;gap:8px">${avatarHTML(cr.person,24)}${esc(cr.person.name)}<small>${isOwn(cr.person)?(cr.person.tag||''):esc(cr.person.company)}</small></span><span class="dots" title="${cr.n} dagar">${cr.days.map((on,i)=>(i>0&&i%5===0?'<i class="gap"></i>':'')+`<i class="${on?'on':''}"></i>`).join('')}</span></div>`).join('')}</div></article>`;
   }).join('');
   $main.innerHTML = head + kpis +
     `<div class="section-h"><h3>Bemanning per projekt och dag</h3><p>Antal personer på plats per dag</p></div><div class="board"><div class="scroller" style="max-height:none">${mx}</div></div>
@@ -835,14 +1002,15 @@ function renderRegister(){
   const people = [...S.people].sort((a,b)=>(a.order??999)-(b.order??999));
   const companies = [...new Set([OWN_COMPANY, ...S.people.map(p=>p.company).filter(Boolean)])];
   const nextColor = PALETTE.find(c => !S.projects.some(p=>p.color===c)) || PALETTE[S.projects.length % PALETTE.length];
-  let pr = `<div class="panel"><div class="panel-h"><div><h3>Projekt</h3><p>${projs.filter(p=>p.active!==false).length} aktiva · avslutade projekt döljs i projektväljaren</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th style="width:56px">Färg</th><th style="width:120px">Nummer</th><th>Projektnamn</th><th>Beställare / adress</th><th style="width:120px">Status</th><th style="width:60px"></th></tr></thead><tbody>`;
+  let pr = `<div class="panel"><div class="panel-h"><div><h3>Projekt</h3><p>${projs.filter(p=>p.active!==false).length} aktiva · avslutade projekt döljs i projektväljaren</p></div></div><div class="tbl-wrap"><table class="reg"><thead><tr><th style="width:56px">Färg</th><th style="width:120px">Nummer</th><th>Projektnamn</th><th>Beställare / adress</th><th style="width:180px">Platschef</th><th style="width:120px">Status</th><th style="width:60px"></th></tr></thead><tbody>`;
   for (const p of projs) pr += `<tr class="${p.active===false?'off':''}"><td><button class="swbtn" data-color="${esc(p.id)}" style="--c:${esc(p.color)}" aria-label="Byt färg" ${dis}></button></td>
     <td><input type="text" class="mono" data-pf="number" data-id="${esc(p.id)}" value="${esc(p.number)}" ${dis}></td>
     <td><input type="text" data-pf="name" data-id="${esc(p.id)}" value="${esc(p.name||'')}" placeholder="Lägg till projektnamn" ${dis}></td>
     <td><input type="text" data-pf="client" data-id="${esc(p.id)}" value="${esc(p.client||'')}" placeholder="—" ${dis}></td>
+    <td><input type="text" data-pf="manager" data-id="${esc(p.id)}" value="${esc(p.manager||'')}" placeholder="—" list="managers" ${dis}></td>
     <td><button class="toggle" data-pact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Aktivt':'Avslutat'}</button></td>
     <td><div class="rowbtns"><button class="btn ghost danger" data-pdel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`;
-  if (S.canWrite) pr += `<tr class="add"><td><span class="swbtn" style="--c:${nextColor};display:block"></span></td><td><input type="text" class="mono" id="npNum" placeholder="1050"></td><td><input type="text" id="npName" placeholder="Projektnamn"></td><td><input type="text" id="npClient" placeholder="Beställare / adress"></td><td colspan="2"><button class="btn primary" id="npAdd">Lägg till</button></td></tr>`;
+  if (S.canWrite) pr += `<tr class="add"><td><span class="swbtn" style="--c:${nextColor};display:block"></span></td><td><input type="text" class="mono" id="npNum" placeholder="1050"></td><td><input type="text" id="npName" placeholder="Projektnamn"></td><td><input type="text" id="npClient" placeholder="Beställare / adress"></td><td><input type="text" id="npMgr" placeholder="Platschef" list="managers"></td><td colspan="2"><button class="btn primary" id="npAdd">Lägg till</button></td></tr>`;
   pr += `</tbody></table></div></div>`;
 
   const roleSelect = (attrs, cur) => {
@@ -850,8 +1018,8 @@ function renderRegister(){
     return `<select ${attrs}>${legacy}<option value="" ${!cur?'selected':''}>—</option>${ROLES.map(r=>`<optgroup label="${esc(r.g)}">${r.items.map(it=>`<option value="${esc(it)}" ${cur===it?'selected':''}>${esc(it)}</option>`).join('')}</optgroup>`).join('')}</select>`;
   };
   const countrySelect = (attrs, cur) => `<select ${attrs}><option value="" ${!cur?'selected':''}>—</option>${cur && !COUNTRIES.includes(cur)?`<option selected>${esc(cur)}</option>`:''}${COUNTRIES.map(c=>`<option value="${esc(c)}" ${cur===c?'selected':''}>${esc(c)}</option>`).join('')}</select>`;
-  let pe = `<div class="panel"><div class="panel-h"><div><h3>Personal</h3><p>Egen personal och inhyrda hantverkare. Inhyrda markeras med streckad ram i planeringen.</p></div></div><div class="tbl-wrap"><table class="reg reg-people"><thead><tr><th style="min-width:200px">Namn</th><th style="width:170px">Företag</th><th style="width:200px">Roll</th><th style="width:170px">Ursprungsland</th><th style="min-width:240px">Språkkunskaper</th><th style="width:110px">I planeringen</th><th style="width:120px"></th></tr></thead><tbody>`;
-  people.forEach((p,i) => { const langs = p.langs || []; pe += `<tr class="${p.active===false?'off':''} ${isOwn(p)?'':'hired-r'}"><td>${isOwn(p)?'':'<span class="hb">Inhyrd</span>'}<input type="text" data-uf="name" data-id="${esc(p.id)}" value="${esc(p.name)}" ${dis} style="${isOwn(p)?'':'width:calc(100% - 52px)'}"></td>
+  let pe = `<div class="panel"><div class="panel-h"><div><h3>Personal</h3><p>Egen personal och inhyrda hantverkare. Inhyrda markeras med streckad ram i planeringen.</p></div></div><div class="tbl-wrap"><table class="reg reg-people"><thead><tr><th style="min-width:240px">Namn <span style="text-transform:none;letter-spacing:0;font-weight:400">· klicka på avataren för att byta</span></th><th style="width:170px">Företag</th><th style="width:200px">Roll</th><th style="width:170px">Ursprungsland</th><th style="min-width:240px">Språkkunskaper</th><th style="width:110px">I planeringen</th><th style="width:120px"></th></tr></thead><tbody>`;
+  people.forEach((p,i) => { const langs = p.langs || []; pe += `<tr class="${p.active===false?'off':''} ${isOwn(p)?'':'hired-r'}"><td><div class="whoi">${avatarHTML(p,30,true)}${isOwn(p)?'':'<span class="hb">Inhyrd</span>'}<input type="text" data-uf="name" data-id="${esc(p.id)}" value="${esc(p.name)}" ${dis}></div></td>
     <td><input type="text" data-uf="company" data-id="${esc(p.id)}" value="${esc(p.company||OWN_COMPANY)}" list="companies" ${dis}></td>
     <td>${roleSelect(`data-uf="tag" data-id="${esc(p.id)}" ${dis}`, p.tag||'')}</td>
     <td>${countrySelect(`data-uf="country" data-id="${esc(p.id)}" ${dis}`, p.country||'')}</td>
@@ -859,7 +1027,7 @@ function renderRegister(){
     <td><button class="toggle" data-uact="${esc(p.id)}" aria-pressed="${p.active!==false}" ${dis}><i></i>${p.active!==false?'Visas':'Dold'}</button></td>
     <td><div class="rowbtns"><button class="btn ghost" data-up="${i}" aria-label="Flytta upp" ${dis||(i===0?'disabled':'')}>↑</button><button class="btn ghost" data-down="${i}" aria-label="Flytta ned" ${dis||(i===people.length-1?'disabled':'')}>↓</button><button class="btn ghost danger" data-udel="${esc(p.id)}" title="Ta bort" ${dis}>✕</button></div></td></tr>`; });
   if (S.canWrite) pe += `<tr class="add"><td><input type="text" id="nuName" placeholder="För- och efternamn"></td><td><input type="text" id="nuCompany" value="${OWN_COMPANY}" list="companies"></td><td>${roleSelect('id="nuTag"','')}</td><td>${countrySelect('id="nuCountry"','')}</td><td class="faint" style="font-size:12px">Språk läggs till efter att personen skapats</td><td colspan="2"><button class="btn primary" id="nuAdd">Lägg till</button></td></tr>`;
-  pe += `</tbody></table></div></div><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>`;
+  pe += `</tbody></table></div></div><datalist id="managers">${[...new Set(S.projects.map(x=>x.manager).filter(Boolean))].map(m=>`<option value="${esc(m)}">`).join('')}</datalist><datalist id="companies">${companies.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>`;
 
   const logo = `<div class="panel"><div class="panel-h"><div><h3>Logotyp</h3><p>Visas i sidomenyn och överst på varje PDF. PNG eller JPG med transparent eller vit bakgrund fungerar bäst.</p></div></div>
     <div class="logo-box"><div class="logo-prev">${S.settings.logo?`<img alt="Logotyp" src="/_blob/${esc(S.settings.logo)}">`:`<div class="mark" style="color:var(--ink)">${MARK_SVG}<b>SYDBYGGARNA</b></div>`}</div>
@@ -887,7 +1055,7 @@ function renderRegister(){
   document.getElementById('npAdd').onclick = async () => {
     const num = document.getElementById('npNum').value.trim(); if (!num){ document.getElementById('npNum').focus(); return; }
     if (S.projects.some(p=>p.number===num)){ toast('Projekt '+num+' finns redan.'); return; }
-    const id = 'p'+slug(num); if (await saveDoc('projects/'+id, {number:num, name:document.getElementById('npName').value.trim(), client:document.getElementById('npClient').value.trim(), color:nextColor, active:true}, false)) toast('Projekt '+num+' tillagt');
+    const id = 'p'+slug(num); if (await saveDoc('projects/'+id, {number:num, name:document.getElementById('npName').value.trim(), client:document.getElementById('npClient').value.trim(), manager:document.getElementById('npMgr').value.trim(), color:nextColor, active:true}, false)) toast('Projekt '+num+' tillagt');
   };
   document.getElementById('nuAdd').onclick = async () => {
     const name = document.getElementById('nuName').value.trim(); if (!name){ document.getElementById('nuName').focus(); return; }
@@ -915,7 +1083,7 @@ function openColor(anchor, pid){
 
 /* ================= PDF export ================= */
 let modalEl = null;
-function closeModal(){ if (modalEl){ modalEl.remove(); modalEl=null; } }
+function closeModal(){ if (modalEl){ if (modalEl._cleanup) modalEl._cleanup(); modalEl.remove(); modalEl=null; } }
 function openExport(){
   closeModal();
   const base = mondayOf(new Date());
@@ -1086,33 +1254,440 @@ async function buildPdf(start, weeks, withProj, withNotes){
   return {blob: doc.output('blob'), name};
 }
 
+/* ================= Avatars ================= */
+const AV_BG = ['#FBD3DF','#DCD3F8','#CBE6F6','#D3EDD8','#FCE5C4','#F6D6CB','#E4E7E3','#FFF0B3'];
+const TONES = ['','\u{1F3FB}','\u{1F3FC}','\u{1F3FD}','\u{1F3FE}','\u{1F3FF}'];
+const AV_SETS = [
+  {label:'Hantverkare', tone:true, items:['👷','👷‍♂️','👷‍♀️','🧑‍🔧','👨‍🔧','👩‍🔧','🧑‍🏭','👨‍🏭','👩‍🏭','🧑‍💼','👨‍💼','👩‍💼','🧑‍🎓','👨‍🎓','👩‍🎓','🧑‍🚒','🕵️‍♂️','💂‍♂️']},
+  {label:'Ansikten', tone:true, items:['🧑','👨','👩','🧔','🧔‍♂️','🧔‍♀️','👱','👱‍♂️','👱‍♀️','👨‍🦰','👩‍🦰','👨‍🦱','👩‍🦱','👨‍🦳','👩‍🦳','👨‍🦲','👩‍🦲','🧓','👴','👵','👲','🧕','👳‍♂️','👳‍♀️']},
+  {label:'Lekfullt', tone:false, items:['😀','😎','🤠','🥸','🤓','😊','😄','🤩','🥳','😇','🧐','🤗','😏','😌','🤪','😺','🦊','🐻','🐼','🦁','🐯','🐨','🐸','🐵','🦉','🐺','🦄','🐙','🦖','🐝']},
+];
+const toneOf = (e,t) => { if (!t) return e; const cps = [...e]; return cps[0] + t + cps.slice(1).join(''); };
+const hashBg = id => { let h = 0; for (const ch of String(id)) h = (h*31 + ch.charCodeAt(0)) >>> 0; return AV_BG[h % AV_BG.length]; };
+const initials = n => String(n||'?').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+function avatarHTML(p, size=30, clickable=false){
+  const attrs = clickable && S.canWrite ? ` role="button" tabindex="0" data-av="${esc(p.id)}" title="Byt avatar"` : '';
+  const cls = 'av' + (clickable && S.canWrite ? ' can' : '');
+  if (p.photo) return `<span class="${cls}" style="--s:${size}px;--bg:${hashBg(p.id)}"${attrs}><img alt="" src="/_blob/${esc(p.photo)}"></span>`;
+  const a = p.avatar || {};
+  if (a.e) return `<span class="${cls}" style="--s:${size}px;--bg:${esc(a.bg||hashBg(p.id))}"${attrs}><span class="em">${esc(a.e)}</span></span>`;
+  return `<span class="${cls} ini" style="--s:${size}px;--bg:${hashBg(p.id)}"${attrs}>${esc(initials(p.name))}</span>`;
+}
+function avatarStack(people, max=5){
+  const shown = people.slice(0,max);
+  return `<span class="avs">${shown.map(p=>avatarHTML(p,26)).join('')}${people.length>max?`<span class="av more" style="--s:26px">+${people.length-max}</span>`:''}</span>`;
+}
+async function shrinkImage(file){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((ok,no)=>{ const i = new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=url; });
+    const side = Math.min(img.naturalWidth, img.naturalHeight), sx = (img.naturalWidth-side)/2, sy = (img.naturalHeight-side)/2;
+    const cv = document.createElement('canvas'); cv.width = cv.height = 320;
+    cv.getContext('2d').drawImage(img, sx, sy, side, side, 0, 0, 320, 320);
+    return await new Promise(ok => cv.toBlob(ok, 'image/jpeg', .88));
+  } finally { URL.revokeObjectURL(url); }
+}
+function openAvatar(pid){
+  const p = S.people.find(x=>x.id===pid); if (!p || !S.canWrite) return;
+  closeModal(); closePicker();
+  let cur = {e:(p.avatar&&p.avatar.e)||'', bg:(p.avatar&&p.avatar.bg)||hashBg(p.id)}, photo = p.photo||'', set = 0, tone = 0, busy = false;
+  modalEl = document.createElement('div'); modalEl.className='scrim';
+  modalEl.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="avH"><div class="modal-h"><div class="eyebrow">Avatar</div><h3 id="avH">${esc(p.name)}</h3></div><div class="modal-b" id="avBody"></div>
+    <div class="modal-f" style="justify-content:space-between"><button class="btn ghost danger" id="avClear">Ta bort avatar</button><span style="display:flex;gap:10px"><button class="btn ghost" id="avCancel">Avbryt</button><button class="btn primary" id="avSave">Spara</button></span></div></div>`;
+  document.body.appendChild(modalEl);
+  const body = modalEl.querySelector('#avBody');
+  const preview = () => photo ? `<span class="av" style="--s:84px;--bg:${esc(cur.bg)}"><img alt="" src="/_blob/${esc(photo)}"></span>` : cur.e ? `<span class="av" style="--s:84px;--bg:${esc(cur.bg)}"><span class="em">${esc(cur.e)}</span></span>` : `<span class="av ini" style="--s:84px;--bg:${esc(cur.bg)}">${esc(initials(p.name))}</span>`;
+  const draw = () => {
+    const st = AV_SETS[set];
+    body.innerHTML = `<div class="av-top">${preview()}<div class="av-side"><div class="field"><span>Bakgrund</span><div class="bgs">${AV_BG.map(c=>`<button style="--c:${c}" data-bg="${c}" aria-pressed="${cur.bg===c}" aria-label="Bakgrundsfärg"></button>`).join('')}</div></div>
+      ${S.assets ? `<div class="av-photo"><label class="btn" for="avFile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="15" rx="2"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg>${busy?'Laddar upp…':'Ladda upp foto'}</label><input type="file" id="avFile" accept="image/*" hidden><span class="faint">eller klistra in en bild med Ctrl+V</span></div>` : `<span class="faint" style="font-size:12px">Foton kan bara läggas till av redigerare.</span>`}</div></div>
+      <div class="seg" role="tablist">${AV_SETS.map((s,i)=>`<button data-set="${i}" aria-pressed="${i===set}">${s.label}</button>`).join('')}</div>
+      ${st.tone ? `<div class="tones">${TONES.map((t,i)=>`<button data-tone="${i}" aria-pressed="${i===tone}" aria-label="Hudton ${i||'standard'}">${toneOf('✋',t)}</button>`).join('')}</div>` : ''}
+      <div class="emo-grid">${st.items.map(e=>{ const v = st.tone ? toneOf(e, TONES[tone]) : e; return `<button data-e="${esc(v)}" aria-pressed="${!photo && cur.e===v}">${v}</button>`; }).join('')}</div>`;
+    body.querySelectorAll('[data-bg]').forEach(b => b.onclick = () => { cur.bg = b.dataset.bg; draw(); });
+    body.querySelectorAll('[data-set]').forEach(b => b.onclick = () => { set = +b.dataset.set; draw(); });
+    body.querySelectorAll('[data-tone]').forEach(b => b.onclick = () => { tone = +b.dataset.tone; draw(); });
+    body.querySelectorAll('[data-e]').forEach(b => b.onclick = () => { cur.e = b.dataset.e; photo = ''; draw(); });
+    const f = body.querySelector('#avFile'); if (f) f.onchange = () => f.files[0] && upload(f.files[0]);
+  };
+  const upload = async file => {
+    if (!S.assets || busy) return;
+    if (!/^image\//.test(file.type)){ toast('Välj en bildfil, till exempel JPG eller PNG.'); return; }
+    busy = true; draw();
+    try { const blob = await shrinkImage(file); const r = await S.assets.upload(blob, {type:'image/jpeg'}); photo = r.id; }
+    catch(e){ toast(e && e.code==='too_large' ? 'Bilden är för stor.' : 'Fotot kunde inte laddas upp.'); }
+    busy = false; if (modalEl) draw();
+  };
+  const onPaste = e => { const f = [...(e.clipboardData?.files||[])].find(x=>/^image\//.test(x.type)); if (f){ e.preventDefault(); upload(f); } };
+  document.addEventListener('paste', onPaste);
+  modalEl._cleanup = () => document.removeEventListener('paste', onPaste);
+  draw();
+  modalEl.querySelector('#avCancel').onclick = closeModal;
+  modalEl.addEventListener('pointerdown', e => { if (e.target===modalEl) closeModal(); });
+  modalEl.querySelector('#avSave').onclick = async () => { await saveDoc('people/'+pid, {avatar:{e:cur.e, bg:cur.bg}, photo}); closeModal(); toast('Avataren är sparad'); };
+  modalEl.querySelector('#avClear').onclick = async () => { await saveDoc('people/'+pid, {avatar:{e:'', bg:''}, photo:''}); closeModal(); };
+}
+document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('[data-av]'); if (a){ e.stopPropagation(); openAvatar(a.dataset.av); } });
+document.addEventListener('keydown', e => { if ((e.key==='Enter'||e.key===' ') && e.target.dataset && e.target.dataset.av){ e.preventDefault(); openAvatar(e.target.dataset.av); } });
+
+/* ================= Tooltip ================= */
+let TIPS = [];
+const tipEl = document.createElement('div'); tipEl.className = 'tip'; tipEl.hidden = true; document.body.appendChild(tipEl);
+const tipId = html => { TIPS.push(html); return TIPS.length-1; };
+document.addEventListener('pointerover', e => {
+  const t = e.target.closest && e.target.closest('[data-tip]');
+  if (!t || TIPS[+t.dataset.tip]==null){ tipEl.hidden = true; return; }
+  tipEl.innerHTML = TIPS[+t.dataset.tip]; tipEl.hidden = false;
+  const r = t.getBoundingClientRect(), w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+  let left = r.left + r.width/2 - w/2, top = r.bottom + 8;
+  if (top + h > innerHeight - 8) top = r.top - h - 8;
+  tipEl.style.left = Math.max(8, Math.min(left, innerWidth - w - 8)) + 'px'; tipEl.style.top = Math.max(8, top) + 'px';
+});
+addEventListener('scroll', () => { tipEl.hidden = true; }, true);
+
+/* ================= Demand (veckobrev) ================= */
+function getNeed(wk,pid,d){ const w = S.demand.get(wk); return (w && w.need && w.need[pid] && +w.need[pid][d]) || 0; }
+function needMeta(wk,pid){ const w = S.demand.get(wk); return (w && w.meta && w.meta[pid]) || null; }
+async function writeNeed(changes, metaByWk){
+  if (!S.db) return false;
+  const byWk = new Map();
+  const ensure = wk => { if (!byWk.has(wk)) byWk.set(wk, {need:{}, meta:{}}); return byWk.get(wk); };
+  for (const c of changes){ (ensure(c.wk).need[c.pid] ||= {})[c.d] = c.val; }
+  if (metaByWk) for (const [wk,m] of Object.entries(metaByWk)) Object.assign(ensure(wk).meta, m);
+  for (const [wk,body] of byWk){ const cur = S.demand.get(wk) || {need:{}, meta:{}}; for (const [pid,ds] of Object.entries(body.need)) cur.need[pid] = {...(cur.need[pid]||{}), ...ds}; Object.assign(cur.meta ||= {}, body.meta); S.demand.set(wk, cur); }
+  render(); pending++; syncState();
+  try {
+    for (const [wk,body] of byWk){
+      const ref = S.db.doc('demand/'+wk); const snap = await ref.get();
+      const data = {need: body.need}; if (Object.keys(body.meta).length) data.meta = body.meta;
+      if (snap.exists) await ref.update(data); else await ref.set({key:wk, need:body.need, meta:body.meta});
+    }
+    return true;
+  } catch(e){ toast(errMsg(e)); return false; }
+  finally { pending--; syncState(); }
+}
+function balance(cs){
+  const people = activePeople();
+  return cs.map(c => {
+    let avail = 0, planned = 0, need = 0; const free = [], perProj = {};
+    for (const p of people){
+      const v = getCell(c.wk,p.id,c.d);
+      if (v && v.p){ (perProj[v.p] ||= {need:0, planned:0, crew:[]}); perProj[v.p].planned++; perProj[v.p].crew.push(p); }
+      if (c.hol || (v && v.s)) continue;
+      avail++; if (v && v.p) planned++; else free.push(p);
+    }
+    const dm = S.demand.get(c.wk);
+    if (dm && dm.need) for (const [pid,days] of Object.entries(dm.need)){ const n = +(days||{})[c.d] || 0; if (n){ need += n; (perProj[pid] ||= {need:0, planned:0, crew:[]}).need = n; } }
+    return {c, avail, planned, need, free, perProj, bal: avail - need};
+  });
+}
+function projectSummary(B){
+  const m = new Map();
+  B.forEach((b,ci) => { for (const [pid,x] of Object.entries(b.perProj)){
+    if (!m.has(pid)) m.set(pid, {pid, need:0, planned:0, short:0, over:0, crew:new Map(), perCol:B.map(()=>({need:0,planned:0}))});
+    const s = m.get(pid); s.need += x.need; s.planned += x.planned; s.perCol[ci] = {need:x.need, planned:x.planned};
+    if (x.need){ s.short += Math.max(0, x.need - x.planned); s.over += Math.max(0, x.planned - x.need); s.plannedOnNeed = (s.plannedOnNeed||0) + x.planned; }
+    for (const p of x.crew) s.crew.set(p.id, p);
+  }});
+  return [...m.values()].map(s => ({...s, project: projById(s.pid), crew:[...s.crew.values()], status: !s.need ? 'none' : s.short ? 'under' : s.over ? 'over' : 'ok'}))
+    .filter(s => s.project).sort((a,b) => (b.short-a.short) || (b.need-a.need) || (b.planned-a.planned));
+}
+const STATUS_PILL = {
+  under: s => `<span class="pill red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12l7 7 7-7"/></svg>Underbemannat · ${s.short} dv</span>`,
+  over: s => `<span class="pill amber"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Överbemannat · ${s.over} dv</span>`,
+  ok: () => `<span class="pill green"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>I balans</span>`,
+  none: () => `<span class="pill grey">Inget behov angivet</span>`,
+};
+const balPill = n => n > 0 ? `<span class="pill amber">+${n} överskott</span>` : n < 0 ? `<span class="pill red">${n} underskott</span>` : `<span class="pill green">I balans</span>`;
+const dayLabel = c => DAYS[c.di]+' '+c.date.getDate()+'/'+(c.date.getMonth()+1);
+
+/* ---------- Import of weekly letters ---------- */
+function weekOptions(){ const base = mondayOf(new Date()); const out = []; for (let i=-1;i<=12;i++) out.push(addDays(base,7*i)); return out; }
+function openImport(){
+  closeModal(); closePicker();
+  const managers = [...new Set(S.projects.map(p=>p.manager).filter(Boolean))];
+  const opts = weekOptions(), nextMon = addDays(mondayOf(new Date()),7);
+  let rows = [], stage = 'paste', from = '', text = '', busy = false, err = '', summary = '';
+  modalEl = document.createElement('div'); modalEl.className='scrim';
+  modalEl.innerHTML = `<div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="imH"><div class="modal-h"><div class="eyebrow">Behov från platschef</div><h3 id="imH">Läs in veckobrev</h3></div><div class="modal-b" id="imBody"></div><div class="modal-f" id="imFoot"></div></div>`;
+  document.body.appendChild(modalEl);
+  const body = modalEl.querySelector('#imBody'), foot = modalEl.querySelector('#imFoot');
+  const projOpts = cur => S.projects.filter(p=>p.active!==false).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true})).map(p=>`<option value="${esc(p.id)}" ${cur===p.id?'selected':''}>${esc(p.number)}${p.name?' · '+esc(p.name):''}</option>`).join('');
+  const draw = () => {
+    if (stage==='paste'){
+      body.innerHTML = `<div class="im-grid"><label class="field"><span>Från platschef</span><input id="imFrom" list="imMgr" value="${esc(from)}" placeholder="Namn på platschefen"><datalist id="imMgr">${managers.map(m=>`<option value="${esc(m)}">`).join('')}</datalist></label></div>
+        <label class="field"><span>Veckobrevet</span><textarea id="imText" rows="11" placeholder="Klistra in veckobrevet här, till exempel:&#10;&#10;Projekt 1039 – v.47 behöver vi 5 träarbetare mån–fre, plus 2 extra tis–ons för gjutning.&#10;1044: 3 man hela veckan, v.48 räcker det med 2.">${esc(text)}</textarea></label>
+        <p class="im-note">${S.sample ? 'Claude läser brevet och föreslår behov per projekt och dag. Inget sparas förrän du har granskat förslaget.' : 'Automatisk tolkning är inte tillgänglig i den här vyn. Fyll i behovet manuellt i nästa steg.'}</p>
+        ${err?`<div class="err">${esc(err)}</div>`:''}`;
+      foot.innerHTML = `<button class="btn ghost" id="imCancel">Avbryt</button><button class="btn" id="imManual">Fyll i manuellt</button>${S.sample?`<button class="btn primary" id="imParse" ${busy?'disabled':''}>${busy?'<span class="spin"></span>Claude läser brevet…':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/></svg>Tolka med Claude'}</button>`:''}`;
+      const ti = body.querySelector('#imText'), fi = body.querySelector('#imFrom');
+      ti.oninput = () => text = ti.value; fi.oninput = () => from = fi.value;
+      foot.querySelector('#imCancel').onclick = closeModal;
+      foot.querySelector('#imManual').onclick = () => { if (!rows.length) rows.push({pid:'', mon:ymd(nextMon), days:[0,0,0,0,0], note:''}); stage='review'; draw(); };
+      const pb = foot.querySelector('#imParse'); if (pb) pb.onclick = parse;
+      if (!busy) ti.focus();
+    } else {
+      body.innerHTML = `${summary?`<div class="im-sum"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/></svg><span>${esc(summary)}</span></div>`:''}
+        <div class="tbl-wrap"><table class="reg im-tbl"><thead><tr><th>Projekt</th><th>Vecka</th>${DAYS.map(d=>`<th class="n">${d}</th>`).join('')}<th>Notering</th><th></th></tr></thead><tbody>
+        ${rows.map((r,i)=>`<tr><td>${r.unknown?`<div class="unk">Okänt: <b>${esc(r.unknown)}</b> <button class="btn ghost" data-create="${i}">Skapa projekt</button></div>`:''}<select data-i="${i}" data-k="pid"><option value="">Välj projekt</option>${projOpts(r.pid)}</select></td>
+          <td><select data-i="${i}" data-k="mon">${opts.map(m=>`<option value="${ymd(m)}" ${ymd(m)===r.mon?'selected':''}>v.${isoWeek(m).w} · ${fmtShort(m)}</option>`).join('')}</select></td>
+          ${r.days.map((n,d)=>`<td class="n"><input type="number" min="0" max="99" data-i="${i}" data-d="${d}" value="${n||''}" placeholder="–"></td>`).join('')}
+          <td><input type="text" data-i="${i}" data-k="note" value="${esc(r.note)}" placeholder="—"></td><td><button class="btn ghost danger" data-del="${i}" aria-label="Ta bort rad">✕</button></td></tr>`).join('')}
+        </tbody></table></div><button class="btn ghost" id="imAdd" style="align-self:flex-start">+ Lägg till rad</button>
+        <p class="im-note">Siffrorna är antal personer som behövs per dag. Befintligt behov för samma projekt och vecka skrivs över.</p>${err?`<div class="err">${esc(err)}</div>`:''}`;
+      const valid = rows.filter(r=>r.pid);
+      foot.innerHTML = `<button class="btn ghost" id="imBack">Tillbaka till brevet</button><button class="btn primary" id="imSave" ${valid.length?'':'disabled'}>Spara behov${valid.length?' ('+valid.length+' '+(valid.length===1?'rad':'rader')+')':''}</button>`;
+      body.querySelectorAll('select[data-k], input[data-k]').forEach(el => el.onchange = () => { rows[+el.dataset.i][el.dataset.k] = el.value; if (el.dataset.k==='pid'){ rows[+el.dataset.i].unknown = ''; draw(); } });
+      body.querySelectorAll('input[data-d]').forEach(el => el.onchange = () => { rows[+el.dataset.i].days[+el.dataset.d] = Math.max(0, Math.min(99, parseInt(el.value)||0)); });
+      body.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { rows.splice(+b.dataset.del,1); draw(); });
+      body.querySelectorAll('[data-create]').forEach(b => b.onclick = async () => {
+        const r = rows[+b.dataset.create]; const num = String(r.unknown).match(/\d{3,6}/)?.[0] || r.unknown;
+        const id = 'p' + String(num).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+        const used = new Set(S.projects.map(p=>p.color)); const color = PALETTE.find(c=>!used.has(c)) || PALETTE[0];
+        if (await saveDoc('projects/'+id, {number:String(num), name: /^\d+$/.test(r.unknown)?'':r.unknown, client:'', color, active:true, manager: from}, false)){
+          if (!S.projects.some(p=>p.id===id)) S.projects.push({id, number:String(num), name:'', color, active:true});
+          r.pid = id; r.unknown = ''; draw();
+        }
+      });
+      body.querySelector('#imAdd').onclick = () => { rows.push({pid:'', mon:ymd(nextMon), days:[0,0,0,0,0], note:''}); draw(); };
+      foot.querySelector('#imBack').onclick = () => { stage='paste'; err=''; draw(); };
+      foot.querySelector('#imSave').onclick = save;
+    }
+  };
+  async function parse(){
+    if (!text.trim()){ err = 'Klistra in veckobrevet först.'; draw(); return; }
+    busy = true; err = ''; draw();
+    const wkList = opts.slice(1, 10).map(m => `v.${isoWeek(m).w} = ${fmtRange(m, addDays(m,4))} ${addDays(m,4).getFullYear()}`).join('; ');
+    const projList = S.projects.filter(p=>p.active!==false).map(p => `${p.number}${p.name?' "'+p.name+'"':''}${p.manager?' (platschef '+p.manager+')':''}`).join('; ');
+    const prompt = `Du hjälper byggföretaget Sydbyggarna att läsa platschefers veckobrev och ta ut BEMANNINGSBEHOV: hur många personer (hantverkare) varje projekt behöver per arbetsdag måndag–fredag.
+Idag är det ${fmtShort(today)} ${today.getFullYear()}, vecka ${isoWeek(today).w}. Kommande veckor: ${wkList}.
+Kända projekt: ${projList || 'inga ännu'}.
+
+Svara ENDAST med JSON i exakt detta format:
+{"rows":[{"project":"1039","week":47,"days":[5,7,7,5,5],"note":"kort notering, t.ex. yrkesroller eller moment"}],"summary":"En mening på svenska som sammanfattar behovet."}
+
+Regler:
+- "days" är antal personer som behövs måndag, tisdag, onsdag, torsdag, fredag.
+- "4 snickare hela veckan" blir [4,4,4,4,4]. "2 st tis–tor" blir [0,2,2,2,0]. Flera roller samma dag summeras och nämns i "note".
+- Om veckan inte anges, anta vecka ${isoWeek(nextMon).w}. "Nästa vecka" betyder vecka ${isoWeek(nextMon).w}.
+- "project" ska vara projektnumret. Om projektet inte finns bland de kända, skriv numret eller namnet som det står i brevet.
+- Ta bara med behov som faktiskt står i brevet. Hitta inte på något.
+
+Veckobrev${from?' från '+from:''}:
+"""
+${text.trim()}
+"""`;
+    try {
+      const res = await S.sample.json(prompt, {modelTier:'default'});
+      const known = new Map(S.projects.map(p=>[p.number, p.id]));
+      rows = (res && Array.isArray(res.rows) ? res.rows : []).map(r => {
+        const num = String(r.project||'').trim();
+        const pid = known.get(num) || (S.projects.find(p=>p.name && p.name.toLowerCase()===num.toLowerCase())||{}).id || '';
+        const m = opts.find(o => isoWeek(o).w === +r.week) || nextMon;
+        const days = [0,1,2,3,4].map(i => Math.max(0, Math.min(99, parseInt((r.days||[])[i])||0)));
+        return {pid, unknown: pid?'':num, mon: ymd(m), days, note: String(r.note||'').slice(0,120)};
+      });
+      summary = res && res.summary ? String(res.summary).slice(0,300) : '';
+      if (!rows.length){ err = 'Claude hittade inget bemanningsbehov i brevet. Kontrollera texten eller fyll i manuellt.'; busy = false; draw(); return; }
+      stage = 'review';
+    } catch(e){
+      err = e && e.code==='rate_limited' ? 'För många förfrågningar just nu. Vänta en stund och försök igen.' : e && e.code==='not_granted' ? 'Claude fick inte läsa brevet. Fyll i behovet manuellt.' : 'Brevet kunde inte tolkas. Försök igen eller fyll i manuellt.';
+    }
+    busy = false; if (modalEl) draw();
+  }
+  async function save(){
+    const valid = rows.filter(r=>r.pid);
+    const changes = [], meta = {};
+    for (const r of valid){
+      const wk = wkKey(new Date(r.mon+'T00:00'));
+      r.days.forEach((n,i) => changes.push({wk, pid:r.pid, d:String(i+1), val: n||null}));
+      (meta[wk] ||= {})[r.pid] = {from: from.trim(), note: r.note||'', at: TODAY};
+    }
+    if (await writeNeed(changes, meta)){ closeModal(); toast(`Behov sparat för ${valid.length} ${valid.length===1?'projektvecka':'projektveckor'}`); }
+  }
+  draw();
+}
+
+/* ---------- Demand view ---------- */
+function renderDemand(){
+  const head = `<div class="head"><div><div class="eyebrow">Behov &amp; balans</div><h2>${esc(periodText().split(' · ')[0])}</h2><div class="sub">${esc(periodText().split(' · ')[1])} · platschefernas behov mot planerad och tillgänglig personal</div></div>
+    <div class="tools">${periodTools()}${S.canWrite?`<button class="btn primary" id="importBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Läs in veckobrev</button>`:''}</div></div>`;
+  const sb = stateBlock();
+  if (sb){ $main.innerHTML = head + sb; bindPeriodTools($main); return; }
+  const cs = columns(S.start, S.weeks), B = balance(cs), summ = projectSummary(B);
+  const sumNeed = B.reduce((a,b)=>a+b.need,0);
+  let t = `<table class="plan bal"><thead><tr><th class="corner" rowspan="2">Balans per dag</th>`;
+  for (let i=0;i<S.weeks;i++){ const a = cs[i*5], b = cs[i*5+4]; t += `<th class="wkh" colspan="5"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span></th>`; }
+  t += `</tr><tr>${cs.map(c=>`<th class="dh ${c.di===0?'ws':''} ${c.today?'today':''} ${c.hol?'hol':''}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span></th>`).join('')}</tr></thead><tbody>`;
+  const line = (label, hint, f) => `<tr><th class="who"><span class="nm">${label}</span><span class="meta">${hint}</span></th>${B.map(b=>`<td class="bn ${b.c.di===0?'ws':''}">${f(b)}</td>`).join('')}</tr>`;
+  t += line('Behov', 'från veckobreven', b => b.need ? `<b>${b.need}</b>` : '<span class="faint">–</span>');
+  t += line('Tillgänglig personal', 'ej frånvarande', b => b.c.hol ? '<span class="faint">röd dag</span>' : b.avail);
+  t += line('Planerat', 'på projekt i planeringen', b => b.planned);
+  t += line('Lediga resurser', 'tillgängliga men oplanerade', b => b.free.length ? `<span data-tip="${tipId(`<div class="tt-h">${dayLabel(b.c)} · lediga</div>${b.free.map(p=>`<div class="tt-r">${avatarHTML(p,18)}<span>${esc(p.name)}</span></div>`).join('')}`)}" class="freeb">${b.free.length}</span>` : '0');
+  t += `<tr class="balrow"><th class="who"><span class="nm">Balans</span><span class="meta">tillgängligt minus behov</span></th>${B.map(b=>`<td class="bn ${b.c.di===0?'ws':''}">${b.need||b.avail ? `<span class="bv ${b.bal<0?'neg':b.bal>0?'pos':'zero'}">${b.bal>0?'+':''}${b.bal}</span>` : ''}</td>`).join('')}</tr></tbody></table>`;
+
+  const projects = S.projects.filter(p=>p.active!==false).sort((a,b)=>{ const sa = summ.find(s=>s.pid===a.id), sb2 = summ.find(s=>s.pid===b.id); return ((sb2?sb2.need+sb2.planned:0) - (sa?sa.need+sa.planned:0)) || a.number.localeCompare(b.number,'sv',{numeric:true}); });
+  let m = `<table class="plan need"><thead><tr><th class="corner">Projekt</th>${cs.map(c=>`<th class="dh ${c.di===0?'ws':''} ${c.today?'today':''}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span></th>`).join('')}<th class="dh sumh">Behov / plan</th></tr></thead><tbody>`;
+  for (const p of projects){
+    const s = summ.find(x=>x.pid===p.id) || {need:0, planned:0, short:0, over:0, status:'none'};
+    const metas = [...new Set(cs.map(c=>c.wk))].map(wk=>needMeta(wk,p.id)).filter(Boolean);
+    const lastMeta = metas[metas.length-1];
+    m += `<tr><th class="who"><div class="whoi"><span class="badge sm" style="--c:${esc(p.color)}">${esc(p.number)}</span><div class="wt"><span class="nm">${esc(p.name||'Namnlöst projekt')}</span><span class="meta">${p.manager?esc(p.manager):'Ingen platschef angiven'}${lastMeta&&lastMeta.at?` · brev ${esc(fmtShort(new Date(lastMeta.at+'T00:00')))}`:''}</span></div></div></th>`;
+    cs.forEach((c,ci) => {
+      const n = getNeed(c.wk,p.id,c.d), pl = (B[ci].perProj[p.id]||{}).planned || 0;
+      const st = !n ? '' : pl < n ? 'under' : pl > n ? 'over' : 'ok';
+      const meta = needMeta(c.wk,p.id);
+      m += `<td class="nc ${c.di===0?'ws':''} ${st}" ${meta&&meta.note&&c.di===0?`data-tip="${tipId(`<div class="tt-h">${esc(p.number)} · v.${c.w}</div><div class="tt-n">${esc(meta.note)}</div>${meta.from?`<div class="tt-f">${esc(meta.from)}</div>`:''}`)}"`:''}><input type="number" min="0" max="99" class="ni" data-pid="${esc(p.id)}" data-ci="${ci}" value="${n||''}" placeholder="–" aria-label="Behov ${esc(p.number)} ${esc(dayLabel(c))}" ${S.canWrite?'':'disabled'}><span class="pl">${pl} plan</span></td>`;
+    });
+    m += `<td class="sumc"><span class="mono"><b>${s.need}</b> / ${s.planned}</span>${STATUS_PILL[s.status](s)}</td></tr>`;
+  }
+  m += `</tbody></table>`;
+
+  const shortages = [];
+  B.forEach(b => { for (const [pid,x] of Object.entries(b.perProj)) if (x.need > x.planned){ const p = projById(pid); if (p) shortages.push({b, p, n: x.need - x.planned}); } });
+  const shortHTML = shortages.length ? shortages.slice(0,14).map(s => `<div class="li"><span class="badge sm" style="--c:${esc(s.p.color)}">${esc(s.p.number)}</span><span class="li-t">${esc(dayLabel(s.b.c))}</span><span class="li-v neg">behöver ${s.n} till</span><span class="li-x">${s.b.free.length ? avatarStack(s.b.free,4) : '<span class="faint">ingen ledig</span>'}</span></div>`).join('') + (shortages.length>14?`<div class="faint" style="padding:8px 0">+ ${shortages.length-14} till</div>`:'') : `<div class="ok-empty"><span class="pill green">I balans</span> Inga projekt saknar personal under perioden${sumNeed?'':' (inget behov inläst ännu)'}.</div>`;
+  const freeDays = B.filter(b=>!b.c.hol && b.free.length);
+  const freeHTML = freeDays.length ? freeDays.map(b => `<div class="li"><span class="li-t" style="min-width:88px">${esc(dayLabel(b.c))}</span><span class="li-x" style="margin-left:0">${avatarStack(b.free,6)}</span><span class="li-v">${b.free.length} ${b.free.length===1?'person':'personer'}</span></div>`).join('') : `<div class="ok-empty">All tillgänglig personal är planerad.</div>`;
+
+  $main.innerHTML = head +
+    (sumNeed ? '' : `<div class="banner"><b>Inget behov inläst för perioden.</b> Klicka på <b>Läs in veckobrev</b> och klistra in platschefens brev, eller skriv in antal personer direkt i tabellen nedan.</div>`) +
+    `<div class="board"><div class="scroller" style="max-height:none">${t}</div></div>
+     <div class="section-h"><h3>Behov per projekt</h3><p>Skriv antal personer som behövs per dag. Röd = för få planerade, gul = för många, grön = i balans.</p></div>
+     <div class="board"><div class="scroller" id="scroller">${m}</div></div>
+     <div class="two"><div class="card"><div class="card-t"><h4>Underskott att lösa</h4><span class="faint">${shortages.length} dagar</span></div>${shortHTML}</div><div class="card"><div class="card-t"><h4>Lediga resurser</h4><span class="faint">tillgängliga men oplanerade</span></div>${freeHTML}</div></div>`;
+  bindPeriodTools($main);
+  const ib = document.getElementById('importBtn'); if (ib) ib.onclick = openImport;
+  $main.querySelectorAll('input.ni').forEach(inp => {
+    inp.onchange = () => { const c = cs[+inp.dataset.ci]; const n = Math.max(0, Math.min(99, parseInt(inp.value)||0)); writeNeed([{wk:c.wk, pid:inp.dataset.pid, d:c.d, val:n||null}]); };
+    inp.onkeydown = e => { if (e.key==='Enter'){ inp.blur(); } };
+  });
+}
+
+/* ================= Dashboard ================= */
+let dashQ = '';
+function balanceChart(B, width){
+  const n = B.length, padL = 30, padR = 8, padT = 14, plotH = 168, padB = 46;
+  const colW = Math.max(30, (width - padL - padR) / n), W = padL + padR + colW*n, H = padT + plotH + padB;
+  const maxV = Math.max(4, ...B.map(b=>Math.max(b.avail, b.need, b.planned)));
+  const step = Math.max(1, Math.ceil(maxV/4)), top = step*4;
+  const y = v => padT + plotH - (v/top)*plotH, base = y(0);
+  const bw = Math.min(22, colW*.5);
+  const rt = (x,yy,w,h,r) => { if (h<=0) return ''; r = Math.min(r,h,w/2); return `M${x},${yy+h}V${yy+r}Q${x},${yy} ${x+r},${yy}H${x+w-r}Q${x+w},${yy} ${x+w},${yy+r}V${yy+h}Z`; };
+  let g = '';
+  for (let v=0; v<=top; v+=step) g += `<line x1="${padL}" x2="${W-padR}" y1="${y(v)}" y2="${y(v)}" class="ch-grid ${v===0?'base':''}"/><text x="${padL-8}" y="${y(v)+4}" class="ch-ax" text-anchor="end">${v}</text>`;
+  B.forEach((b,i) => {
+    const cx = padL + colW*i + colW/2, x0 = cx - bw/2;
+    if (i>0 && b.c.di===0) g += `<line x1="${padL+colW*i}" x2="${padL+colW*i}" y1="${padT}" y2="${H-14}" class="ch-wk"/>`;
+    if (b.c.di===0) g += `<text x="${padL+colW*i+4}" y="${H-4}" class="ch-wkl">Vecka ${b.c.w}</text>`;
+    g += `<path d="${rt(x0, y(b.avail), bw, base-y(b.avail), 4)}" class="ch-cap"/>`;
+    g += `<path d="${rt(x0+3, y(Math.min(b.planned,b.avail||b.planned)), bw-6, base-y(Math.min(b.planned,b.avail||b.planned)), 3)}" class="ch-plan"/>`;
+    if (b.need) g += `<line x1="${x0-5}" x2="${x0+bw+5}" y1="${y(b.need)}" y2="${y(b.need)}" class="ch-need"/>`;
+    g += `<text x="${cx}" y="${base+16}" class="ch-day ${b.c.today?'today':''}" text-anchor="middle">${DAYS[b.c.di].slice(0,2)} ${b.c.date.getDate()}</text>`;
+    if (b.need && b.bal<0) g += `<text x="${cx}" y="${base+31}" class="ch-def" text-anchor="middle">▼${-b.bal}</text>`;
+    else if (b.need && b.bal>0) g += `<text x="${cx}" y="${base+31}" class="ch-sur" text-anchor="middle">+${b.bal}</text>`;
+    const tip = `<div class="tt-h">${esc(DAYS_LONG[b.c.di])} ${b.c.date.getDate()} ${MONTHS[b.c.date.getMonth()]} · v.${b.c.w}${b.c.hol?' · '+esc(b.c.hol):''}</div>
+      <div class="tt-r"><i class="k cap"></i><span>Tillgänglig personal</span><b>${b.avail}</b></div>
+      <div class="tt-r"><i class="k plan"></i><span>Planerat</span><b>${b.planned}</b></div>
+      <div class="tt-r"><i class="k need"></i><span>Behov enligt veckobrev</span><b>${b.need||'–'}</b></div>
+      ${b.need?`<div class="tt-r tt-bal"><span>Balans</span><b class="${b.bal<0?'neg':'pos'}">${b.bal>0?'+':''}${b.bal}</b></div>`:''}
+      ${Object.entries(b.perProj).filter(([,x])=>x.need>x.planned).map(([pid,x])=>{ const p = projById(pid); return p?`<div class="tt-r"><i class="k" style="background:${esc(p.color)}"></i><span>${esc(p.number)} saknar</span><b class="neg">${x.need-x.planned}</b></div>`:''; }).join('')}`;
+    g += `<rect x="${padL+colW*i}" y="${padT}" width="${colW}" height="${plotH+20}" class="ch-hit" data-tip="${tipId(tip)}"/>`;
+  });
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Tillgänglig personal, planerat och behov per dag">${g}</svg>`;
+}
+function renderDashboard(){
+  const hour = new Date().getHours();
+  const greet = hour < 10 ? 'God morgon' : hour < 18 ? 'Hej' : 'God kväll';
+  const head = `<div class="head"><div><div class="eyebrow">Översikt · ${esc(periodText().split(' · ')[0])}</div><h2>${greet}, här är resursläget</h2><div class="sub">${esc(periodText().split(' · ')[1])}</div></div>
+    <div class="tools">${periodTools()}${S.canWrite?`<button class="btn" id="importBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Läs in veckobrev</button>`:''}<button class="btn primary" id="exportBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportera PDF</button></div></div>`;
+  const sb = stateBlock();
+  const bindHead = () => { bindPeriodTools($main); const e = document.getElementById('exportBtn'); if (e) e.onclick = openExport; const ib = document.getElementById('importBtn'); if (ib) ib.onclick = openImport; };
+  if (sb){ $main.innerHTML = head + sb; bindHead(); return; }
+  const people = activePeople();
+  const cs = columns(S.start, S.weeks), B = balance(cs), summ = projectSummary(B);
+  const avail = B.reduce((a,b)=>a+b.avail,0), planned = B.reduce((a,b)=>a+b.planned,0), need = B.reduce((a,b)=>a+b.need,0);
+  const util = avail ? Math.round(planned/avail*100) : 0;
+  const covered = summ.reduce((a,s)=>a + s.perCol.reduce((x,c)=>x+Math.min(c.need,c.planned),0),0);
+  const cover = need ? Math.round(covered/need*100) : 0;
+  const needDays = B.filter(b=>b.need), bal = need ? needDays.reduce((a,b)=>a+b.bal,0) : null;
+  const deficitDays = B.filter(b=>b.need && b.bal<0).length;
+  const own = people.filter(isOwn).length;
+  const kpis = `<div class="kpis">
+    <div class="kpi"><div class="l">Personal</div><div class="v">${people.length}</div><div class="d">${own} egna · ${people.length-own} inhyrda</div></div>
+    <div class="kpi"><div class="l">Beläggning</div><div class="v">${util}<small>%</small></div><div class="meter"><i style="width:${Math.min(util,100)}%"></i></div><div class="d">${planned} av ${avail} tillgängliga dagsverken planerade</div></div>
+    <div class="kpi"><div class="l">Behov från veckobrev</div><div class="v">${need}<small>dv</small></div><div class="d">${need?cover+' % täckt av planeringen':'Inget behov inläst för perioden'}</div></div>
+    <div class="kpi"><div class="l">Resursbalans</div><div class="v ${bal==null?'':bal<0?'neg':'pos'}">${bal==null?'–':(bal>0?'+':'')+bal}${bal==null?'':'<small>dv</small>'}</div><div class="d">${bal==null?'Läs in veckobrev för att se balansen':(bal<0?'Underskott':bal>0?'Överskott':'I balans')+` på ${needDays.length} dagar med behov`+(deficitDays?` · ${deficitDays} ${deficitDays===1?'dag':'dagar'} med för lite folk`:'')}</div></div></div>`;
+  const chartW = Math.max(320, ($main.clientWidth || 900) - 64 - 44);
+  const chart = `<div class="panel dash"><div class="panel-h"><div><h3>Resursbalans per dag</h3><p>Tillgänglig personal mot platschefernas behov</p></div>
+    <div class="ch-legend"><span><i class="k cap"></i>Tillgänglig personal</span><span><i class="k plan"></i>Planerat</span><span><i class="k need"></i>Behov enligt veckobrev</span></div></div>
+    <div class="ch-wrap">${balanceChart(B, chartW)}</div></div>`;
+
+  const prow = summ.map(s => {
+    const p = s.project, pon = s.plannedOnNeed||0, pct = s.need ? Math.min(100, Math.round(pon/s.need*100)) : 100;
+    return `<tr><td><div class="cellp"><span class="badge sm" style="--c:${esc(p.color)}">${esc(p.number)}</span><div class="wt"><span class="nm">${esc(p.name||'Namnlöst projekt')}</span><span class="meta">${esc(p.client||'')}</span></div></div></td>
+      <td>${p.manager?esc(p.manager):'<span class="faint">–</span>'}</td>
+      <td><div class="prog"><span class="mono">${s.need?`${pon} / ${s.need} dv`:`${s.planned} dv planerade`}</span><span class="bar"><i class="${s.status}" style="width:${pct}%"></i></span></div></td>
+      <td>${avatarStack(s.crew,5)}</td><td>${STATUS_PILL[s.status](s)}</td></tr>`;
+  }).join('');
+  const projTable = `<div class="panel dash"><div class="panel-h"><div><h3>Projekt <span class="cnt">${summ.length}</span></h3><p>Bemanning och behov under perioden</p></div><a class="btn ghost" href="#behov">Visa behov &amp; balans →</a></div>
+    <div class="tbl-wrap">${summ.length?`<table class="dt"><thead><tr><th>Projekt</th><th>Platschef</th><th>Bemanning</th><th>Lag</th><th>Status</th></tr></thead><tbody>${prow}</tbody></table>`:`<div class="empty"><h3>Inga projekt i perioden</h3><p>Planera personal eller läs in ett veckobrev.</p></div>`}</div></div>`;
+
+  const wk0 = cs.slice(0,5);
+  const workdays = B.filter(b=>!b.c.hol).length;
+  const perow = people.map(p => {
+    let pl = 0, ab = 0; for (const c of cs){ if (c.hol) continue; const v = getCell(c.wk,p.id,c.d); if (v&&v.p) pl++; else if (v&&v.s) ab++; }
+    const capd = workdays - ab, pct = capd ? Math.round(pl/capd*100) : 0;
+    const status = ab===workdays ? `<span class="pill grey">Frånvarande</span>` : pl===capd ? `<span class="pill green">Fullt planerad</span>` : pl===0 ? `<span class="pill red">Ej planerad</span>` : `<span class="pill amber">${capd-pl} ${capd-pl===1?'dag':'dagar'} ledig</span>`;
+    const tip = `<div class="tt-h">${esc(p.name)} · v.${wk0[0].w}</div>` + wk0.map(c => { const v = getCell(c.wk,p.id,c.d); const pr = v&&v.p&&projById(v.p); return `<div class="tt-r"><span class="tt-d">${DAYS[c.di]}</span>${pr?`<i class="k" style="background:${esc(pr.color)}"></i><span>${esc(pr.number)}${pr.name?' '+esc(pr.name):''}${v.n?' · '+esc(v.n):''}</span>`:v&&v.s?`<i class="k abs"></i><span>${esc(ABS_LABEL[v.s])}${v.n?' · '+esc(v.n):''}</span>`:c.hol?`<i class="k"></i><span>${esc(c.hol)}</span>`:`<i class="k"></i><span class="faint">Ej planerad</span>`}</div>`; }).join('');
+    const week = `<div class="wkbars" data-tip="${tipId(tip)}">${wk0.map(c => { const v = getCell(c.wk,p.id,c.d); const pr = v&&v.p&&projById(v.p); return `<span class="wb"><em>${pr?esc(pr.number):v&&v.s?esc(ABS_LABEL[v.s].slice(0,3)):'–'}</em><i class="${pr?'':v&&v.s?'abs':'none'}" style="${pr?'background:'+esc(pr.color):''}"></i></span>`; }).join('')}</div>`;
+    const search = (p.name+' '+(p.company||'')+' '+(p.tag||'')+' '+(p.country||'')+' '+(p.langs||[]).join(' ')).toLowerCase();
+    return `<tr data-q="${esc(search)}" ${dashQ && !search.includes(dashQ)?'hidden':''}><td><div class="cellp">${avatarHTML(p,36,true)}<div class="wt"><span class="nm">${esc(p.name)}</span><span class="meta">${esc(p.tag||(isOwn(p)?'Egen personal':'Inhyrd'))}</span></div></div></td>
+      <td><div class="wt"><span class="nm2">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.company||OWN_COMPANY)}</span><span class="meta">${[p.country,(p.langs||[]).map(langCode).join(' ')].filter(Boolean).map(esc).join(' · ')||'&nbsp;'}</span></div></td>
+      <td>${week}</td><td><div class="prog"><span class="mono">${pct}%</span><span class="bar"><i style="width:${pct}%"></i></span></div></td><td>${status}</td></tr>`;
+  }).join('');
+  const peopleTable = `<div class="panel dash"><div class="panel-h"><div><h3>Personal <span class="cnt">${people.length}</span></h3><p>Vecka ${wk0[0].w} per dag · beläggning för hela perioden</p></div>
+    <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="dashSearch" placeholder="Sök personal, språk, land…" value="${esc(dashQ)}" autocomplete="off"></label></div>
+    <div class="tbl-wrap"><table class="dt"><thead><tr><th>Person</th><th>Företag / språk</th><th>Vecka ${wk0[0].w}</th><th>Beläggning</th><th>Status</th></tr></thead><tbody id="dashPeople">${perow}</tbody></table></div></div>`;
+
+  $main.innerHTML = head + kpis + chart + `<div class="dash-stack">${projTable}${peopleTable}</div>`;
+  bindHead();
+  const si = document.getElementById('dashSearch');
+  si.oninput = () => { dashQ = si.value.trim().toLowerCase(); document.querySelectorAll('#dashPeople tr').forEach(tr => tr.hidden = !!dashQ && !tr.dataset.q.includes(dashQ)); };
+}
+let resizeT; addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(() => { if (S.view==='oversikt') render(); }, 200); });
+
+
 /* ================= Router / render ================= */
 function render(){
   document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.dataset.view===S.view ? 'page' : 'false'));
   const scr = document.getElementById('scroller'); const sl = scr ? scr.scrollLeft : 0, stp = scr ? scr.scrollTop : 0;
-  if (S.view==='projekt') renderOverview();
+  TIPS = []; tipEl.hidden = true;
+  if (S.view==='oversikt') renderDashboard();
+  else if (S.view==='behov') renderDemand();
+  else if (S.view==='projekt') renderOverview();
   else if (S.view==='register') renderRegister();
   else renderPlanning();
   const scr2 = document.getElementById('scroller'); if (scr2 && scr){ scr2.scrollLeft = sl; scr2.scrollTop = stp; }
   syncState();
 }
+const VIEWS = ['oversikt','planering','behov','projekt','register'];
 function route(){
   const h = location.hash.replace('#','');
-  const v = ['planering','projekt','register'].includes(h) ? h : 'planering';
+  const v = VIEWS.includes(h) ? h : 'oversikt';
   if (v!==S.view){ S.view = v; sel = null; closePicker(false); }
   render();
 }
 addEventListener('hashchange', route);
-S.view = ['planering','projekt','register'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'planering';
+S.view = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'oversikt';
 renderLogo(); render();
 
 /* ================= Boot ================= */
 let rerenderQueued = false;
-const queueRender = () => { if (rerenderQueued) return; rerenderQueued = true; requestAnimationFrame(() => { rerenderQueued = false; if (!dragging && !popEl && !(document.activeElement && /INPUT|SELECT/.test(document.activeElement.tagName) && S.view==='register')) render(); else setTimeout(queueRender, 400); }); };
+const queueRender = () => { if (rerenderQueued) return; rerenderQueued = true; requestAnimationFrame(() => { rerenderQueued = false; const ae = document.activeElement, typing = ae && $main.contains(ae) && (ae.tagName==='TEXTAREA' || (ae.tagName==='INPUT' && !/checkbox|file/.test(ae.type)) || (ae.tagName==='SELECT' && S.view==='register')); if (!dragging && !popEl && !typing) render(); else setTimeout(queueRender, 400); }); };
 async function boot(){
   if (!window.claude || !window.claude.use){ S.status='nodb'; render(); return; }
-  const [db, user, assets, downloads] = await Promise.all(['db','user','assets','downloads'].map(n => window.claude.use(n).catch(()=>null)));
-  S.db = db; S.user = user; S.assets = assets; S.downloads = downloads;
+  const [db, user, assets, downloads, sample] = await Promise.all(['db','user','assets','downloads','sample'].map(n => window.claude.use(n).catch(()=>null)));
+  S.db = db; S.user = user; S.assets = assets; S.downloads = downloads; S.sample = sample;
   if (!db){ S.status='nodb'; render(); return; }
   if (user){ try { const w = await user.can('data.write'); if (w===false) S.canWrite = false; } catch(e){} }
   const got = {people:false, projects:false, weeks:false};
@@ -1122,6 +1697,7 @@ async function boot(){
   db.collection('people').onSnapshot(s => { S.people = s.docs.map(d => ({id:d.id, ...d.data()})); got.people = true; ready(); queueRender(); }, fail);
   db.collection('projects').onSnapshot(s => { S.projects = s.docs.map(d => ({id:d.id, ...d.data(), number:String(d.data().number??'')})); got.projects = true; ready(); queueRender(); }, fail);
   db.collection('weeks').onSnapshot(s => { const m = new Map(); for (const d of s.docs){ m.set(d.id, JSON.parse(JSON.stringify(d.data().cells||{}))); } S.weeksData = m; got.weeks = true; ready(); queueRender(); }, fail);
+  db.collection('demand').onSnapshot(s => { const m = new Map(); for (const d of s.docs){ const x = d.data(); m.set(d.id, JSON.parse(JSON.stringify({need:x.need||{}, meta:x.meta||{}}))); } S.demand = m; queueRender(); }, () => {});
   db.doc('settings/main').onSnapshot(s => { S.settings = s.exists ? {...s.data()} : {}; renderLogo(); queueRender(); }, () => {});
 }
 boot();
