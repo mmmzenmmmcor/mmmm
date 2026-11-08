@@ -597,6 +597,25 @@ td.c:hover .cx{opacity:1;transform:none}
 .grp.sub th{background:var(--surface) !important;height:28px;padding-left:34px !important;font-size:10.5px}
 .grp.sub td{background:var(--surface)}
 
+
+/* ---------- Faces inside planning boxes ---------- */
+.chip,.abs,.split{position:relative}
+.chip,.abs{padding-right:28px}
+.chip .nt,.abs .nt{max-width:100%}
+.cf{position:absolute;right:4px;bottom:4px;display:flex;border-radius:50%;cursor:default;z-index:1}
+.cf .av{box-shadow:0 0 0 1.5px rgba(255,255,255,.85)}
+.cf:hover .av{transform:scale(1.15);box-shadow:0 0 0 2px var(--surface),0 2px 6px rgba(0,0,0,.25)}
+.cf .av{transition:transform .12s}
+.split .cf{bottom:auto;top:50%;transform:translateY(-50%);right:3px}
+.we .chip,.we .abs{padding-right:6px}
+.we .cf{right:2px;bottom:2px}
+.we .cf .av{--s:15px !important}
+.we .chip .num{font-size:12px}
+.tt-face{display:flex;align-items:center;gap:10px}
+.tt-face .av{box-shadow:none}
+.tt-face .tt-h{margin:0}
+.ghost .cf{display:none}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -925,7 +944,7 @@ function renderPlanning(){
       const langs = p.langs || [];
       const dim = S.langFilter && !langs.includes(S.langFilter);
       h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag ${isStaff(p)?'staff':''}" title="${esc(p.tag)}">${esc(isStaff(p)?roleShort(p.tag):p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div></div></th>`;
-      cols.forEach((c,ci) => { const v = getCell(c.wk,p.id,c.d), has = partsOf(v).length || (v && v.n); h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(v)}${has && S.canWrite ? `<button class="cx" tabindex="-1" aria-label="Ta bort" title="Ta bort">×</button>` : ''}</td>`; });
+      cols.forEach((c,ci) => { const v = getCell(c.wk,p.id,c.d), has = partsOf(v).length || (v && v.n); h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(v, p)}${has && S.canWrite ? `<button class="cx" tabindex="-1" aria-label="Ta bort" title="Ta bort">×</button>` : ''}</td>`; });
       h += `</tr>`;
     }
   }
@@ -968,16 +987,21 @@ function partHTML(it, half){
   const p = projById(it.p); if (!p) return `<div class="part miss">${lab}<span class="num">?</span></div>`;
   return `<div class="part pj ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}">${lab}<span class="num">${esc(p.number)}</span></div>`;
 }
-function cellHTML(v){
+function faceHTML(person){
+  if (!person) return '';
+  const meta = [person.tag, !isOwn(person) ? person.company : ''].filter(Boolean).join(' · ');
+  return `<span class="cf" title="" data-tip="${tipId(`<div class="tt-face">${avatarHTML(person,34)}<div><div class="tt-h">${esc(person.name)}</div>${meta?`<div class="tt-f">${esc(meta)}</div>`:''}</div></div>`)}">${avatarHTML(person,20)}</span>`;
+}
+function cellHTML(v, person){
   const ps = partsOf(v);
   if (!ps.length && !(v && v.n)) return '';
-  const title = esc(cellTitle(v));
-  if (ps.length===2) return `<div class="split" title="${title}">${partHTML(ps[0],'fm')}${partHTML(ps[1],'em')}${v.n?'<i class="ndot"></i>':''}</div>`;
+  const title = esc(cellTitle(v)), face = faceHTML(person);
+  if (ps.length===2) return `<div class="split" title="${title}">${partHTML(ps[0],'fm')}${partHTML(ps[1],'em')}${v.n?'<i class="ndot"></i>':''}${face}</div>`;
   const it = ps[0], nt = v.n ? `<span class="nt">${esc(v.n)}</span>` : '';
-  if (!it) return `<div class="chip miss" title="${title}"><span class="nt">${esc(v.n)}</span></div>`;
-  if (it.s) return `<div class="abs" title="${title}">${esc(ABS_LABEL[it.s]||it.s)}${nt}</div>`;
-  const p = projById(it.p); if (!p) return `<div class="chip miss" title="${title}"><span class="num">?</span>${nt}</div>`;
-  return `<div class="chip ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}" title="${title}"><span class="num">${esc(p.number)}</span>${nt}</div>`;
+  if (!it) return `<div class="chip miss" title="${title}"><span class="nt">${esc(v.n)}</span>${face}</div>`;
+  if (it.s) return `<div class="abs" title="${title}">${esc(ABS_LABEL[it.s]||it.s)}${nt}${face}</div>`;
+  const p = projById(it.p); if (!p) return `<div class="chip miss" title="${title}"><span class="num">?</span>${nt}${face}</div>`;
+  return `<div class="chip ${S.focusProj===p.id?'on':''}" style="--c:${esc(p.color)}" title="${title}"><span class="num">${esc(p.number)}</span>${nt}${face}</div>`;
 }
 function bindPlanningHead(){
   bindPeriodTools($main);
