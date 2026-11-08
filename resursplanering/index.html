@@ -633,6 +633,30 @@ td.c:hover .cx{opacity:1;transform:none}
 .side-min .side-foot{align-items:center}
 @media (max-width:900px){.side-tog{display:none}.app.side-min{grid-template-columns:minmax(0,1fr)}.side-min .nav .lbl,.side-min .brand h1,.side-min .mark b{display:revert}}
 
+
+/* ---------- Friday sausages ---------- */
+.korv{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:2px;border:1px solid transparent;background:none;border-radius:999px;padding:2px 6px;font-size:13px;line-height:1;opacity:0;transition:opacity .15s,border-color .15s;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",var(--f-body)}
+.korv b{font-family:var(--f-mono);font-size:11px;color:var(--ink)}
+.korv i{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--faint)}
+.korv.has{opacity:1;background:var(--st-amber-bg);border-color:transparent}
+.plan tbody tr:hover .korv,.korv:focus-visible{opacity:1}
+button.korv:hover{border-color:var(--line-strong)}
+.who .whoi .wt{min-width:0;flex:1}
+.kv{position:absolute;left:5px;top:3px;z-index:1;font-size:10px;line-height:14px;padding:0 4px 0 2px;border-radius:999px;background:var(--surface);color:var(--ink);font-family:var(--f-mono);font-weight:600;box-shadow:0 0 0 1px var(--line-strong);pointer-events:auto}
+.kv.away{opacity:.45;text-decoration:line-through}
+td.c .chip,td.c .abs{padding-top:8px}
+.korv-tag{font-size:11.5px;font-weight:700;font-family:var(--f-mono);background:var(--st-amber-bg);color:var(--st-amber);border-radius:999px;padding:1px 8px}
+tfoot tr.korv-row th,tfoot tr.korv-row td{bottom:40px;background:var(--surface)}
+tfoot tr.korv-row th span{text-transform:none;letter-spacing:0;font-weight:400;color:var(--faint);margin-left:4px}
+.kt{font-family:var(--f-mono);font-size:12.5px;background:var(--st-amber-bg);color:var(--st-amber);border-radius:999px;padding:2px 8px}
+.kt b{color:var(--ink)}
+.kt.z{background:none;color:var(--faint)}
+.kpop{width:270px}
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px}
+.kgrid button{border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:9px 0;font-weight:700;font-family:var(--f-mono)}
+.kgrid button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.kgrid button:hover{border-color:var(--line-strong)}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -945,7 +969,8 @@ function renderPlanning(){
   let h = `<table class="plan ${S.focusProj?'focus':''}" id="plan"><thead><tr><th class="corner" rowspan="2">Personal</th>`;
   for (let i=0;i<S.weeks;i++){
     const a = cols[i*7], b = cols[i*7+6], prevW = isoWeek(addDays(a.date,-7)).w;
-    h += `<th class="wkh ${a.bygg?'bygg':''}" colspan="7"><div class="wkh-i"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span>${a.bygg?`<span class="bygg-tag">Byggsemester</span>`:''}${ready?`<button class="wk-copy" data-copyto="${i}" title="Kopiera planeringen från vecka ${prevW} till vecka ${a.w}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>från v.${prevW}</button>`:''}</div></th>`;
+    const kci = korvCol(i), ktot = kci < 0 ? 0 : people.reduce((t,p) => t + korvFor(p, cols[kci]), 0);
+    h += `<th class="wkh ${a.bygg?'bygg':''}" colspan="7"><div class="wkh-i"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span>${a.bygg?`<span class="bygg-tag">Byggsemester</span>`:''}${ktot?`<span class="korv-tag" title="${ktot} korvar till planeringsmötet ${esc(DAYS_LONG[cols[kci].di].toLowerCase())}">🌭 ${ktot}</span>`:''}${ready?`<button class="wk-copy" data-copyto="${i}" title="Kopiera planeringen från vecka ${prevW} till vecka ${a.w}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>från v.${prevW}</button>`:''}</div></th>`;
   }
   h += `</tr><tr>`;
   for (const c of cols) h += `<th class="dh ${colCls(c)}" title="${esc(DAYS_LONG[c.di]+' '+fmtShort(c.date)+(c.hol?' – '+c.hol:'')+(c.bygg?' – byggsemester':''))}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span>${c.hol?`<span class="hn">${esc(c.hol)}</span>`:''}</th>`;
@@ -960,13 +985,16 @@ function renderPlanning(){
       const r = rowIds.length; rowIds.push(p.id);
       const langs = p.langs || [];
       const dim = S.langFilter && !langs.includes(S.langFilter);
-      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag ${isStaff(p)?'staff':''}" title="${esc(p.tag)}">${esc(isStaff(p)?roleShort(p.tag):p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div></div></th>`;
-      cols.forEach((c,ci) => { const v = getCell(c.wk,p.id,c.d), has = partsOf(v).length || (v && v.n); h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(v, p)}${has && S.canWrite ? `<button class="cx" tabindex="-1" aria-label="Ta bort" title="Ta bort">×</button>` : ''}</td>`; });
+      h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag ${isStaff(p)?'staff':''}" title="${esc(p.tag)}">${esc(isStaff(p)?roleShort(p.tag):p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div>${korvBtn(p)}</div></th>`;
+      cols.forEach((c,ci) => { const v = getCell(c.wk,p.id,c.d), has = partsOf(v).length || (v && v.n); h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(v, p)}${korvBadge(p, c, ci)}${has && S.canWrite ? `<button class="cx" tabindex="-1" aria-label="Ta bort" title="Ta bort">×</button>` : ''}</td>`; });
       h += `</tr>`;
     }
   }
   }
-  h += `</tbody><tfoot><tr><th>Planerade</th>`;
+  h += `</tbody><tfoot><tr class="korv-row"><th>🌭 Korvar <span>planeringsmöte</span></th>`;
+  { const kcs = new Set([...Array(S.weeks).keys()].map(korvCol)); cols.forEach((c,ci) => { const t = kcs.has(ci) ? people.reduce((a,p) => a + korvFor(p,c), 0) : null; h += `<td class="${colCls(c)}">${t===null ? '' : `<span class="kt ${t?'':'z'}">${t ? '🌭 <b>'+t+'</b>' : '–'}</span>`}</td>`; }); }
+  h += `</tr><tr>`;
+  h += `<th>Planerade</th>`;
   for (const c of cols){ let n=0; for (const p of people) n += loadOf(getCell(c.wk,p.id,c.d)).work; h += `<td class="${colCls(c)}">${c.off && !n ? '' : `<b>${fmtN(n)}</b>${c.off?'':'/'+people.length}`}</td>`; }
   h += `</tr></tfoot></table>`;
 
@@ -976,10 +1004,39 @@ function renderPlanning(){
   const table = document.getElementById('plan');
   if (!S.canWrite) table.classList.add('ro');
   $main.querySelectorAll('[data-focus]').forEach(b => b.onclick = () => { S.focusProj = S.focusProj===b.dataset.focus ? null : b.dataset.focus; render(); });
+  $main.querySelectorAll('[data-korv]').forEach(b => b.onclick = e => { e.stopPropagation(); openKorv(b); });
   $main.querySelectorAll('[data-sec]').forEach(b => b.onclick = () => { const k = b.dataset.sec; S.collapsed.has(k) ? S.collapsed.delete(k) : S.collapsed.add(k); try { localStorage.setItem('sb.collapsed', JSON.stringify([...S.collapsed])); } catch(e) {} sel = null; multi.clear(); render(); });
   $main.querySelectorAll('[data-copyto]').forEach(b => b.onclick = e => { e.stopPropagation(); const mon = addDays(S.start, 7*(+b.dataset.copyto)); copyWeek(addDays(mon,-7), mon); });
   const lf = document.getElementById('langFilter'); if (lf) lf.onchange = () => { S.langFilter = lf.value; render(); };
   if (sel) paintSel();
+}
+/* Sausages for the Friday planning meeting: each person's usual count shows on the week's last workday. */
+function korvCol(i){ for (let d=4; d>=0; d--){ const c = cols[i*7+d]; if (c && !c.hol && !c.bygg) return i*7+d; } return -1; }
+function korvFor(p, c){ const n = +p.korv || 0; if (!n || !c) return 0; return loadOf(getCell(c.wk,p.id,c.d)).abs >= 1 ? 0 : n; }
+function korvBadge(p, c, ci){
+  const n = +p.korv || 0; if (!n || korvCol(c.wi) !== ci) return '';
+  const away = korvFor(p, c) === 0;
+  return `<span class="kv ${away?'away':''}" title="${away ? esc(p.name)+' är borta denna dag – räknas inte' : n+' '+(n===1?'korv':'korvar')+' till planeringsmötet'}">🌭${n}</span>`;
+}
+function korvBtn(p){
+  const n = +p.korv || 0;
+  if (!S.canWrite) return n ? `<span class="korv has" title="${n} korvar på planeringsmötet">🌭<b>${n}</b></span>` : '';
+  return `<button class="korv ${n?'has':''}" data-korv="${esc(p.id)}" title="Korvar på planeringsmötet">🌭${n?`<b>${n}</b>`:'<i>+</i>'}</button>`;
+}
+let korvPop = null;
+function openKorv(btn){
+  if (korvPop){ korvPop.remove(); korvPop = null; }
+  const p = S.people.find(x => x.id===btn.dataset.korv); if (!p) return;
+  const cur = +p.korv || 0;
+  korvPop = document.createElement('div'); korvPop.className = 'pop kpop';
+  korvPop.innerHTML = `<div class="pop-h"><div class="t">🌭 Korvar till planeringsmötet</div><div class="s">${esc(p.name)} · visas på veckans sista arbetsdag</div></div>
+    <div class="kgrid">${[0,1,2,3,4,5,6,8].map(n => `<button data-n="${n}" aria-pressed="${n===cur}">${n===0?'Ingen':n}</button>`).join('')}</div>`;
+  document.body.appendChild(korvPop);
+  const r = btn.getBoundingClientRect();
+  korvPop.style.left = Math.min(r.left, innerWidth - korvPop.offsetWidth - 12) + 'px';
+  korvPop.style.top = Math.min(r.bottom + 6, innerHeight - korvPop.offsetHeight - 12) + 'px';
+  korvPop.querySelectorAll('[data-n]').forEach(b => b.onclick = async () => { const n = +b.dataset.n; korvPop.remove(); korvPop = null; p.korv = n; render(); if (await saveDoc('people/'+p.id, {korv:n})) toast(n ? `${p.name}: ${n} ${n===1?'korv':'korvar'} på fredagsmötet` : `${p.name}: inga korvar`); });
+  setTimeout(() => document.addEventListener('pointerdown', function h(e){ if (korvPop && !korvPop.contains(e.target)){ korvPop.remove(); korvPop = null; } document.removeEventListener('pointerdown', h, true); }, true));
 }
 function sectionsOf(groups){
   const own = groups.filter(([k]) => k===OWN_COMPANY), staff = groups.filter(([k]) => k===STAFF), hired = groups.filter(([k]) => k!==OWN_COMPANY && k!==STAFF);
