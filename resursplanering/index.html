@@ -583,6 +583,20 @@ td.c:hover .cx{opacity:1;transform:none}
 .mbar>span small{font-size:11px;color:var(--faint)}
 .mbar .btn{padding:7px 12px}
 
+
+/* ---------- Collapsible sections ---------- */
+.grp.sec th{padding:0 10px !important}
+.gtog{display:flex;align-items:center;gap:8px;width:100%;height:34px;border:0;background:none;padding:0 8px;border-radius:7px;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink);font-weight:700;text-align:left}
+.gtog:hover{background:var(--line)}
+.gtog span{color:var(--faint);font-family:var(--f-mono);letter-spacing:0;text-transform:none;font-weight:500}
+.gtog .gc{margin-left:auto;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:0 7px;font-size:11px}
+.gtog .chev{transition:transform .15s;flex:none;color:var(--muted)}
+.gtog[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.grp.sec.closed td.gs{text-align:left;padding:0 10px !important;font-family:var(--f-mono);font-size:12px;color:var(--muted);border-left:1px solid var(--line)}
+.grp.sec.closed td.gs b{color:var(--ink)}
+.grp.sub th{background:var(--surface) !important;height:28px;padding-left:34px !important;font-size:10.5px}
+.grp.sub td{background:var(--surface)}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -682,6 +696,7 @@ const S = {
 const $main = document.getElementById('main');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 try { const w = +localStorage.getItem('sb.weeks'); if ([1,2,3,4,6].includes(w)) S.weeks = w; } catch(e) {}
+S.collapsed = new Set(); try { S.collapsed = new Set(JSON.parse(localStorage.getItem('sb.collapsed')||'[]')); } catch(e) {}
 
 /* ================= Dates ================= */
 const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -753,7 +768,7 @@ const activePeople = () => S.people.filter(p => p.active !== false).sort((a,b)=>
 function groupsOf(people){
   const m = new Map();
   for (const p of people){ const c = isStaff(p) ? STAFF : (p.company || OWN_COMPANY); if (!m.has(c)) m.set(c, []); m.get(c).push(p); }
-  const rank = k => k===OWN_COMPANY ? 0 : k===STAFF ? 1 : 2;
+  const rank = k => k===OWN_COMPANY ? 0 : k===STAFF ? 2 : 1;
   return [...m.entries()].sort((a,b) => rank(a[0])-rank(b[0]) || a[0].localeCompare(b[0],'sv'));
 }
 const isOwn = p => isStaff(p) || (p.company||OWN_COMPANY)===OWN_COMPANY;
@@ -900,8 +915,11 @@ function renderPlanning(){
   for (const c of cols) h += `<th class="dh ${colCls(c)}" title="${esc(DAYS_LONG[c.di]+' '+fmtShort(c.date)+(c.hol?' – '+c.hol:'')+(c.bygg?' – byggsemester':''))}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span>${c.hol?`<span class="hn">${esc(c.hol)}</span>`:''}</th>`;
   h += `</tr></thead><tbody>`;
   rowIds = [];
-  for (const [company, list] of groups){
-    h += `<tr class="grp"><th>${esc(company)}<span>${company===OWN_COMPANY?'egen':company===STAFF?'Sydbyggarna':'inhyrd'}</span><span>${list.length}</span></th><td colspan="${cols.length}"></td></tr>`;
+  for (const sec of sectionsOf(groups)){
+    h += secHeader(sec);
+    if (S.collapsed.has(sec.key)) continue;
+    for (const [company, list] of sec.groups){
+    if (sec.key==='hired') h += `<tr class="grp sub"><th>${esc(company)}<span>${list.length}</span></th><td colspan="${cols.length}"></td></tr>`;
     for (const p of list){
       const r = rowIds.length; rowIds.push(p.id);
       const langs = p.langs || [];
@@ -910,6 +928,7 @@ function renderPlanning(){
       cols.forEach((c,ci) => { const v = getCell(c.wk,p.id,c.d), has = partsOf(v).length || (v && v.n); h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(v)}${has && S.canWrite ? `<button class="cx" tabindex="-1" aria-label="Ta bort" title="Ta bort">×</button>` : ''}</td>`; });
       h += `</tr>`;
     }
+  }
   }
   h += `</tbody><tfoot><tr><th>Planerade</th>`;
   for (const c of cols){ let n=0; for (const p of people) n += loadOf(getCell(c.wk,p.id,c.d)).work; h += `<td class="${colCls(c)}">${c.off && !n ? '' : `<b>${fmtN(n)}</b>${c.off?'':'/'+people.length}`}</td>`; }
@@ -921,9 +940,21 @@ function renderPlanning(){
   const table = document.getElementById('plan');
   if (!S.canWrite) table.classList.add('ro');
   $main.querySelectorAll('[data-focus]').forEach(b => b.onclick = () => { S.focusProj = S.focusProj===b.dataset.focus ? null : b.dataset.focus; render(); });
+  $main.querySelectorAll('[data-sec]').forEach(b => b.onclick = () => { const k = b.dataset.sec; S.collapsed.has(k) ? S.collapsed.delete(k) : S.collapsed.add(k); try { localStorage.setItem('sb.collapsed', JSON.stringify([...S.collapsed])); } catch(e) {} sel = null; multi.clear(); render(); });
   $main.querySelectorAll('[data-copyto]').forEach(b => b.onclick = e => { e.stopPropagation(); const mon = addDays(S.start, 7*(+b.dataset.copyto)); copyWeek(addDays(mon,-7), mon); });
   const lf = document.getElementById('langFilter'); if (lf) lf.onchange = () => { S.langFilter = lf.value; render(); };
   if (sel) paintSel();
+}
+function sectionsOf(groups){
+  const own = groups.filter(([k]) => k===OWN_COMPANY), staff = groups.filter(([k]) => k===STAFF), hired = groups.filter(([k]) => k!==OWN_COMPANY && k!==STAFF);
+  const mk = (key, label, sub, gs) => ({key, label, sub, groups: gs, people: gs.flatMap(([,l]) => l)});
+  return [mk('own','Sydbyggarna','egna hantverkare',own), mk('hired','Inhyrda', hired.length===1 ? hired[0][0] : hired.length+' företag', hired), mk('staff','Tjänstemän','Sydbyggarna',staff)].filter(x => x.people.length);
+}
+function secHeader(sec){
+  const closed = S.collapsed.has(sec.key);
+  const th = `<th><button class="gtog" data-sec="${sec.key}" aria-expanded="${!closed}" title="${closed?'Visa':'Fäll ihop'} ${esc(sec.label.toLowerCase())}"><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg>${esc(sec.label)}<span>${esc(sec.sub)}</span><span class="gc">${sec.people.length}</span></button></th>`;
+  if (!closed) return `<tr class="grp sec ${sec.key}">${th}<td colspan="${cols.length}"></td></tr>`;
+  return `<tr class="grp sec closed ${sec.key}">${th}${cols.map(c => { let n = 0; for (const p of sec.people) n += loadOf(getCell(c.wk,p.id,c.d)).work; return `<td class="gs ${colCls(c)}" title="${n?fmtN(n)+' planerade':''}">${n?`<b>${fmtN(n)}</b>`:''}</td>`; }).join('')}</tr>`;
 }
 function cellTitle(v){
   const ps = partsOf(v), lab = it => !it ? 'tomt' : it.p ? projLabel(projById(it.p)) : (ABS_LABEL[it.s]||it.s);
