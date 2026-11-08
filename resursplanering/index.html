@@ -571,6 +571,18 @@ td.c.drag-src>*{opacity:.35}
 .badge.xs{min-width:0;height:20px;font-size:11px;border-radius:5px;padding:0 6px}
 .tag.staff{background:none;color:var(--brass);border:1px solid var(--brass);font-family:var(--f-mono)}
 
+
+/* ---------- Remove button & multi-select bar ---------- */
+.cx{position:absolute;top:1px;right:1px;width:18px;height:18px;border-radius:50%;border:0;background:var(--side);color:var(--side-ink);font-size:13px;line-height:18px;padding:0;display:grid;place-items:center;opacity:0;transform:scale(.8);transition:opacity .12s,transform .12s;z-index:2;box-shadow:0 0 0 2px var(--surface);cursor:pointer}
+td.c:hover .cx{opacity:1;transform:none}
+.cx:hover{background:var(--danger);color:#fff}
+.ro .cx{display:none}
+.mbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:55;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;padding:8px 8px 8px 16px;box-shadow:var(--shadow-lg);animation:pop .16s ease-out;max-width:calc(100vw - 24px);flex-wrap:wrap}
+.mbar>span{display:flex;flex-direction:column;font-size:13px;margin-right:8px}
+.mbar>span em{font-style:normal;white-space:nowrap}
+.mbar>span small{font-size:11px;color:var(--faint)}
+.mbar .btn{padding:7px 12px}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -846,7 +858,7 @@ function stateBlock(){
 
 /* ================= Planning view ================= */
 let rowIds = [], cols = [], sel = null, dragging = false, lastPointer = 'mouse';
-let dragCand = null, chipDrag = null;
+let dragCand = null, chipDrag = null, multi = new Set(), multiDrag = null;
 function colCls(c){ return [c.di===0?'ws':'', c.today?'today':'', c.hol?'hol':'', c.we?'we':'', c.bygg?'bygg':''].join(' '); }
 function renderPlanning(){
   cols = columns(S.start, S.weeks);
@@ -895,7 +907,7 @@ function renderPlanning(){
       const langs = p.langs || [];
       const dim = S.langFilter && !langs.includes(S.langFilter);
       h += `<tr class="${isOwn(p)?'':'hired'} ${dim?'dim':''}"><th class="who" title="${esc([p.name, p.tag, !isOwn(p)?'Inhyrd via '+p.company:'', p.country?'Från '+p.country:'', langs.length?'Språk: '+langs.join(', '):''].filter(Boolean).join(' · '))}"><div class="whoi">${avatarHTML(p,32,true)}<div class="wt"><span class="nm">${!isOwn(p)?'<span class="hb">Inhyrd</span>':''}${esc(p.name)}</span><span class="meta">${p.tag?`<span class="tag ${isStaff(p)?'staff':''}" title="${esc(p.tag)}">${esc(isStaff(p)?roleShort(p.tag):p.tag)}</span>`:''}${!isOwn(p)?`<span>${esc(p.company)}</span>`:''}${langs.length?`<span class="lc">${langs.map(l=>`<b class="${S.langFilter===l?'on':''}">${esc(langCode(l))}</b>`).join('')}</span>`:''}</span></div></div></th>`;
-      cols.forEach((c,ci) => { h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(getCell(c.wk,p.id,c.d))}</td>`; });
+      cols.forEach((c,ci) => { const v = getCell(c.wk,p.id,c.d), has = partsOf(v).length || (v && v.n); h += `<td class="c ${colCls(c)}" data-r="${r}" data-c="${ci}">${cellHTML(v)}${has && S.canWrite ? `<button class="cx" tabindex="-1" aria-label="Ta bort" title="Ta bort">×</button>` : ''}</td>`; });
       h += `</tr>`;
     }
   }
@@ -904,7 +916,7 @@ function renderPlanning(){
   h += `</tr></tfoot></table>`;
 
   $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + `<div class="bar2">${legend}<div class="bar2-r">${keys}${filterBar}</div></div>` +
-    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka på en ruta eller dra över flera för att planera. <b>Dra ett projekt</b> till en annan person eller dag för att flytta det, håll <kbd>Alt</kbd> för att kopiera.</span><span><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd> kopiera och klistra in · <kbd>Ctrl</kbd>+<kbd>Z</kbd> ångra · <kbd>Del</kbd> rensa</span></div></div>`;
+    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka eller dra över flera rutor för att planera. <kbd>Ctrl</kbd>+klick markerar dagar var för sig. <b>Dra ett projekt</b> för att flytta det, håll <kbd>Alt</kbd> för att kopiera. <b>×</b> tar bort.</span><span><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd> kopiera och klistra in · <kbd>Ctrl</kbd>+<kbd>Z</kbd> ångra · <kbd>Del</kbd> rensa</span></div></div>`;
   bindPlanningHead();
   const table = document.getElementById('plan');
   if (!S.canWrite) table.classList.add('ro');
@@ -957,7 +969,9 @@ function copyWeek(srcMon, dstMon){
 const cellAt = (r,c) => (rowIds[r] && cols[c]) ? getCell(cols[c].wk, rowIds[r], cols[c].d) : null;
 const refAt = (r,c) => ({pid:rowIds[r], wk:cols[c].wk, d:cols[c].d});
 function selBox(){ return {r0:Math.min(sel.r0,sel.r1), r1:Math.max(sel.r0,sel.r1), c0:Math.min(sel.c0,sel.c1), c1:Math.max(sel.c0,sel.c1)}; }
+const mkey = (r,c) => r+':'+c;
 function selCells(){
+  if (multi.size) return [...multi].map(k => k.split(':').map(Number)).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).filter(([r,c]) => rowIds[r] && cols[c]).map(([r,c]) => refAt(r,c));
   if (!sel) return [];
   const b = selBox(), out = [];
   for (let r=b.r0;r<=b.r1;r++) for (let c=b.c0;c<=b.c1;c++){ if (rowIds[r] && cols[c]) out.push(refAt(r,c)); }
@@ -966,11 +980,32 @@ function selCells(){
 function paintSel(){
   const t = document.getElementById('plan'); if (!t) return;
   t.querySelectorAll('td.sel').forEach(td => td.classList.remove('sel'));
-  if (!sel) return;
-  const b = selBox();
-  t.querySelectorAll('td.c').forEach(td => { const r=+td.dataset.r, c=+td.dataset.c; if (r>=b.r0&&r<=b.r1&&c>=b.c0&&c<=b.c1) td.classList.add('sel'); });
+  const live = multiPreview();
+  if (live) t.querySelectorAll('td.c').forEach(td => { if (live.has(mkey(+td.dataset.r, +td.dataset.c))) td.classList.add('sel'); });
+  else if (sel){ const b = selBox(); t.querySelectorAll('td.c').forEach(td => { const r=+td.dataset.r, c=+td.dataset.c; if (r>=b.r0&&r<=b.r1&&c>=b.c0&&c<=b.c1) td.classList.add('sel'); }); }
+  drawMultiBar();
 }
+function multiPreview(){
+  if (!multiDrag) return multi.size ? multi : null;
+  const m = new Set(multiDrag.base), d = multiDrag;
+  for (let r=Math.min(d.r0,d.r1); r<=Math.max(d.r0,d.r1); r++) for (let c=Math.min(d.c0,d.c1); c<=Math.max(d.c0,d.c1); c++){ const k = mkey(r,c); if (d.remove) m.delete(k); else m.add(k); }
+  return m;
+}
+let barEl = null;
+function drawMultiBar(){
+  if (!multi.size || S.view!=='planering' || popEl){ if (barEl){ barEl.remove(); barEl = null; } return; }
+  if (!barEl){ barEl = document.createElement('div'); barEl.className = 'mbar'; document.body.appendChild(barEl); }
+  const n = multi.size;
+  barEl.innerHTML = `<span><em><b>${n}</b> ${n===1?'ruta':'rutor'} markerade</em><small>Ctrl-klicka för att lägga till eller ta bort</small></span>
+    <button class="btn primary" id="mbPick">Välj aktivitet</button>${S.clip?`<button class="btn" id="mbPaste">Klistra in</button>`:''}<button class="btn danger" id="mbClear">Ta bort</button><button class="btn ghost" id="mbOff">Avmarkera</button>`;
+  barEl.querySelector('#mbPick').onclick = () => { const r = barEl.getBoundingClientRect(); openPicker(r.left + r.width/2 - 180, r.top - 580); };
+  const mp = barEl.querySelector('#mbPaste'); if (mp) mp.onclick = () => { pasteSel(); clearMulti(); };
+  barEl.querySelector('#mbClear').onclick = () => { const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} ${cs.length===1?'ruta':'rutor'} rensade`); clearMulti(); };
+  barEl.querySelector('#mbOff').onclick = clearMulti;
+}
+function clearMulti(){ multi.clear(); multiDrag = null; sel = null; paintSel(); }
 function copySel(){
+  if (multi.size){ const c0 = selCells()[0]; if (!c0) return; S.clip = {vals:[[cleanVal(getCell(c0.wk,c0.pid,c0.d))]], h:1, w:1}; toast(`Kopierat: ${cellText(S.clip.vals[0][0],false)||'tom ruta'}.`); drawMultiBar(); return; }
   if (!sel) return;
   const b = selBox(), vals = [];
   for (let r=b.r0;r<=b.r1;r++){ const row = []; for (let c=b.c0;c<=b.c1;c++) row.push(cleanVal(cellAt(r,c))); vals.push(row); }
@@ -979,8 +1014,10 @@ function copySel(){
   toast(one ? `Kopierat: ${cellText(vals[0][0],false)||'tom ruta'}. Markera en annan ruta och tryck Ctrl+V.` : `Kopierat ${S.clip.h*S.clip.w} rutor. Markera var de ska börja och tryck Ctrl+V.`);
 }
 function pasteSel(){
-  if (!S.clip || !sel || !S.canWrite) return;
-  const b = selBox(), changes = [];
+  if (!S.clip || (!sel && !multi.size) || !S.canWrite) return;
+  const changes = [];
+  if (multi.size){ const v = S.clip.vals[0][0]; for (const c of selCells()) changes.push({...c, val: v?JSON.parse(JSON.stringify(v)):null}); commit(changes, `Inklistrat i ${changes.length} ${changes.length===1?'ruta':'rutor'}`); return; }
+  const b = selBox();
   if (S.clip.h*S.clip.w===1){ const v = S.clip.vals[0][0]; for (const c of selCells()) changes.push({...c, val: v?JSON.parse(JSON.stringify(v)):null}); }
   else for (let i=0;i<S.clip.h;i++) for (let j=0;j<S.clip.w;j++){ const r = b.r0+i, c = b.c0+j; if (rowIds[r] && cols[c]){ const v = S.clip.vals[i][j]; changes.push({...refAt(r,c), val: v?JSON.parse(JSON.stringify(v)):null}); } }
   commit(changes, `Inklistrat i ${changes.length} ${changes.length===1?'ruta':'rutor'}`);
@@ -990,8 +1027,15 @@ $main.addEventListener('pointerdown', e => {
   const td = e.target.closest && e.target.closest('td.c');
   if (!td || !S.canWrite || S.view!=='planering' || e.button!==0) return;
   if (e.pointerType==='touch') return;
-  e.preventDefault(); closePicker(false);
+  e.preventDefault();
   const r = +td.dataset.r, c = +td.dataset.c;
+  if (e.target.closest('.cx')){ e.stopPropagation(); closePicker(); const v = cleanVal(cellAt(r,c)); commit([{...refAt(r,c), val:null}], `${cellText(v,false)||'Rutan'} borttagen`); return; }
+  if (e.ctrlKey || e.metaKey){
+    if (popEl){ popEl.remove(); popEl = null; }
+    if (!multi.size && sel){ const b = selBox(); for (let rr=b.r0; rr<=b.r1; rr++) for (let cc=b.c0; cc<=b.c1; cc++) multi.add(mkey(rr,cc)); }
+    sel = null; multiDrag = {r0:r, c0:c, r1:r, c1:c, base:new Set(multi), remove: multi.has(mkey(r,c))}; paintSel(); return;
+  }
+  closePicker(false); multi.clear();
   if (!e.shiftKey && partsOf(cellAt(r,c)).length && e.target.closest('.chip,.abs,.split')){
     dragCand = {r, c, x:e.clientX, y:e.clientY, html: td.innerHTML, w: td.offsetWidth-8, h: td.offsetHeight-8};
     return;
@@ -1007,8 +1051,9 @@ document.addEventListener('pointermove', e => {
     document.body.appendChild(g); chipDrag = {...dragCand, g, over:null};
     document.getElementById('plan')?.querySelector(`td.c[data-r="${dragCand.r}"][data-c="${dragCand.c}"]`)?.classList.add('drag-src');
   }
+  if (multiDrag){ const td = dropTargetAt(e.clientX, e.clientY); if (td){ const r=+td.dataset.r, c=+td.dataset.c; if (r!==multiDrag.r1 || c!==multiDrag.c1){ multiDrag.r1=r; multiDrag.c1=c; paintSel(); } } return; }
   if (chipDrag){
-    const copy = e.altKey || e.ctrlKey || e.metaKey;
+    const copy = e.altKey;
     chipDrag.g.style.transform = `translate(${e.clientX+10}px, ${e.clientY+10}px)`;
     chipDrag.g.querySelector('.ghost-l').textContent = copy ? '+ Kopiera' : 'Flytta';
     chipDrag.g.classList.toggle('copy', copy);
@@ -1021,6 +1066,7 @@ document.addEventListener('pointermove', e => {
   if (td){ const r=+td.dataset.r, c=+td.dataset.c; if (r!==sel.r1 || c!==sel.c1){ sel.r1=r; sel.c1=c; paintSel(); } }
 });
 document.addEventListener('pointerup', e => {
+  if (multiDrag){ multi = multiPreview(); multiDrag = null; paintSel(); return; }
   if (chipDrag){
     const d = chipDrag; chipDrag = null; dragCand = null; d.g.remove(); d.over?.classList.remove('drop');
     document.querySelectorAll('td.drag-src').forEach(x=>x.classList.remove('drag-src'));
@@ -1028,7 +1074,7 @@ document.addEventListener('pointerup', e => {
     if (!td) return;
     const r = +td.dataset.r, c = +td.dataset.c;
     if (r===d.r && c===d.c) return;
-    const copy = e.altKey || e.ctrlKey || e.metaKey;
+    const copy = e.altKey;
     const v = cleanVal(cellAt(d.r,d.c)); if (!v) return;
     const changes = [{...refAt(r,c), val: JSON.parse(JSON.stringify(v))}];
     if (!copy) changes.push({...refAt(d.r,d.c), val:null});
@@ -1049,7 +1095,7 @@ $main.addEventListener('click', e => {
 
 /* ================= Picker ================= */
 let popEl = null, pickPart = 'hel';
-function closePicker(clearSel=true){ if (popEl){ popEl.remove(); popEl = null; } if (clearSel){ sel = null; paintSel(); } }
+function closePicker(clearSel=true){ if (popEl){ popEl.remove(); popEl = null; } if (clearSel){ sel = null; multi.clear(); multiDrag = null; } paintSel(); }
 function openPicker(x,y){
   closePicker(false);
   const cells = selCells(); if (!cells.length) return;
@@ -1060,6 +1106,7 @@ function openPicker(x,y){
   const pname = persons===1 ? (S.people.find(p=>p.id===cells[0].pid)||{}).name : persons+' personer';
   const projs = S.projects.filter(p => p.active!==false).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true}));
   pickPart = 'hel';
+  if (barEl){ barEl.remove(); barEl = null; }
   popEl = document.createElement('div'); popEl.className='pop'; popEl.setAttribute('role','dialog'); popEl.setAttribute('aria-label','Välj projekt eller frånvaro');
   popEl.innerHTML = `<div class="pop-h"><div class="pop-ht"><div><div class="t">${esc(pname)}</div><div class="s">${days===1?'1 dag':days+' dagar'}${cells.length>1?' · '+cells.length+' rutor':''}</div></div>
       <div class="pop-cp"><button class="btn ghost icon" id="popCopy" title="Kopiera (Ctrl+C)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button><button class="btn ghost icon" id="popPaste" title="Klistra in (Ctrl+V)" ${S.clip?'':'disabled'}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6"/></svg></button></div></div>
@@ -1069,7 +1116,7 @@ function openPicker(x,y){
     <div class="pop-sec">Frånvaro</div><div class="abs-row">${ABS.map(a=>`<button class="abs-btn" data-abs="${a.k}">${a.label}</button>`).join('')}</div>
     <div class="pop-sec">Snabbval</div><div class="abs-row">${QUICK.map((q,i)=>`<button class="abs-btn quick" data-quick="${i}">${q.label}</button>`).join('')}</div></div>
     <div class="pop-f"><label for="popNote">Notering</label><div class="note-row"><input id="popNote" placeholder="T.ex. etablering, tandläkare 13.00" value="${esc(note0)}"><button class="btn" id="popNoteSave">Spara</button></div>
-    <div class="pop-actions"><button class="btn ghost danger" id="popClear">Rensa</button><button class="btn ghost" id="popClose">Stäng</button></div></div>`;
+    <div class="pop-actions"><button class="btn ghost danger" id="popClear"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><span id="popClearT">Ta bort</span></button><button class="btn ghost" id="popClose">Stäng</button></div></div>`;
   document.body.appendChild(popEl);
   const list = popEl.querySelector('#popList'), search = popEl.querySelector('#popSearch'), noteIn = popEl.querySelector('#popNote');
   let hl = 0, shown = projs;
@@ -1101,7 +1148,7 @@ function openPicker(x,y){
     commit(ch, `${cells.length} ${cells.length===1?'dag':'dagar'} → ${what}${PART_TXT[part]}`); closePicker();
   };
   drawList();
-  popEl.querySelectorAll('[data-part]').forEach(b => b.onclick = () => { pickPart = b.dataset.part; popEl.querySelectorAll('[data-part]').forEach(x => x.setAttribute('aria-pressed', x===b)); search.focus(); });
+  popEl.querySelectorAll('[data-part]').forEach(b => b.onclick = () => { pickPart = b.dataset.part; popEl.querySelectorAll('[data-part]').forEach(x => x.setAttribute('aria-pressed', x===b)); popEl.querySelector('#popClearT').textContent = pickPart==='hel' ? 'Ta bort' : pickPart==='fm' ? 'Ta bort fm' : 'Ta bort em'; search.focus(); });
   search.oninput = () => { hl = 0; drawList(); };
   search.onkeydown = e => {
     if (e.key==='ArrowDown'){ hl = Math.min(hl+1, shown.length-1); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
@@ -1125,29 +1172,34 @@ function openPicker(x,y){
   };
   popEl.querySelector('#popNoteSave').onclick = saveNote;
   noteIn.onkeydown = e => { if (e.key==='Enter') saveNote(); };
-  popEl.querySelector('#popClear').onclick = () => { commit(cells.map(c=>({...c,val:null})), `${cells.length} ${cells.length===1?'ruta':'rutor'} rensade`); closePicker(); };
+  popEl.querySelector('#popClear').onclick = () => {
+    if (pickPart==='hel'){ commit(cells.map(c=>({...c,val:null})), `${cells.length} ${cells.length===1?'ruta':'rutor'} rensade`); closePicker(); return; }
+    const ch = cells.map((c,i) => { const ps = partsOf(vals[i]); let fm = ps.length===2 ? ps[0] : ps[0]||null, em = ps.length===2 ? ps[1] : ps[0]||null; if (pickPart==='fm') fm = null; else em = null; const nv = (!fm && !em) ? null : {fm, em}; if (nv && vals[i] && vals[i].n) nv.n = vals[i].n; return {...c, val: cleanVal(nv)}; });
+    commit(ch, `${pickPart==='fm'?'Förmiddagen':'Eftermiddagen'} borttagen i ${cells.length} ${cells.length===1?'ruta':'rutor'}`); closePicker();
+  };
   popEl.querySelector('#popClose').onclick = () => closePicker();
   const w = popEl.offsetWidth, hgt = popEl.offsetHeight;
   let left = x + 12, top = y + 12;
   if (left + w > innerWidth - 12) left = Math.max(12, x - w - 12);
   if (top + hgt > innerHeight - 12) top = Math.max(12, innerHeight - hgt - 12);
-  popEl.style.left = left+'px'; popEl.style.top = top+'px';
+  popEl.style.left = Math.max(12,left)+'px'; popEl.style.top = Math.max(12,top)+'px';
   if (lastPointer!=='touch') search.focus();
 }
 document.addEventListener('pointerdown', e => {
-  if (popEl && !popEl.contains(e.target) && !(e.target.closest && e.target.closest('td.c'))) closePicker();
+  if (popEl && !popEl.contains(e.target) && !(e.target.closest && e.target.closest('td.c'))) closePicker(!multi.size || !(e.target.closest && e.target.closest('.mbar')));
 }, true);
 document.addEventListener('keydown', e => {
-  if (e.key==='Escape'){ closePicker(); closeModal(); return; }
+  if (e.key==='Escape'){ closePicker(); closeModal(); clearMulti(); return; }
   const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName||'');
   if (typing) return;
   if ((e.ctrlKey||e.metaKey) && !e.altKey && S.view==='planering' && !modalEl){
     const k = e.key.toLowerCase();
     if (k==='z'){ e.preventDefault(); undo(); return; }
-    if (k==='c' && sel){ e.preventDefault(); copySel(); return; }
-    if (k==='v' && sel && S.clip){ e.preventDefault(); pasteSel(); return; }
+    if (k==='c' && (sel || multi.size)){ e.preventDefault(); copySel(); return; }
+    if (k==='v' && (sel || multi.size) && S.clip){ e.preventDefault(); pasteSel(); if (multi.size) clearMulti(); return; }
   }
-  if ((e.key==='Delete'||e.key==='Backspace') && sel && !popEl && S.canWrite){ const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} rutor rensade`); sel=null; paintSel(); }
+  if ((e.key==='Delete'||e.key==='Backspace') && (sel || multi.size) && !popEl && S.canWrite){ const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} ${cs.length===1?'ruta':'rutor'} rensade`); sel=null; multi.clear(); paintSel(); }
+  if (e.key==='Enter' && multi.size && !popEl){ e.preventDefault(); barEl?.querySelector('#mbPick')?.click(); }
   if (e.metaKey||e.ctrlKey||e.altKey) return;
   if (!modalEl && /^[1-5]$/.test(e.key)) location.hash = ['oversikt','planering','behov','projekt','register'][+e.key-1];
 });
@@ -1908,7 +1960,7 @@ let resizeT; addEventListener('resize', () => { clearTimeout(resizeT); resizeT =
 function render(){
   document.querySelectorAll('.nav a').forEach(a => a.setAttribute('aria-current', a.dataset.view===S.view ? 'page' : 'false'));
   const scr = document.getElementById('scroller'); const sl = scr ? scr.scrollLeft : 0, stp = scr ? scr.scrollTop : 0;
-  TIPS = []; tipEl.hidden = true;
+  TIPS = []; tipEl.hidden = true; if (S.view!=='planering' && barEl){ barEl.remove(); barEl = null; multi.clear(); }
   if (S.view==='oversikt') renderDashboard();
   else if (S.view==='behov') renderDemand();
   else if (S.view==='projekt') renderOverview();
