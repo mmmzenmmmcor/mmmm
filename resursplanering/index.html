@@ -192,7 +192,7 @@ tfoot td b{color:var(--ink);font-weight:600}
 @keyframes sk{to{background-position:-200% 0}}
 
 /* ---------- Picker ---------- */
-.pop{position:fixed;z-index:50;width:360px;overflow:hidden;max-width:calc(100vw - 24px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;max-height:min(560px,calc(100vh - 24px));animation:pop .14s ease-out}
+.pop{position:fixed;z-index:50;width:360px;overflow:hidden;max-width:calc(100vw - 24px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;max-height:min(680px,calc(100vh - 24px));animation:pop .14s ease-out}
 @keyframes pop{from{opacity:0;transform:translateY(4px) scale(.98)}}
 .pop-h{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
 .pop-h .t{font-weight:600}
@@ -538,11 +538,11 @@ td.c.bygg,.bal td.bn.bygg,.need td.nc.bygg{background:var(--bygg-bg)}
 td.c.drop{background:var(--sel) !important}
 td.c.drop::after{content:"";position:absolute;inset:2px;border:2px dashed var(--sel-line);border-radius:8px;pointer-events:none}
 td.c.drag-src>*{opacity:.35}
-.ghost{position:fixed;left:0;top:0;z-index:90;pointer-events:none;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-.ghost-c{transform:rotate(-2deg);box-shadow:var(--shadow-lg);border-radius:8px}
-.ghost-c>*{height:100%}
-.ghost-l{font-size:11px;font-weight:700;background:var(--side);color:var(--side-ink);border-radius:6px;padding:2px 8px}
-.ghost.copy .ghost-l{background:var(--accent);color:var(--accent-ink)}
+.dghost{position:fixed;left:0;top:0;z-index:90;pointer-events:none;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.dghost-c{transform:rotate(-2deg);box-shadow:var(--shadow-lg);border-radius:8px}
+.dghost-c>*{height:100%}
+.dghost-l{font-size:11px;font-weight:700;background:var(--side);color:var(--side-ink);border-radius:6px;padding:2px 8px}
+.dghost.copy .dghost-l{background:var(--accent);color:var(--accent-ink)}
 
 /* ---------- Picker additions ---------- */
 .pop-ht{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
@@ -614,7 +614,7 @@ td.c:hover .cx{opacity:1;transform:none}
 .tt-face{display:flex;align-items:center;gap:10px}
 .tt-face .av{box-shadow:none}
 .tt-face .tt-h{margin:0}
-.ghost .cf{display:none}
+.dghost .cf{display:none}
 
 
 /* ---------- Collapsible sidebar ---------- */
@@ -656,6 +656,34 @@ tfoot tr.korv-row th span{text-transform:none;letter-spacing:0;font-weight:400;c
 .kgrid button{border:1px solid var(--line);background:var(--surface-2);border-radius:9px;padding:9px 0;font-weight:700;font-family:var(--f-mono)}
 .kgrid button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .kgrid button:hover{border-color:var(--line-strong)}
+
+
+/* ---------- Date range in picker ---------- */
+.pop-h,.pop-f,.pop-range{flex:none}
+.pop-range{border-top:1px solid var(--line);padding:10px 16px 2px;display:flex;flex-direction:column;gap:6px}
+.rg-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.rg-h span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.rg-h small{font-size:11px;color:var(--faint);text-align:right}
+.rg-h small.ok{color:var(--st-green);font-weight:600}
+.rg-h small.bad{color:var(--danger);font-weight:600}
+.rg-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rg-row label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--muted);font-weight:600}
+.rg-row input{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:6px 8px;font:inherit;font-weight:500;color:var(--ink);min-width:0}
+.rg-row input:focus{outline:none;border-color:var(--accent)}
+
+
+/* sausage icon */
+.kicon{display:block;flex:none}
+.korv{gap:4px;padding:3px 8px 3px 5px;border-radius:9px}
+.korv b{font-size:13px}
+.korv i{font-size:13px;font-weight:700}
+.korv.has{background:var(--st-amber-bg);box-shadow:inset 0 0 0 1px rgba(201,80,47,.25)}
+.kv{display:flex;align-items:center;gap:3px;top:2px;left:4px;padding:1px 6px 1px 3px;font-size:11px;line-height:16px;box-shadow:0 0 0 1px rgba(201,80,47,.35),0 1px 3px rgba(0,0,0,.12)}
+td.c .chip,td.c .abs{padding-top:12px}
+.korv-tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:2px 9px 2px 5px}
+.kt{display:inline-flex;align-items:center;gap:5px;font-size:13px;padding:3px 10px 3px 5px}
+.kr-l{display:inline-flex !important;align-items:center;gap:6px;color:var(--ink) !important;font-weight:700 !important;text-transform:uppercase !important;letter-spacing:.12em !important;margin-left:0 !important}
+.kp-t{display:flex;align-items:center;gap:8px}
 
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -970,7 +998,7 @@ function renderPlanning(){
   for (let i=0;i<S.weeks;i++){
     const a = cols[i*7], b = cols[i*7+6], prevW = isoWeek(addDays(a.date,-7)).w;
     const kci = korvCol(i), ktot = kci < 0 ? 0 : people.reduce((t,p) => t + korvFor(p, cols[kci]), 0);
-    h += `<th class="wkh ${a.bygg?'bygg':''}" colspan="7"><div class="wkh-i"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span>${a.bygg?`<span class="bygg-tag">Byggsemester</span>`:''}${ktot?`<span class="korv-tag" title="${ktot} korvar till planeringsmötet ${esc(DAYS_LONG[cols[kci].di].toLowerCase())}">🌭 ${ktot}</span>`:''}${ready?`<button class="wk-copy" data-copyto="${i}" title="Kopiera planeringen från vecka ${prevW} till vecka ${a.w}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>från v.${prevW}</button>`:''}</div></th>`;
+    h += `<th class="wkh ${a.bygg?'bygg':''}" colspan="7"><div class="wkh-i"><span class="w">Vecka ${a.w}</span><span class="r">${fmtRange(a.date,b.date)}</span>${a.bygg?`<span class="bygg-tag">Byggsemester</span>`:''}${ktot?`<span class="korv-tag" title="${ktot} korvar till planeringsmötet ${esc(DAYS_LONG[cols[kci].di].toLowerCase())}">${korvIcon(20)}${ktot}</span>`:''}${ready?`<button class="wk-copy" data-copyto="${i}" title="Kopiera planeringen från vecka ${prevW} till vecka ${a.w}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>från v.${prevW}</button>`:''}</div></th>`;
   }
   h += `</tr><tr>`;
   for (const c of cols) h += `<th class="dh ${colCls(c)}" title="${esc(DAYS_LONG[c.di]+' '+fmtShort(c.date)+(c.hol?' – '+c.hol:'')+(c.bygg?' – byggsemester':''))}"><span class="dn">${DAYS[c.di]}</span><span class="dd">${c.date.getDate()}/${c.date.getMonth()+1}</span>${c.hol?`<span class="hn">${esc(c.hol)}</span>`:''}</th>`;
@@ -991,8 +1019,8 @@ function renderPlanning(){
     }
   }
   }
-  h += `</tbody><tfoot><tr class="korv-row"><th>🌭 Korvar <span>planeringsmöte</span></th>`;
-  { const kcs = new Set([...Array(S.weeks).keys()].map(korvCol)); cols.forEach((c,ci) => { const t = kcs.has(ci) ? people.reduce((a,p) => a + korvFor(p,c), 0) : null; h += `<td class="${colCls(c)}">${t===null ? '' : `<span class="kt ${t?'':'z'}">${t ? '🌭 <b>'+t+'</b>' : '–'}</span>`}</td>`; }); }
+  h += `</tbody><tfoot><tr class="korv-row"><th><span class="kr-l">${korvIcon(24)}Korvar</span><span>planeringsmöte</span></th>`;
+  { const kcs = new Set([...Array(S.weeks).keys()].map(korvCol)); cols.forEach((c,ci) => { const t = kcs.has(ci) ? people.reduce((a,p) => a + korvFor(p,c), 0) : null; h += `<td class="${colCls(c)}">${t===null ? '' : `<span class="kt ${t?'':'z'}">${t ? korvIcon(20)+'<b>'+t+'</b>' : '–'}</span>`}</td>`; }); }
   h += `</tr><tr>`;
   h += `<th>Planerade</th>`;
   for (const c of cols){ let n=0; for (const p of people) n += loadOf(getCell(c.wk,p.id,c.d)).work; h += `<td class="${colCls(c)}">${c.off && !n ? '' : `<b>${fmtN(n)}</b>${c.off?'':'/'+people.length}`}</td>`; }
@@ -1016,20 +1044,21 @@ function korvFor(p, c){ const n = +p.korv || 0; if (!n || !c) return 0; return l
 function korvBadge(p, c, ci){
   const n = +p.korv || 0; if (!n || korvCol(c.wi) !== ci) return '';
   const away = korvFor(p, c) === 0;
-  return `<span class="kv ${away?'away':''}" title="${away ? esc(p.name)+' är borta denna dag – räknas inte' : n+' '+(n===1?'korv':'korvar')+' till planeringsmötet'}">🌭${n}</span>`;
+  return `<span class="kv ${away?'away':''}" title="${away ? esc(p.name)+' är borta denna dag – räknas inte' : n+' '+(n===1?'korv':'korvar')+' till planeringsmötet'}">${korvIcon(18)}<b>${n}</b></span>`;
 }
 function korvBtn(p){
   const n = +p.korv || 0;
-  if (!S.canWrite) return n ? `<span class="korv has" title="${n} korvar på planeringsmötet">🌭<b>${n}</b></span>` : '';
-  return `<button class="korv ${n?'has':''}" data-korv="${esc(p.id)}" title="Korvar på planeringsmötet">🌭${n?`<b>${n}</b>`:'<i>+</i>'}</button>`;
+  if (!S.canWrite) return n ? `<span class="korv has" title="${n} korvar på planeringsmötet">${korvIcon(24)}<b>${n}</b></span>` : '';
+  return `<button class="korv ${n?'has':''}" data-korv="${esc(p.id)}" title="Korvar på planeringsmötet">${korvIcon(24)}${n?`<b>${n}</b>`:'<i>+</i>'}</button>`;
 }
+function korvIcon(w){ const h = Math.round(w*.62); return `<svg class="kicon" width="${w}" height="${h}" viewBox="0 0 40 25" aria-hidden="true"><path d="M3 12.5c0 5.5 3.6 9.5 9 9.5h16c5.4 0 9-4 9-9.5" fill="#E7B46A" stroke="#9A6A2C" stroke-width="1.6"/><rect x="1.5" y="6.5" width="37" height="9" rx="4.5" fill="#C9502F" stroke="#7E2A16" stroke-width="1.6"/><path d="M6 11c2-2.2 3.5 2.2 5.5 0s3.5 2.2 5.5 0 3.5 2.2 5.5 0 3.5 2.2 5.5 0 3.5 2.2 5.5 0" fill="none" stroke="#F2C230" stroke-width="2" stroke-linecap="round"/></svg>`; }
 let korvPop = null;
 function openKorv(btn){
   if (korvPop){ korvPop.remove(); korvPop = null; }
   const p = S.people.find(x => x.id===btn.dataset.korv); if (!p) return;
   const cur = +p.korv || 0;
   korvPop = document.createElement('div'); korvPop.className = 'pop kpop';
-  korvPop.innerHTML = `<div class="pop-h"><div class="t">🌭 Korvar till planeringsmötet</div><div class="s">${esc(p.name)} · visas på veckans sista arbetsdag</div></div>
+  korvPop.innerHTML = `<div class="pop-h"><div class="t kp-t">${korvIcon(30)}Korvar till planeringsmötet</div><div class="s">${esc(p.name)} · visas på veckans sista arbetsdag</div></div>
     <div class="kgrid">${[0,1,2,3,4,5,6,8].map(n => `<button data-n="${n}" aria-pressed="${n===cur}">${n===0?'Ingen':n}</button>`).join('')}</div>`;
   document.body.appendChild(korvPop);
   const r = btn.getBoundingClientRect();
@@ -1176,7 +1205,7 @@ function dropTargetAt(x,y){ const el = document.elementFromPoint(x,y); return el
 document.addEventListener('pointermove', e => {
   if (dragCand && !chipDrag && Math.hypot(e.clientX-dragCand.x, e.clientY-dragCand.y) > 5){
     sel = null; paintSel();
-    const g = document.createElement('div'); g.className = 'ghost'; g.innerHTML = `<div class="ghost-c" style="width:${dragCand.w}px;height:${dragCand.h}px">${dragCand.html}</div><span class="ghost-l"></span>`;
+    const g = document.createElement('div'); g.className = 'dghost'; g.innerHTML = `<div class="dghost-c" style="width:${dragCand.w}px;height:${dragCand.h}px">${dragCand.html}</div><span class="dghost-l"></span>`;
     document.body.appendChild(g); chipDrag = {...dragCand, g, over:null};
     document.getElementById('plan')?.querySelector(`td.c[data-r="${dragCand.r}"][data-c="${dragCand.c}"]`)?.classList.add('drag-src');
   }
@@ -1184,7 +1213,7 @@ document.addEventListener('pointermove', e => {
   if (chipDrag){
     const copy = e.altKey;
     chipDrag.g.style.transform = `translate(${e.clientX+10}px, ${e.clientY+10}px)`;
-    chipDrag.g.querySelector('.ghost-l').textContent = copy ? '+ Kopiera' : 'Flytta';
+    chipDrag.g.querySelector('.dghost-l').textContent = copy ? '+ Kopiera' : 'Flytta';
     chipDrag.g.classList.toggle('copy', copy);
     const td = dropTargetAt(e.clientX, e.clientY);
     if (td !== chipDrag.over){ chipDrag.over?.classList.remove('drop'); chipDrag.over = td; td?.classList.add('drop'); }
@@ -1234,6 +1263,8 @@ function openPicker(x,y){
   const persons = new Set(cells.map(c=>c.pid)).size, days = cells.length/persons;
   const pname = persons===1 ? (S.people.find(p=>p.id===cells[0].pid)||{}).name : persons+' personer';
   const projs = S.projects.filter(p => p.active!==false).sort((a,b)=>a.number.localeCompare(b.number,'sv',{numeric:true}));
+  const dateOf = c => { const col = cols.find(x => x.wk===c.wk && x.d===c.d); return col ? col.date : new Date(); };
+  const firstDate = cells.map(dateOf).sort((a,b)=>a-b)[0];
   pickPart = 'hel';
   if (barEl){ barEl.remove(); barEl = null; }
   popEl = document.createElement('div'); popEl.className='pop'; popEl.setAttribute('role','dialog'); popEl.setAttribute('aria-label','Välj projekt eller frånvaro');
@@ -1244,6 +1275,7 @@ function openPicker(x,y){
     <div class="pop-b"><div class="pop-sec">Projekt</div><div id="popList"></div>
     <div class="pop-sec">Frånvaro</div><div class="abs-row">${ABS.map(a=>`<button class="abs-btn" data-abs="${a.k}">${a.label}</button>`).join('')}</div>
     <div class="pop-sec">Snabbval</div><div class="abs-row">${QUICK.map((q,i)=>`<button class="abs-btn quick" data-quick="${i}">${q.label}</button>`).join('')}</div></div>
+    <div class="pop-range"><div class="rg-h"><span>Period</span><small id="rgInfo">Fyll i slutdatum för längre frånvaro</small></div><div class="rg-row"><label>Från<input type="date" id="rgFrom" value="${ymd(firstDate)}"></label><label>Till och med<input type="date" id="rgTo" min="${ymd(firstDate)}"></label></div></div>
     <div class="pop-f"><label for="popNote">Notering</label><div class="note-row"><input id="popNote" placeholder="T.ex. etablering, tandläkare 13.00" value="${esc(note0)}"><button class="btn" id="popNoteSave">Spara</button></div>
     <div class="pop-actions"><button class="btn ghost danger" id="popClear"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><span id="popClearT">Ta bort</span></button><button class="btn ghost" id="popClose">Stäng</button></div></div>`;
   document.body.appendChild(popEl);
@@ -1258,10 +1290,35 @@ function openPicker(x,y){
     list.querySelectorAll('[data-p]').forEach(b => b.onclick = () => apply({p:b.dataset.p}));
   };
   const PART_TXT = {hel:'', fm:' (fm)', em:' (em)'};
+  const rgFrom = popEl.querySelector('#rgFrom'), rgTo = popEl.querySelector('#rgTo'), rgInfo = popEl.querySelector('#rgInfo');
+  const rangeDays = () => {
+    if (!rgTo.value) return null;
+    const from = new Date((rgFrom.value || ymd(firstDate))+'T00:00'), to = new Date(rgTo.value+'T00:00');
+    if (isNaN(from) || isNaN(to) || to < from) return [];
+    const out = []; for (let d = new Date(from), i = 0; d <= to && i < 400; d = addDays(d,1), i++){ const wd = (d.getDay()+6)%7; if (wd >= 5 || holidayName(d)) continue; out.push(new Date(d)); }
+    return out;
+  };
+  const targets = () => {
+    const days = rangeDays();
+    if (!days) return {cells, vals, to:null};
+    const pids = [...new Set(cells.map(c=>c.pid))], cs = [];
+    for (const d of days) for (const pid of pids) cs.push({pid, wk: wkKey(mondayOf(d)), d: String((d.getDay()+6)%7+1)});
+    return {cells: cs, vals: cs.map(c => getCell(c.wk,c.pid,c.d)), to: new Date(rgTo.value+'T00:00')};
+  };
+  const updRange = () => {
+    const days = rangeDays();
+    if (!days){ rgInfo.textContent = 'Fyll i slutdatum för längre frånvaro'; rgInfo.className = ''; return; }
+    if (!days.length){ rgInfo.textContent = 'Slutdatum måste vara efter startdatum'; rgInfo.className = 'bad'; return; }
+    const persons = new Set(cells.map(c=>c.pid)).size;
+    rgInfo.textContent = `${days.length} arbetsdagar${persons>1?' × '+persons+' personer':''} · helger och röda dagar hoppas över`; rgInfo.className = 'ok';
+  };
+  rgFrom.onchange = () => { rgTo.min = rgFrom.value; updRange(); }; rgTo.onchange = updRange; rgTo.oninput = updRange;
   const apply = (item, part=pickPart) => {
+    const T = targets();
+    if (!T.cells.length){ toast('Kontrollera perioden: slutdatum måste vara efter startdatum.'); return; }
     const n = noteIn.value.trim();
-    const ch = cells.map((c,i) => {
-      const cur = vals[i]; let nv;
+    const ch = T.cells.map((c,i) => {
+      const cur = T.vals[i]; let nv;
       if (part==='hel') nv = {...item};
       else {
         const ps = partsOf(cur);
@@ -1274,7 +1331,7 @@ function openPicker(x,y){
       return {...c, val: cleanVal(nv)};
     });
     const what = item.p ? (projById(item.p)||{}).number : ABS_LABEL[item.s];
-    commit(ch, `${cells.length} ${cells.length===1?'dag':'dagar'} → ${what}${PART_TXT[part]}`); closePicker();
+    commit(ch, `${T.cells.length} ${T.cells.length===1?'dag':'dagar'} → ${what}${PART_TXT[part]}${T.to?' t.o.m. '+fmtShort(T.to):''}`); closePicker();
   };
   drawList();
   popEl.querySelectorAll('[data-part]').forEach(b => b.onclick = () => { pickPart = b.dataset.part; popEl.querySelectorAll('[data-part]').forEach(x => x.setAttribute('aria-pressed', x===b)); popEl.querySelector('#popClearT').textContent = pickPart==='hel' ? 'Ta bort' : pickPart==='fm' ? 'Ta bort fm' : 'Ta bort em'; search.focus(); });
@@ -1302,7 +1359,7 @@ function openPicker(x,y){
   popEl.querySelector('#popNoteSave').onclick = saveNote;
   noteIn.onkeydown = e => { if (e.key==='Enter') saveNote(); };
   popEl.querySelector('#popClear').onclick = () => {
-    if (pickPart==='hel'){ commit(cells.map(c=>({...c,val:null})), `${cells.length} ${cells.length===1?'ruta':'rutor'} rensade`); closePicker(); return; }
+    if (pickPart==='hel'){ const T = targets(); if (!T.cells.length) return; commit(T.cells.map(c=>({...c,val:null})), `${T.cells.length} ${T.cells.length===1?'ruta':'rutor'} rensade${T.to?' t.o.m. '+fmtShort(T.to):''}`); closePicker(); return; }
     const ch = cells.map((c,i) => { const ps = partsOf(vals[i]); let fm = ps.length===2 ? ps[0] : ps[0]||null, em = ps.length===2 ? ps[1] : ps[0]||null; if (pickPart==='fm') fm = null; else em = null; const nv = (!fm && !em) ? null : {fm, em}; if (nv && vals[i] && vals[i].n) nv.n = vals[i].n; return {...c, val: cleanVal(nv)}; });
     commit(ch, `${pickPart==='fm'?'Förmiddagen':'Eftermiddagen'} borttagen i ${cells.length} ${cells.length===1?'ruta':'rutor'}`); closePicker();
   };
