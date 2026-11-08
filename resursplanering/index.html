@@ -616,6 +616,23 @@ td.c:hover .cx{opacity:1;transform:none}
 .tt-face .tt-h{margin:0}
 .ghost .cf{display:none}
 
+
+/* ---------- Collapsible sidebar ---------- */
+.app{transition:grid-template-columns .2s ease}
+.brand-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.side-tog{flex:none;width:28px;height:28px;border-radius:8px;border:1px solid var(--side-line);background:var(--side-hi);color:var(--side-muted);display:grid;place-items:center;transition:color .15s,transform .2s}
+.side-tog:hover{color:var(--side-ink)}
+.app.side-min{grid-template-columns:76px minmax(0,1fr)}
+.side-min .side{padding-left:14px;padding-right:14px}
+.side-min .brand{align-items:center}
+.side-min .brand-top{flex-direction:column;gap:12px}
+.side-min .brand h1,.side-min .mark b,.side-min .nav .lbl,.side-min .sync span,.side-min .side-foot .who{display:none}
+.side-min .logo-slot img{max-width:44px;object-fit:cover;object-position:left}
+.side-min .side-tog svg{transform:rotate(180deg)}
+.side-min .nav a{justify-content:center;padding:11px 0}
+.side-min .side-foot{align-items:center}
+@media (max-width:900px){.side-tog{display:none}.app.side-min{grid-template-columns:minmax(0,1fr)}.side-min .nav .lbl,.side-min .brand h1,.side-min .mark b{display:revert}}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -648,15 +665,15 @@ td.c:hover .cx{opacity:1;transform:none}
 <div class="app">
   <aside class="side">
     <div class="brand">
-      <div class="logo-slot" id="logoSlot"></div>
+      <div class="brand-top"><div class="logo-slot" id="logoSlot"></div><button class="side-tog" id="sideTog" aria-label="Fäll ihop menyn" title="Fäll ihop menyn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 6l-6 6 6 6"/></svg></button></div>
       <h1><strong>Resursplanering</strong>Hantverkare &amp; inhyrd personal</h1>
     </div>
     <nav class="nav" aria-label="Vyer">
-      <a href="#oversikt" data-view="oversikt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7.5" height="9" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.5"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/><rect x="3" y="15" width="7.5" height="6" rx="1.5"/></svg>Översikt</a>
-      <a href="#planering" data-view="planering"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4v17M3 14h18"/></svg>Planering</a>
-      <a href="#behov" data-view="behov"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 21h14"/><path d="M4 7h16"/><path d="M4 7l-2.5 6a3 3 0 0 0 5 0z"/><path d="M20 7l-2.5 6a3 3 0 0 0 5 0z"/></svg>Behov &amp; balans</a>
-      <a href="#projekt" data-view="projekt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-6h4v6"/></svg>Projektöversikt</a>
-      <a href="#register" data-view="register"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg>Personal &amp; projekt</a>
+      <a href="#oversikt" data-view="oversikt" title="Översikt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7.5" height="9" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.5"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/><rect x="3" y="15" width="7.5" height="6" rx="1.5"/></svg><span class="lbl">Översikt</span></a>
+      <a href="#planering" data-view="planering" title="Planering"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4v17M3 14h18"/></svg><span class="lbl">Planering</span></a>
+      <a href="#behov" data-view="behov" title="Behov &amp; balans"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 21h14"/><path d="M4 7h16"/><path d="M4 7l-2.5 6a3 3 0 0 0 5 0z"/><path d="M20 7l-2.5 6a3 3 0 0 0 5 0z"/></svg><span class="lbl">Behov &amp; balans</span></a>
+      <a href="#projekt" data-view="projekt" title="Projektöversikt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-6h4v6"/></svg><span class="lbl">Projektöversikt</span></a>
+      <a href="#register" data-view="register" title="Personal &amp; projekt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg><span class="lbl">Personal &amp; projekt</span></a>
     </nav>
     <div class="side-foot">
       <div class="sync off" id="sync"><i></i><span>Ansluter…</span></div>
@@ -2033,6 +2050,13 @@ function route(){
 }
 addEventListener('hashchange', route);
 S.view = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'oversikt';
+(() => {
+  const app = document.querySelector('.app'), tog = document.getElementById('sideTog');
+  const set = on => { app.classList.toggle('side-min', on); tog.setAttribute('aria-label', on ? 'Visa menyn' : 'Fäll ihop menyn'); tog.title = on ? 'Visa menyn' : 'Fäll ihop menyn'; try { localStorage.setItem('sb.side', on ? '1' : '0'); } catch(e) {} };
+  let on = false; try { on = localStorage.getItem('sb.side') === '1'; } catch(e) {}
+  set(on);
+  tog.onclick = () => { set(!app.classList.contains('side-min')); if (S.view==='oversikt') setTimeout(render, 220); };
+})();
 renderLogo(); render();
 
 /* ================= Boot ================= */
