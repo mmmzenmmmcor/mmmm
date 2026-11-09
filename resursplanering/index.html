@@ -685,6 +685,10 @@ td.c .chip,td.c .abs{padding-top:12px}
 .kr-l{display:inline-flex !important;align-items:center;gap:6px;color:var(--ink) !important;font-weight:700 !important;text-transform:uppercase !important;letter-spacing:.12em !important;margin-left:0 !important}
 .kp-t{display:flex;align-items:center;gap:8px}
 
+
+td.c.rng{background:var(--abs-bg) !important}
+td.c.rng::before{content:"";position:absolute;inset:3px;border:2px dashed var(--abs-ink);border-radius:8px;pointer-events:none;opacity:.7;z-index:1}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -1261,7 +1265,7 @@ $main.addEventListener('click', e => {
 
 /* ================= Picker ================= */
 let popEl = null, pickPart = 'hel';
-function closePicker(clearSel=true){ if (popEl){ popEl.remove(); popEl = null; } if (clearSel){ sel = null; multi.clear(); multiDrag = null; } paintSel(); }
+function closePicker(clearSel=true){ document.querySelectorAll('td.c.rng').forEach(td => td.classList.remove('rng')); if (popEl){ popEl.remove(); popEl = null; } if (clearSel){ sel = null; multi.clear(); multiDrag = null; } paintSel(); }
 function openPicker(x,y){
   closePicker(false);
   const cells = selCells(); if (!cells.length) return;
@@ -1313,12 +1317,18 @@ function openPicker(x,y){
     for (const d of days) for (const pid of pids) cs.push({pid, wk: wkKey(mondayOf(d)), d: String((d.getDay()+6)%7+1)});
     return {cells: cs, vals: cs.map(c => getCell(c.wk,c.pid,c.d)), to: new Date(rgTo.value+'T00:00')};
   };
+  const paintRange = () => {
+    document.querySelectorAll('td.c.rng').forEach(td => td.classList.remove('rng'));
+    const T = targets(); if (!T.to) return;
+    const keys = new Set(T.cells.map(c => c.pid+'|'+c.wk+'|'+c.d));
+    document.querySelectorAll('#plan td.c').forEach(td => { const r = +td.dataset.r, c = +td.dataset.c; if (rowIds[r] && cols[c] && keys.has(rowIds[r]+'|'+cols[c].wk+'|'+cols[c].d)) td.classList.add('rng'); });
+  };
   const updRange = () => {
-    const days = rangeDays();
+    const days = rangeDays(); paintRange();
     if (!days){ rgInfo.textContent = 'Fyll i slutdatum för längre frånvaro'; rgInfo.className = ''; return; }
     if (!days.length){ rgInfo.textContent = 'Slutdatum måste vara efter startdatum'; rgInfo.className = 'bad'; return; }
     const persons = new Set(cells.map(c=>c.pid)).size;
-    rgInfo.textContent = `${days.length} arbetsdagar${persons>1?' × '+persons+' personer':''} · helger och röda dagar hoppas över`; rgInfo.className = 'ok';
+    rgInfo.textContent = `${days.length} arbetsdagar t.o.m. ${fmtShort(days[days.length-1])} ${days[days.length-1].getFullYear()}${persons>1?' × '+persons+' personer':''} · välj nu frånvaro eller projekt`; rgInfo.className = 'ok';
   };
   rgFrom.onchange = () => { rgTo.min = rgFrom.value; updRange(); }; rgTo.onchange = updRange; rgTo.oninput = updRange;
   const apply = (item, part=pickPart) => {
@@ -1361,7 +1371,8 @@ function openPicker(x,y){
   popEl.querySelector('#popPaste').onclick = () => { pasteSel(); closePicker(); };
   const saveNote = () => {
     const n = noteIn.value.trim();
-    const ch = cells.map((c,i) => { const v = cleanVal(vals[i]); if (!v && !n) return null; const nv = {...(v||{})}; if (n) nv.n = n; else delete nv.n; return {...c, val: cleanVal(nv)}; }).filter(Boolean);
+    const T = targets();
+    const ch = T.cells.map((c,i) => { const v = cleanVal(T.vals[i]); if (!v && !n) return null; const nv = {...(v||{})}; if (n) nv.n = n; else delete nv.n; return {...c, val: cleanVal(nv)}; }).filter(Boolean);
     commit(ch, n ? 'Notering sparad' : 'Notering borttagen'); closePicker();
   };
   popEl.querySelector('#popNoteSave').onclick = saveNote;
