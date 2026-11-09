@@ -1027,7 +1027,7 @@ function renderPlanning(){
   h += `</tr></tfoot></table>`;
 
   $main.innerHTML = head + (S.canWrite ? '' : `<div class="banner"><b>Läsläge.</b> Du kan se planeringen men inte ändra den. Be ägaren dela den med dig som redigerare.</div>`) + `<div class="bar2">${legend}<div class="bar2-r">${keys}${filterBar}</div></div>` +
-    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span>Klicka eller dra över flera rutor för att planera. <kbd>Ctrl</kbd>+klick markerar dagar var för sig. <b>Dra ett projekt</b> för att flytta det, håll <kbd>Alt</kbd> för att kopiera. <b>×</b> tar bort.</span><span><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd> kopiera och klistra in · <kbd>Ctrl</kbd>+<kbd>Z</kbd> ångra · <kbd>Del</kbd> rensa</span></div></div>`;
+    `<div class="board"><div class="scroller" id="scroller">${h}</div><div class="board-foot"><span><b>Dubbelklicka</b> på en ruta för att planera. Klicka eller dra för att markera, <kbd>Ctrl</kbd>+klick markerar dagar var för sig. <b>Dra ett projekt</b> för att flytta det, håll <kbd>Alt</kbd> för att kopiera. <b>×</b> tar bort.</span><span><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd> kopiera och klistra in · <kbd>Ctrl</kbd>+<kbd>Z</kbd> ångra · <kbd>Del</kbd> rensa</span></div></div>`;
   bindPlanningHead();
   const table = document.getElementById('plan');
   if (!S.canWrite) table.classList.add('ro');
@@ -1151,10 +1151,10 @@ function multiPreview(){
 }
 let barEl = null;
 function drawMultiBar(){
-  if (!multi.size || S.view!=='planering' || popEl){ if (barEl){ barEl.remove(); barEl = null; } return; }
+  if ((!multi.size && !sel) || dragging || multiDrag || S.view!=='planering' || popEl || !S.canWrite){ if (barEl){ barEl.remove(); barEl = null; } return; }
   if (!barEl){ barEl = document.createElement('div'); barEl.className = 'mbar'; document.body.appendChild(barEl); }
-  const n = multi.size;
-  barEl.innerHTML = `<span><em><b>${n}</b> ${n===1?'ruta':'rutor'} markerade</em><small>Ctrl-klicka för att lägga till eller ta bort</small></span>
+  const n = selCells().length;
+  barEl.innerHTML = `<span><em><b>${n}</b> ${n===1?'ruta markerad':'rutor markerade'}</em><small>Dubbelklicka eller tryck Enter för att välja · Ctrl-klick lägger till</small></span>
     <button class="btn primary" id="mbPick">Välj aktivitet</button>${S.clip?`<button class="btn" id="mbPaste">Klistra in</button>`:''}<button class="btn danger" id="mbClear">Ta bort</button><button class="btn ghost" id="mbOff">Avmarkera</button>`;
   barEl.querySelector('#mbPick').onclick = () => { const r = barEl.getBoundingClientRect(); openPicker(r.left + r.width/2 - 180, r.top - 580); };
   const mp = barEl.querySelector('#mbPaste'); if (mp) mp.onclick = () => { pasteSel(); clearMulti(); };
@@ -1240,8 +1240,16 @@ document.addEventListener('pointerup', e => {
     commit(changes, `${cellText(v,false)} ${copy?'kopierad':'flyttad'} till ${who}, ${dayLabel(cols[c])}`);
     return;
   }
-  if (dragCand){ const d = dragCand; dragCand = null; sel = {r0:d.r,c0:d.c,r1:d.r,c1:d.c}; paintSel(); openPicker(e.clientX, e.clientY); return; }
-  if (!dragging) return; dragging = false; openPicker(e.clientX, e.clientY);
+  if (dragCand){ const d = dragCand; dragCand = null; sel = {r0:d.r,c0:d.c,r1:d.r,c1:d.c}; paintSel(); return; }
+  if (!dragging) return; dragging = false; paintSel();
+});
+$main.addEventListener('dblclick', e => {
+  const td = e.target.closest && e.target.closest('td.c');
+  if (!td || !S.canWrite || S.view!=='planering' || e.target.closest('.cx')) return;
+  const r = +td.dataset.r, c = +td.dataset.c;
+  const inside = multi.size ? multi.has(mkey(r,c)) : sel && (()=>{ const b = selBox(); return r>=b.r0&&r<=b.r1&&c>=b.c0&&c<=b.c1; })();
+  if (!inside){ multi.clear(); sel = {r0:r,c0:c,r1:r,c1:c}; paintSel(); }
+  openPicker(e.clientX, e.clientY);
 });
 $main.addEventListener('click', e => {
   if (lastPointer!=='touch') return;
@@ -1372,7 +1380,9 @@ function openPicker(x,y){
   if (lastPointer!=='touch') search.focus();
 }
 document.addEventListener('pointerdown', e => {
+  const inGrid = e.target.closest && (e.target.closest('td.c') || e.target.closest('.mbar') || e.target.closest('.pop') || e.target.closest('.toast'));
   if (popEl && !popEl.contains(e.target) && !(e.target.closest && e.target.closest('td.c'))) closePicker(!multi.size || !(e.target.closest && e.target.closest('.mbar')));
+  else if (!popEl && !inGrid && (sel || multi.size) && !modalEl){ sel = null; multi.clear(); paintSel(); }
 }, true);
 document.addEventListener('keydown', e => {
   if (e.key==='Escape'){ closePicker(); closeModal(); clearMulti(); return; }
@@ -1385,7 +1395,7 @@ document.addEventListener('keydown', e => {
     if (k==='v' && (sel || multi.size) && S.clip){ e.preventDefault(); pasteSel(); if (multi.size) clearMulti(); return; }
   }
   if ((e.key==='Delete'||e.key==='Backspace') && (sel || multi.size) && !popEl && S.canWrite){ const cs = selCells(); commit(cs.map(c=>({...c,val:null})), `${cs.length} ${cs.length===1?'ruta':'rutor'} rensade`); sel=null; multi.clear(); paintSel(); }
-  if (e.key==='Enter' && multi.size && !popEl){ e.preventDefault(); barEl?.querySelector('#mbPick')?.click(); }
+  if (e.key==='Enter' && (multi.size || sel) && !popEl && S.view==='planering'){ e.preventDefault(); barEl?.querySelector('#mbPick')?.click(); }
   if (e.metaKey||e.ctrlKey||e.altKey) return;
   if (!modalEl && /^[1-5]$/.test(e.key)) location.hash = ['oversikt','planering','behov','projekt','register'][+e.key-1];
 });
