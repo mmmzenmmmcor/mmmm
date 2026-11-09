@@ -1371,6 +1371,8 @@ function openPicker(x,y){
   popEl.querySelector('#popPaste').onclick = () => { pasteSel(); closePicker(); };
   const saveNote = () => {
     const n = noteIn.value.trim();
+    const absMatch = n && ABS.find(a => a.label.toLowerCase() === n.toLowerCase());
+    if (absMatch){ noteIn.value = ''; apply({s: absMatch.k}); return; }
     const T = targets();
     const ch = T.cells.map((c,i) => { const v = cleanVal(T.vals[i]); if (!v && !n) return null; const nv = {...(v||{})}; if (n) nv.n = n; else delete nv.n; return {...c, val: cleanVal(nv)}; }).filter(Boolean);
     commit(ch, n ? 'Notering sparad' : 'Notering borttagen'); closePicker();
