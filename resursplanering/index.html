@@ -689,6 +689,18 @@ td.c .chip,td.c .abs{padding-top:12px}
 td.c.rng{background:var(--abs-bg) !important}
 td.c.rng::before{content:"";position:absolute;inset:3px;border:2px dashed var(--abs-ink);border-radius:8px;pointer-events:none;opacity:.7;z-index:1}
 
+
+/* new project from picker */
+.np-wrap{border-top:1px dashed var(--line);margin-top:4px;padding-top:4px}
+.np-plus{display:grid;place-items:center;background:var(--surface-2) !important;border:1.5px dashed var(--line-strong);color:var(--muted);font-weight:700;font-size:16px;box-shadow:none !important}
+.np-btn .n{color:var(--accent)}
+.np-form{display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--surface-2);border-radius:10px;margin:4px 0}
+.np-row{display:flex;gap:6px;justify-content:flex-end}
+.np-row input{min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 9px;font:inherit}
+.np-row input.mono{width:90px;flex:none;font-family:var(--f-mono);font-weight:600}
+.np-row input:not(.mono){flex:1}
+.np-row input:focus{outline:none;border-color:var(--accent)}
+
 /* ---------- Responsive ---------- */
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
@@ -1292,14 +1304,37 @@ function openPicker(x,y){
     <div class="pop-actions"><button class="btn ghost danger" id="popClear"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><span id="popClearT">Ta bort</span></button><button class="btn ghost" id="popClose">Stäng</button></div></div>`;
   document.body.appendChild(popEl);
   const list = popEl.querySelector('#popList'), search = popEl.querySelector('#popSearch'), noteIn = popEl.querySelector('#popNote');
-  let hl = 0, shown = projs;
+  let hl = 0, shown = projs, newOpen = false;
   const drawList = () => {
     const q = search.value.trim().toLowerCase();
     shown = projs.filter(p => !q || p.number.toLowerCase().includes(q) || (p.name||'').toLowerCase().includes(q) || (p.client||'').toLowerCase().includes(q));
     hl = Math.min(hl, Math.max(0,shown.length-1));
     list.innerHTML = shown.length ? shown.map((p,i)=>`<button class="opt ${i===hl&&q?'hl':''}" data-p="${esc(p.id)}" style="--c:${esc(p.color)}"><span class="sw"></span><span class="tx"><span class="n">${esc(p.number)}</span><span class="m">${esc(p.name||'Namnlöst projekt')}${p.client?' · '+esc(p.client):''}</span></span></button>`).join('')
-      : `<div class="faint" style="padding:8px">Inget projekt matchar. Lägg till det under Personal &amp; projekt.</div>`;
+      : `<div class="faint" style="padding:6px 8px">Inget projekt matchar sökningen.</div>`;
+    const m = search.value.trim().match(/^\s*(\d{2,8})\s*[-–·:]?\s*(.*)$/), exact = m && projs.some(p => p.number===m[1]);
+    list.insertAdjacentHTML('beforeend', exact ? '' : `<div class="np-wrap">${newOpen ? `<div class="np-form"><div class="np-row"><input id="npNum" class="mono" placeholder="Nummer" value="${esc(m?m[1]:(/^\d+$/.test(q)?q:''))}" autocomplete="off"><input id="npName" placeholder="Projektnamn" value="${esc(m?m[2]:(/^\d+$/.test(q)?'':search.value.trim()))}" autocomplete="off"></div><div class="np-row"><button class="btn ghost" id="npCancel">Avbryt</button><button class="btn primary" id="npGo">Skapa och lägg in</button></div></div>` : `<button class="opt np-btn" id="npOpen"><span class="sw np-plus">+</span><span class="tx"><span class="n">${m ? 'Skapa projekt '+esc(m[1]) : 'Nytt projekt'}</span><span class="m">${m && m[2] ? esc(m[2]) : 'Lägg till nummer och namn direkt här'}</span></span></button>`}</div>`);
     list.querySelectorAll('[data-p]').forEach(b => b.onclick = () => apply({p:b.dataset.p}));
+    const no = list.querySelector('#npOpen'); if (no) no.onclick = () => { newOpen = true; drawList(); const f = list.querySelector(list.querySelector('#npNum').value ? '#npName' : '#npNum'); f.focus(); };
+    const nc = list.querySelector('#npCancel'); if (nc) nc.onclick = () => { newOpen = false; drawList(); search.focus(); };
+    const ng = list.querySelector('#npGo');
+    if (ng){
+      const go = async () => {
+        const num = list.querySelector('#npNum').value.trim(), name = list.querySelector('#npName').value.trim();
+        if (!num){ list.querySelector('#npNum').focus(); return; }
+        const ex = S.projects.find(p => p.number===num);
+        if (ex){ apply({p:ex.id}); return; }
+        const id = 'p' + num.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+        const used = new Set(S.projects.map(p=>p.color)); const color = PALETTE.find(c=>!used.has(c)) || PALETTE[S.projects.length % PALETTE.length];
+        ng.disabled = true;
+        if (await saveDoc('projects/'+id, {number:num, name, client:'', manager:'', color, active:true}, false)){
+          if (!S.projects.some(p=>p.id===id)) S.projects.push({id, number:num, name, client:'', color, active:true});
+          toast(`Projekt ${num}${name?' · '+name:''} skapat`);
+          apply({p:id});
+        } else ng.disabled = false;
+      };
+      ng.onclick = go;
+      list.querySelectorAll('#npNum,#npName').forEach(i => i.onkeydown = e => { if (e.key==='Enter'){ e.preventDefault(); go(); } else if (e.key==='Escape'){ e.stopPropagation(); newOpen = false; drawList(); search.focus(); } });
+    }
   };
   const PART_TXT = {hel:'', fm:' (fm)', em:' (em)'};
   const rgFrom = popEl.querySelector('#rgFrom'), rgTo = popEl.querySelector('#rgTo'), rgInfo = popEl.querySelector('#rgInfo');
@@ -1353,7 +1388,7 @@ function openPicker(x,y){
   };
   drawList();
   popEl.querySelectorAll('[data-part]').forEach(b => b.onclick = () => { pickPart = b.dataset.part; popEl.querySelectorAll('[data-part]').forEach(x => x.setAttribute('aria-pressed', x===b)); popEl.querySelector('#popClearT').textContent = pickPart==='hel' ? 'Ta bort' : pickPart==='fm' ? 'Ta bort fm' : 'Ta bort em'; search.focus(); });
-  search.oninput = () => { hl = 0; drawList(); };
+  search.oninput = () => { hl = 0; newOpen = false; drawList(); };
   search.onkeydown = e => {
     if (e.key==='ArrowDown'){ hl = Math.min(hl+1, shown.length-1); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
     else if (e.key==='ArrowUp'){ hl = Math.max(hl-1,0); e.preventDefault(); drawList(); list.querySelector('.hl')?.scrollIntoView({block:'nearest'}); }
