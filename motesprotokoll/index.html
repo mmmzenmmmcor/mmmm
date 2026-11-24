@@ -1,0 +1,1266 @@
+<title>Sydbyggarna Mötesprotokoll</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+/* Layout: same family as Resursplanering. Dark spruce sidebar beside a stone workspace; the protocol reads as one long, numbered register of points. */
+:root{
+  --bg:#EDEFEB; --surface:#FFFFFF; --surface-2:#F5F6F3; --ink:#14201B; --muted:#5D6963; --faint:#8A948E;
+  --line:#DDE2DC; --line-strong:#C2CAC3; --accent:#1E4A38; --accent-ink:#FFFFFF; --accent-soft:#E2ECE6;
+  --brass:#97753F; --brass-soft:#F4ECDD; --side:#0F1D17; --side-ink:#E8EEE9; --side-muted:#8C9D93; --side-line:#213229; --side-hi:#1A2C23;
+  --danger:#B0412D; --danger-soft:#FBE3DF; --ok:#1F6B43; --ok-soft:#DCF0E2; --amber:#855700; --amber-soft:#FBEFCB;
+  --new:#2F6086; --new-soft:#E4EEF7; --grey-soft:#ECEEEA;
+  --shadow:0 1px 2px rgba(15,29,23,.05),0 10px 30px -8px rgba(15,29,23,.14);
+  --shadow-lg:0 2px 6px rgba(15,29,23,.08),0 28px 60px -12px rgba(15,29,23,.28);
+  --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B110F; --surface:#111916; --surface-2:#16201C; --ink:#E6ECE8; --muted:#9BA8A1; --faint:#6C7973;
+  --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
+  --brass:#D0AC72; --brass-soft:#2A2214; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
+  --danger:#F2A090; --danger-soft:#3A1C17; --ok:#8FD3A8; --ok-soft:#16301F; --amber:#EBC66E; --amber-soft:#352A10;
+  --new:#9CC6EE; --new-soft:#10202B; --grey-soft:#1E2824;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B110F; --surface:#111916; --surface-2:#16201C; --ink:#E6ECE8; --muted:#9BA8A1; --faint:#6C7973;
+  --line:#202C27; --line-strong:#2E3D36; --accent:#8CC7A8; --accent-ink:#0B110F; --accent-soft:#1B2C24;
+  --brass:#D0AC72; --brass-soft:#2A2214; --side:#070D0B; --side-ink:#E8EEE9; --side-muted:#80918A; --side-line:#17231E; --side-hi:#12201A;
+  --danger:#F2A090; --danger-soft:#3A1C17; --ok:#8FD3A8; --ok-soft:#16301F; --amber:#EBC66E; --amber-soft:#352A10;
+  --new:#9CC6EE; --new-soft:#10202B; --grey-soft:#1E2824;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -8px rgba(0,0,0,.5);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.4),0 28px 60px -12px rgba(0,0,0,.7);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+h1,h2,h3,h4{text-wrap:balance}
+
+.app{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
+
+/* ---------- Sidebar ---------- */
+.side{background:var(--side);color:var(--side-ink);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;
+  padding-block:24px 20px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:20px;border-right:1px solid var(--side-line);overflow-y:auto}
+.brand{display:flex;flex-direction:column;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--side-line)}
+.mark{display:flex;align-items:center;gap:10px}
+.mark b{font-family:var(--f-display);font-weight:700;letter-spacing:.14em;font-size:15px}
+.brand h1{margin:0;font-family:var(--f-display);font-weight:500;font-size:13px;color:var(--side-muted);line-height:1.3}
+.brand h1 strong{display:block;color:var(--side-ink);font-weight:600;font-size:18px;letter-spacing:-.01em}
+.proj-pick label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--side-muted);margin-bottom:6px}
+.proj-pick select{width:100%;background:var(--side-hi);border:1px solid var(--side-line);color:var(--side-ink);border-radius:8px;padding:9px 10px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;color:var(--side-muted);text-decoration:none;font-weight:500;transition:background .15s,color .15s}
+.nav a:hover{color:var(--side-ink);background:var(--side-hi)}
+.nav a[aria-current="page"]{color:var(--side-ink);background:var(--side-hi);box-shadow:inset 0 0 0 1px var(--side-line)}
+.nav .k{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--side-muted)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;font-size:12px;color:var(--side-muted)}
+.sync{display:flex;align-items:center;gap:8px}
+.sync i{width:8px;height:8px;border-radius:50%;background:#5FBF8C;box-shadow:0 0 0 3px rgba(95,191,140,.18)}
+.sync.saving i{background:#D0AC72;animation:pulse 1s infinite}
+.sync.off i{background:#8C9D93;box-shadow:none}
+@keyframes pulse{50%{opacity:.4}}
+@media (prefers-reduced-motion: reduce){.sync.saving i{animation:none}}
+
+/* ---------- Main ---------- */
+.main{min-width:0;padding-block:28px 80px;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;margin-bottom:18px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.head h2{margin:4px 0 4px;font-family:var(--f-display);font-weight:600;font-size:30px;letter-spacing:-.02em;line-height:1.1}
+.head .meta{color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);background:var(--surface);border-radius:8px;padding:8px 13px;font-weight:600;font-size:13px;line-height:1.2}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted);padding-inline:8px}
+.btn.ghost:hover{color:var(--ink);background:var(--surface-2)}
+.btn.small{padding:5px 9px;font-size:12px}
+.btn.danger{color:var(--danger)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+select.btn{padding-right:28px}
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:600;white-space:nowrap;background:var(--grey-soft);color:var(--muted)}
+.chip.open{background:var(--amber-soft);color:var(--amber)}
+.chip.done{background:var(--ok-soft);color:var(--ok)}
+.chip.new{background:var(--new-soft);color:var(--new)}
+.chip.late{background:var(--danger-soft);color:var(--danger)}
+.chip.draft{background:var(--brass-soft);color:var(--brass)}
+.chip.kind{background:transparent;border:1px solid var(--line-strong);color:var(--muted)}
+.chip.owner{background:var(--accent-soft);color:var(--accent)}
+
+.banner{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;border:1px solid var(--line-strong);background:var(--surface-2);border-radius:10px;padding:10px 14px;margin-bottom:16px;color:var(--muted)}
+.banner b{color:var(--ink)}
+.banner.warn{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
+.banner.warn b{color:var(--amber)}
+
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.stat{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px;text-align:left;border:0}
+button.stat:hover{background:var(--surface-2)}
+.stat b{font-family:var(--f-display);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+.stat[aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--accent)}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:9px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:7px 12px;font-size:13px;font-weight:600;color:var(--muted);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.search{flex:1 1 220px;min-width:0;border:1px solid var(--line-strong);background:var(--surface);border-radius:9px;padding:8px 12px}
+
+/* ---------- Protocol ---------- */
+.sec{margin-bottom:26px}
+.sec-h{display:flex;align-items:center;gap:10px;margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.sec-h h3{margin:0;font-family:var(--f-display);font-size:18px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
+.sec-h .code{font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--ink);color:var(--bg);border-radius:5px;padding:2px 7px}
+.sec-h .n{font-size:12px;color:var(--muted)}
+.items{display:flex;flex-direction:column;gap:10px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 14px}
+.item.is-new{border-color:var(--new);box-shadow:inset 3px 0 0 var(--new)}
+.item.is-done{background:var(--surface-2)}
+.item.is-done .ititle,.item.is-done .et{color:var(--muted);font-style:italic}
+.item .nr{font-family:var(--f-mono);font-size:13px;font-weight:600;padding-top:2px}
+.item .nr small{display:block;font-weight:400;color:var(--faint);font-size:10.5px}
+.ihead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px}
+.ititle{margin:0;font-size:15px;font-weight:650;font-weight:600;line-height:1.35;flex:1 1 320px;min-width:0}
+.ititle button{all:unset;cursor:pointer}
+.ititle button:hover{text-decoration:underline;text-underline-offset:3px}
+.ichips{display:flex;flex-wrap:wrap;gap:5px}
+.entries{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:7px;grid-column:2}
+.e{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;font-size:13.5px}
+.e .em{font-family:var(--f-mono);font-size:11.5px;color:var(--faint);padding-top:2px;line-height:1.3}
+.e .em b{display:block;color:var(--muted);font-weight:600}
+.e .et{white-space:normal;overflow-wrap:anywhere}
+.e .ek{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);margin-right:6px}
+.e .ek.beslut{color:var(--accent)}
+.e.cur .em b{color:var(--new)}
+.e.cur .et{background:var(--new-soft);border-radius:6px;padding:2px 8px;margin-left:-8px}
+.e s{color:var(--faint)}
+.more{grid-column:2;justify-self:start;margin-top:4px}
+.iacts{grid-column:2;display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.form{grid-column:2;margin-top:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px}
+.form textarea{width:100%;min-height:92px;resize:vertical;border:1px solid var(--line-strong);border-radius:8px;padding:9px 11px;background:var(--surface);line-height:1.45}
+.frow{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.frow label{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field span{font-size:12px;color:var(--muted);font-weight:600}
+.field input,.field select,.field textarea{border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;background:var(--surface);min-width:0;width:100%}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
+.grid4{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px 12px}
+.standing{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:24px}
+.standing>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 16px;font-weight:600}
+.standing>summary::-webkit-details-marker{display:none}
+.standing>summary .n{color:var(--muted);font-weight:500;font-size:13px}
+.standing>summary::after{content:"Visa";margin-left:auto;color:var(--muted);font-size:12px;font-weight:600}
+.standing[open]>summary::after{content:"Dölj"}
+.standing .items{padding:0 12px 12px}
+.standing .item{border-style:dashed}
+.empty{border:1px dashed var(--line-strong);border-radius:12px;padding:28px;text-align:center;color:var(--muted);background:var(--surface)}
+.empty h3{margin:0 0 6px;color:var(--ink);font-family:var(--f-display)}
+.addrow{margin-top:10px}
+
+/* ---------- Attendance ---------- */
+.att-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.card-h h3{margin:0;font-size:15px;font-family:var(--f-display);font-weight:600}
+.plist{list-style:none;margin:0;padding:0}
+.grp{padding:8px 16px 4px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);font-weight:700;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:9px 16px;border-bottom:1px solid var(--line)}
+.prow:last-child{border-bottom:0}
+.prow .who{min-width:0}
+.prow .who button{all:unset;cursor:pointer;font-weight:600}
+.prow .who button:hover{text-decoration:underline}
+.prow .who small{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.prow.inactive{opacity:.55}
+.att-seg button{padding:6px 10px;font-size:12px}
+.att-seg button[data-v="närvarande"][aria-pressed="true"]{background:var(--ok);color:var(--surface)}
+.att-seg button[data-v="frånvarande"][aria-pressed="true"]{background:var(--amber);color:var(--surface)}
+.att-seg button[data-v="kopia"][aria-pressed="true"]{background:var(--new);color:var(--surface)}
+.att-seg button[data-v="ingen"][aria-pressed="true"]{background:var(--line-strong);color:var(--ink)}
+.preview{padding:14px 16px;display:flex;flex-direction:column;gap:14px;font-size:13px}
+.preview h4{margin:0 0 4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.preview ul{margin:0;padding-left:18px}
+.quick{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.quick input,.quick textarea{border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;background:var(--surface);width:100%}
+.hint{font-size:12px;color:var(--muted)}
+.warnline{color:var(--danger);font-size:12.5px}
+
+/* ---------- Action list / Flow ---------- */
+.olist{display:flex;flex-direction:column;gap:14px}
+.ogrp .card-h .n{color:var(--muted);font-size:12px}
+.orow{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:4px 12px;padding:10px 16px;border-bottom:1px solid var(--line);align-items:baseline}
+.orow:last-child{border-bottom:0}
+.orow .nr{font-family:var(--f-mono);font-size:12.5px;font-weight:600}
+.orow button.t{all:unset;cursor:pointer;font-weight:600;overflow-wrap:anywhere}
+.orow button.t:hover{text-decoration:underline}
+.orow .sub{grid-column:2/4;color:var(--muted);font-size:12.5px}
+.chart{padding:14px 16px 8px}
+.chart svg{display:block;width:100%;height:auto}
+.timeline{display:flex;flex-direction:column;gap:12px}
+.tl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px}
+.tl .when{font-family:var(--f-mono);font-size:12px;color:var(--muted);padding-top:14px;text-align:right}
+.tl .when b{display:block;font-size:14px;color:var(--ink);font-family:var(--f-display)}
+.tl .card{padding:12px 16px}
+.tl ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.tl li{display:flex;gap:8px;align-items:baseline}
+.tl li .nr{font-family:var(--f-mono);font-size:12px;font-weight:600;flex:none;width:52px}
+.tl li button{all:unset;cursor:pointer;overflow-wrap:anywhere}
+.tl li button:hover{text-decoration:underline}
+.tl .counts{display:flex;flex-wrap:wrap;gap:6px}
+.hit{padding:10px 16px;border-bottom:1px solid var(--line);font-size:13px}
+.hit:last-child{border-bottom:0}
+.hit mark{background:var(--brass-soft);color:inherit;border-radius:3px;padding:0 2px}
+
+/* ---------- Standard / settings ---------- */
+.prose{max-width:760px;font-size:15px;line-height:1.6}
+.prose h3{font-family:var(--f-display);font-size:19px;margin:26px 0 6px}
+.prose ol,.prose ul{padding-left:22px}
+.prose li{margin:5px 0}
+.prose .rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:12px 0}
+.prose table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--surface)}
+.prose th,.prose td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+.prose th{background:var(--surface-2)}
+.tbl-wrap{overflow-x:auto}
+.set-grid{display:grid;gap:16px;max-width:820px}
+.set-grid .card{padding:16px}
+.sec-edit{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:8px;align-items:center;margin-bottom:8px}
+.sec-edit input{border:1px solid var(--line-strong);border-radius:8px;padding:7px 9px;background:var(--surface);min-width:0}
+
+/* ---------- Modal / toast ---------- */
+.modal{position:fixed;inset:0;background:rgba(10,18,14,.45);display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px 16px;z-index:50;overflow-y:auto}
+.dlg{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-lg);width:min(720px,100%);display:flex;flex-direction:column;max-height:none}
+.dlg-h{display:flex;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.dlg-h h3{margin:0;font-family:var(--f-display);font-size:19px;flex:1}
+.dlg-b{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.dlg-f{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--line)}
+.err{color:var(--danger);font-size:13px}
+.toasts{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:8px;z-index:60}
+.toast{background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:9px;box-shadow:var(--shadow);font-size:13px;max-width:360px}
+.state{padding:60px 20px;text-align:center;color:var(--muted)}
+.radio{display:flex;flex-direction:column;gap:6px}
+.radio label{display:flex;gap:8px;align-items:flex-start;font-size:13.5px}
+
+@media (max-width: 980px){
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .att-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width: 860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;flex-direction:column;gap:12px;padding-block:14px;padding-right:max(16px,env(safe-area-inset-right,0px));padding-left:max(16px,env(safe-area-inset-left,0px))}
+  .brand{flex-direction:row;align-items:center;justify-content:space-between;padding-bottom:12px}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px}
+  .nav a{padding:8px 10px;white-space:nowrap}
+  .nav a svg{display:none}
+  .side-foot{display:none}
+  .main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 60px}
+}
+@media (max-width: 560px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .item{grid-template-columns:minmax(0,1fr)}
+  .entries,.more,.iacts,.form{grid-column:1}
+  .e{grid-template-columns:minmax(0,1fr);gap:0}
+  .grid2,.grid4{grid-template-columns:minmax(0,1fr)}
+  .stat:last-child{grid-column:span 2}
+  .tl{grid-template-columns:minmax(0,1fr)}
+  .tl .when{text-align:left;padding-top:0}
+  .prow{grid-template-columns:minmax(0,1fr)}
+  .head h2{font-size:25px}
+}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="mark"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#1E4A38"/><path d="M7 25V15.5L17 8l10 7.5V25" fill="none" stroke="#E8EEE9" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.5 25v-5.5h9V25" fill="none" stroke="#D0AC72" stroke-width="2.2"/></svg><b>SYDBYGGARNA</b></div>
+      <h1><strong>Mötesprotokoll</strong>Samordnings- och byggmöten</h1>
+    </div>
+    <div class="proj-pick"><label for="projSel">Projekt</label><select id="projSel"></select></div>
+    <nav class="nav" aria-label="Vyer" id="nav">
+      <a href="#protokoll" data-view="protokoll"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/></svg><span>Protokoll</span></a>
+      <a href="#narvaro" data-view="narvaro"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 11l2 2 4-4"/></svg><span>Närvaro &amp; sändlista</span></a>
+      <a href="#atgarder" data-view="atgarder"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/></svg><span>Åtgärdslista</span><span class="k" id="navOpen"></span></a>
+      <a href="#flode" data-view="flode"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5M4 19h16"/><path d="M8 15l3-4 3 2 5-6"/></svg><span>Projektets flöde</span></a>
+      <a href="#projekt" data-view="projekt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><span>Projekt &amp; avsnitt</span></a>
+      <a href="#standard" data-view="standard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></svg><span>Vår standard</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="sync off" id="sync"><i></i><span>Ansluter…</span></div>
+      <div>Delat verktyg. Ändringar syns direkt för alla med länken.</div>
+    </div>
+  </aside>
+  <main class="main" id="main"><div class="state">Öppnar protokollen…</div></main>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>
+
+<script>
+(() => {
+/* ================= Constants ================= */
+const MONTHS = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+const KINDS = [
+  {k:'fråga', label:'Fråga'}, {k:'åtgärd', label:'Åtgärd'}, {k:'beslut', label:'Beslut'},
+  {k:'info', label:'Information'}, {k:'regel', label:'Stående regel'}, {k:'lägesrapport', label:'Lägesrapport'},
+];
+const KIND_LABEL = Object.fromEntries(KINDS.map(k => [k.k, k.label]));
+const ENTRY_KINDS = [{k:'notering', label:'Notering'}, {k:'svar', label:'Svar/besked'}, {k:'beslut', label:'Beslut'}];
+const ENTRY_LABEL = {notering:'', svar:'Svar', beslut:'Beslut'};
+const ATT = [
+  {v:'närvarande', label:'Närvarande'}, {v:'frånvarande', label:'Frånvarande'},
+  {v:'kopia', label:'Kopia'}, {v:'ingen', label:'–'},
+];
+const GROUPS = ['Sydbyggarna','Beställare','Konsult','Underentreprenör','Leverantör','Övriga'];
+const STANDARD_SECTIONS = [
+  {code:'A', title:'Mötets öppnande och föregående protokoll'},
+  {code:'G', title:'Generella punkter – arbetsmiljö, ordning och besiktningar'},
+  {code:'T', title:'Tider – tidplan och lägesrapporter'},
+  {code:'B', title:'Frågor – Bygg'},
+  {code:'E', title:'Frågor – El'},
+  {code:'R', title:'Frågor – Rör/VS'},
+  {code:'V', title:'Frågor – Vent & Styr'},
+  {code:'M', title:'Frågor – Mark'},
+  {code:'U', title:'Frågor – Övriga entreprenörer och leverantörer'},
+  {code:'O', title:'Övrigt'},
+];
+const DEFAULT_APPROVAL = 'Protokollet anses godkänt om inga skriftliga synpunkter har kommit till protokollföraren inom 5 arbetsdagar.';
+
+/* ================= State ================= */
+const S = {
+  status:'loading', db:null, user:null, downloads:null, canWrite:true, me:null,
+  projects:[], pid:null, people:[], meetings:[], items:[], got:{},
+  mid:null, view:'protokoll', filter:'alla', q:'', expanded:new Set(), form:null, flowQ:'',
+};
+let unsubs = [];
+const $main = document.getElementById('main');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad3 = n => String(n).padStart(3,'0');
+const today = new Date();
+const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const TODAY = ymd(today);
+const fmtDate = s => { if (!s) return ''; const [y,m,d] = s.split('-').map(Number); return d+' '+MONTHS[m-1]+' '+y; };
+const fmtShort = s => { if (!s) return ''; const [y,m,d] = s.split('-').map(Number); return d+' '+MONTHS[m-1]; };
+const addDays = (s,n) => { const [y,m,d] = s.split('-').map(Number); const x = new Date(y,m-1,d); x.setDate(x.getDate()+n); return ymd(x); };
+const slug = s => String(s||'').toLowerCase().replace(/[åä]/g,'a').replace(/ö/g,'o').replace(/[éè]/g,'e').replace(/ü/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60) || 'x';
+/* Text formatting kept in entries: **fet** and ~~struken~~ (från den gamla mallen). */
+const rich = s => esc(s).replace(/~~([\s\S]+?)~~/g,'<s>$1</s>').replace(/\*\*([\s\S]+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+const plain = s => String(s||'').replace(/~~([\s\S]+?)~~/g,'[struket: $1]').replace(/\*\*([\s\S]+?)\*\*/g,'$1');
+
+/* ================= Derived data ================= */
+const proj = () => S.projects.find(p => p.id===S.pid) || null;
+const code = () => (proj() && proj().meetingCode) || 'SM';
+const keep = () => { const k = proj() && proj().keepClosed; return k==null ? 2 : +k; };
+const sections = () => (proj() && proj().sections && proj().sections.length) ? proj().sections : STANDARD_SECTIONS;
+const meetingsSorted = () => S.meetings.slice().sort((a,b) => a.number-b.number);
+const mById = id => S.meetings.find(m => m.id===id);
+const mNum = id => { const m = mById(id); return m ? m.number : 0; };
+const mLabel = id => { const m = mById(id); return m ? code()+' '+m.number : '–'; };
+const curMeeting = () => mById(S.mid) || meetingsSorted().slice(-1)[0] || null;
+const latestMeeting = () => meetingsSorted().slice(-1)[0] || null;
+const isDraft = m => m && m.status !== 'fastställt';
+const writable = () => S.canWrite && isDraft(curMeeting());
+const personById = id => S.people.find(p => p.id===id);
+const peopleSorted = () => S.people.slice().sort((a,b) => (GROUPS.indexOf(a.group||'Övriga')-GROUPS.indexOf(b.group||'Övriga')) || String(a.company||'').localeCompare(String(b.company||''),'sv') || a.name.localeCompare(b.name,'sv'));
+
+function statusAt(it, N){ return it.status==='klar' && it.closed && mNum(it.closed) <= N ? 'klar' : 'öppen'; }
+function inProtocol(it, N){
+  const c = mNum(it.created) || 1;
+  if (c > N) return false;
+  if (statusAt(it,N)==='öppen') return true;
+  return N - mNum(it.closed) <= keep();
+}
+function entriesUpTo(it, N){ return (it.entries||[]).filter(e => mNum(e.m) <= N); }
+/* Which entries a reader sees. Lägesrapport: only the latest meeting's. Stående: grundtexten + senaste. Övriga: hela eller de senaste tre. */
+function visibleEntries(it, N, full){
+  const es = entriesUpTo(it, N);
+  if (!es.length) return {shown:[], hidden:[]};
+  if (it.latestOnly){ const last = Math.max(...es.map(e => mNum(e.m))); return {shown: es.filter(e => mNum(e.m)===last), hidden: es.filter(e => mNum(e.m)!==last)}; }
+  if (full) return {shown:es, hidden:[]};
+  if (it.standing){ const last = Math.max(...es.map(e => mNum(e.m))); const shown = es.filter((e,i) => i===0 || mNum(e.m)===last); return {shown, hidden: es.filter(e => !shown.includes(e))}; }
+  if (es.length <= 4) return {shown:es, hidden:[]};
+  const cur = es.filter(e => mNum(e.m)===N), rest = es.filter(e => mNum(e.m)!==N);
+  const shown = rest.slice(-3).concat(cur);
+  return {shown, hidden: es.filter(e => !shown.includes(e))};
+}
+const isLate = (it, N) => it.due && statusAt(it,N)==='öppen' && it.due < ((meetingsSorted().find(m => m.number===N)||{}).date || TODAY);
+const itemsSorted = () => S.items.slice().sort((a,b) => { const sa = secIndex(a.section), sb = secIndex(b.section); return sa-sb || (a.seq||0)-(b.seq||0); });
+function secIndex(c){ const i = sections().findIndex(s => s.code===c); return i<0 ? 99 : i; }
+const textOf = it => (it.nr+' '+it.title+' '+(it.owner||'')+' '+(it.entries||[]).map(e => e.text).join(' ')).toLowerCase();
+
+/* ================= DB ================= */
+let pending = 0;
+function syncState(){
+  const el = document.getElementById('sync'); if (!el) return;
+  el.className = 'sync' + (S.status!=='ready' ? ' off' : pending ? ' saving' : '');
+  el.lastChild.textContent = S.status!=='ready' ? (S.status==='nodb' ? 'Inte ansluten' : 'Ansluter…') : pending ? 'Sparar…' : (S.canWrite ? 'Sparat' : 'Endast läsning');
+}
+function toast(msg){ const t = document.createElement('div'); t.className='toast'; t.textContent = msg; document.getElementById('toasts').appendChild(t); setTimeout(() => t.remove(), 3800); }
+function errMsg(e){
+  const c = e && e.code;
+  if (c==='not_granted' || c==='revoked') return 'Du har bara läsbehörighet här. Be platschefen om redigeringsrätt.';
+  if (c==='quota_exceeded') return 'Databasen är full. Arkivera eller ta bort gamla projekt.';
+  if (c==='invalid_argument') return 'Ändringen kunde inte sparas (för stor eller felaktig).';
+  return 'Ändringen kunde inte sparas. Kontrollera anslutningen och försök igen.';
+}
+const chains = new Map();
+function write(path, fn){
+  const prev = chains.get(path) || Promise.resolve();
+  const p = prev.then(async () => { pending++; syncState(); try { await fn(S.db.doc(path)); return true; } catch(e){ toast(errMsg(e)); return false; } finally { pending--; syncState(); } });
+  chains.set(path, p.catch(() => {}));
+  return p;
+}
+const setDoc = (path, data) => write(path, ref => ref.set(data));
+const updDoc = (path, data) => write(path, ref => ref.update(data));
+const delDoc = path => write(path, ref => ref.delete());
+function patchLocal(list, id, data){ const x = list.find(o => o.id===id); if (x) Object.assign(x, data); }
+
+/* ================= Render plumbing ================= */
+let queued = false;
+function queueRender(){
+  if (queued) return; queued = true;
+  requestAnimationFrame(() => {
+    queued = false;
+    const ae = document.activeElement;
+    const typing = ae && $main.contains(ae) && (ae.tagName==='TEXTAREA' || (ae.tagName==='INPUT' && !/checkbox|radio/.test(ae.type)) || ae.tagName==='SELECT');
+    if (typing || document.querySelector('.modal')) { setTimeout(queueRender, 500); return; }
+    render();
+  });
+}
+function render(){
+  renderSide();
+  let html;
+  if (S.status==='nodb') html = stateBlock('Protokollen kunde inte öppnas här','Verktyget kräver att du är inloggad på claude.ai. Öppna länken i webbläsaren eller Claude-appen och logga in.');
+  else if (S.status==='timeout') html = stateBlock('Ingen kontakt med databasen','Kontrollera anslutningen och ladda om sidan.');
+  else if (S.status!=='ready') html = '<div class="state">Öppnar protokollen…</div>';
+  else if (!proj() && S.view!=='standard') html = viewNoProject();
+  else html = ({protokoll:viewProtocol, narvaro:viewAttendance, atgarder:viewActions, flode:viewFlow, projekt:viewProject, standard:viewStandard}[S.view] || viewProtocol)();
+  const y = window.scrollY;
+  $main.innerHTML = '<div class="wrap">'+html+'</div>';
+  window.scrollTo(0, y);
+  const f = document.getElementById('fText'); if (f && S.form && S.form.focus){ f.focus(); S.form.focus = false; }
+  syncState();
+}
+function stateBlock(h,p){ return `<div class="empty" style="margin-top:40px"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`; }
+function renderSide(){
+  const sel = document.getElementById('projSel');
+  const opts = S.projects.slice().sort((a,b) => String(a.number).localeCompare(String(b.number),'sv')).map(p => `<option value="${esc(p.id)}"${p.id===S.pid?' selected':''}>${esc(p.number+' · '+(p.name||''))}</option>`).join('');
+  sel.innerHTML = (opts || '<option value="">Inga projekt än</option>') + '<option value="__new">+ Nytt projekt…</option>';
+  document.querySelectorAll('#nav a').forEach(a => a.setAttribute('aria-current', a.dataset.view===S.view ? 'page' : 'false'));
+  const L = latestMeeting(), N = L ? L.number : 0;
+  const open = S.items.filter(it => statusAt(it,N)==='öppen' && !it.standing && !it.latestOnly).length;
+  document.getElementById('navOpen').textContent = S.status==='ready' && proj() ? open : '';
+}
+
+/* ================= View: protocol ================= */
+function meetingSelect(){
+  return `<select class="btn" id="meetSel" aria-label="Välj möte">${meetingsSorted().slice().reverse().map(m => `<option value="${esc(m.id)}"${m.id===(curMeeting()||{}).id?' selected':''}>${esc(code()+' '+m.number+' · '+fmtDate(m.date))}${m.status==='fastställt'?'':' (utkast)'}</option>`).join('')}</select>`;
+}
+function viewProtocol(){
+  const P = proj(), M = curMeeting();
+  if (!M) return `${headBlock('Inga möten än', '')}<div class="empty"><h3>Starta första mötet</h3><p>Lägg in personerna under Närvaro &amp; sändlista och skapa sedan ${esc(code())} 1.</p><p><button class="btn primary" data-act="newMeeting">Skapa ${esc(code())} 1</button></p></div>`;
+  const N = M.number, prev = meetingsSorted().find(m => m.number===N-1);
+  const all = itemsSorted().filter(it => inProtocol(it, N));
+  const standing = all.filter(it => it.standing && statusAt(it,N)==='öppen');
+  const regular = all.filter(it => !standing.includes(it));
+  const isNewHere = it => it.created===M.id;
+  const changedHere = it => (it.entries||[]).some(e => e.m===M.id);
+  const closedHere = it => statusAt(it,N)==='klar' && it.closed===M.id;
+  const archived = S.items.filter(it => mNum(it.created)<=N && !inProtocol(it,N)).length;
+  const cnt = {
+    open: regular.filter(it => statusAt(it,N)==='öppen').length,
+    nytt: all.filter(it => changedHere(it)).length,
+    klar: all.filter(closedHere).length,
+    utan: regular.filter(it => statusAt(it,N)==='öppen' && !it.owner && !it.latestOnly).length,
+  };
+  const q = S.q.trim().toLowerCase();
+  const pass = it => {
+    if (q && !textOf(it).includes(q)) return false;
+    if (S.filter==='oppna') return statusAt(it,N)==='öppen';
+    if (S.filter==='nytt') return changedHere(it);
+    if (S.filter==='klara') return statusAt(it,N)==='klar';
+    if (S.filter==='utan') return statusAt(it,N)==='öppen' && !it.owner && !it.latestOnly && !it.standing;
+    return true;
+  };
+  const att = M.attendance || {};
+  const present = Object.values(att).filter(v => v==='närvarande').length;
+  const L = latestMeeting();
+  let banner = '';
+  if (!isDraft(M)) banner = `<div class="banner"><span>Du läser <b>${esc(code()+' '+N)}</b> som det fastställdes${M.approvedAt?' '+esc(fmtDate(M.approvedAt)):''}. Punkterna visas med den status de hade då.</span>${L && L.id!==M.id ? `<button class="btn small" data-act="goMeeting" data-id="${esc(L.id)}">Gå till ${esc(code()+' '+L.number)}</button>` : (S.canWrite ? `<button class="btn small" data-act="newMeeting">Skapa ${esc(code()+' '+(N+1))}</button>` : '')}</div>`;
+  else if (!S.canWrite) banner = `<div class="banner"><span>Du har läsbehörighet. Protokollet kan läsas och laddas ner men inte ändras.</span></div>`;
+  const sticky = new Set(); /* items kept visible while filtered because a form is open */
+  if (S.form && S.form.item) sticky.add(S.form.item);
+  let body = '';
+  const st = standing.filter(it => pass(it) || sticky.has(it.id));
+  if (st.length) body += `<details class="standing"${S.filter!=='alla'||q?' open':''}><summary>Stående punkter <span class="n">${st.length} st · gäller tills vidare, upprepas inte i texten</span></summary><div class="items">${st.map(it => itemCard(it, M)).join('')}</div></details>`;
+  for (const sec of sectionsWithExtras(regular)){
+    const its = regular.filter(it => it.section===sec.code && (pass(it) || sticky.has(it.id)));
+    const formHere = S.form && S.form.type==='new' && S.form.section===sec.code;
+    if (!its.length && (S.filter!=='alla' || q) && !formHere) continue;
+    body += `<section class="sec"><div class="sec-h"><span class="code">${esc(sec.code)}</span><h3>${esc(sec.title)}</h3><span class="n">${its.length} ${its.length===1?'punkt':'punkter'}</span>${writable() ? `<button class="btn small" data-act="newItem" data-sec="${esc(sec.code)}">+ Ny punkt</button>` : ''}</div>
+      <div class="items">${its.map(it => itemCard(it, M)).join('') || '<div class="hint">Inga punkter i detta avsnitt.</div>'}${formHere ? newItemForm(sec.code) : ''}</div></section>`;
+  }
+  if (!body) body = `<div class="empty"><h3>Inga punkter matchar</h3><p>Ändra filtret eller sökningen.</p></div>`;
+  const stat = (k, n, label) => `<button class="stat" data-act="filter" data-f="${k}" aria-pressed="${S.filter===k}"><b>${n}</b><span>${label}</span></button>`;
+  return `${headBlock(`${esc(P.meetingType||'Samordningsmöte')} ${N}`, `<span>${esc(fmtDate(M.date))}${M.time?' kl. '+esc(M.time):''}</span><span>${esc(M.place||P.place||'')}</span><span>${present} närvarande</span>${isDraft(M)?'<span class="chip draft">Utkast</span>':'<span class="chip done">Fastställt</span>'}`,
+    `${meetingSelect()}<button class="btn" data-act="pdf">Skapa PDF</button>${S.canWrite && isDraft(M) ? `<button class="btn primary" data-act="approve">Fastställ ${esc(code()+' '+N)}</button>` : ''}${S.canWrite && !isDraft(M) && L && L.id===M.id ? `<button class="btn primary" data-act="newMeeting">Nytt möte</button>` : ''}`)}
+  ${banner}
+  <div class="stats">
+    ${stat('alla', all.length, 'Punkter i protokollet')}
+    ${stat('oppna', cnt.open, 'Öppna')}
+    ${stat('nytt', cnt.nytt, prev ? 'Nytt eller ändrat i detta möte' : 'Nytt i detta möte')}
+    ${stat('klara', all.filter(it => statusAt(it,N)==='klar').length, `Klara (visas ${keep()} möte${keep()===1?'':'n'} till)`)}
+    ${stat('utan', cnt.utan, 'Öppna utan ansvarig')}
+  </div>
+  <div class="toolbar"><input class="search" id="q" type="search" placeholder="Sök i punkter, t.ex. hiss, A1124 eller KP" value="${esc(S.q)}"><span class="hint">${archived} klara punkter ligger i arkivet · sök i Projektets flöde</span></div>
+  ${body}`;
+}
+function sectionsWithExtras(items){
+  const secs = sections().slice();
+  for (const it of items) if (!secs.some(s => s.code===it.section)) secs.push({code:it.section, title:'Avsnitt '+it.section});
+  return secs;
+}
+function headBlock(title, meta, actions=''){
+  const P = proj();
+  return `<div class="head"><div><div class="eyebrow">${P ? esc(P.number+' · '+(P.name||'')) : 'Mötesprotokoll'}</div><h2>${title}</h2><div class="meta">${meta}</div></div><div class="actions">${actions}</div></div>`;
+}
+function itemChips(it, N){
+  const s = statusAt(it,N), out = [];
+  if (it.created===(mById(S.mid)||curMeeting()||{}).id) out.push('<span class="chip new">Ny</span>');
+  if (it.standing) out.push('<span class="chip">Stående</span>');
+  else if (it.latestOnly) out.push('<span class="chip">Lägesrapport</span>');
+  else out.push(s==='klar' ? `<span class="chip done">Klar ${esc(mLabel(it.closed))}</span>` : '<span class="chip open">Öppen</span>');
+  if (it.kind && !it.standing && !it.latestOnly) out.push(`<span class="chip kind">${esc(KIND_LABEL[it.kind]||it.kind)}</span>`);
+  if (it.owner) out.push(`<span class="chip owner">${esc(it.owner)}</span>`);
+  if (it.due) out.push(`<span class="chip${isLate(it,N)?' late':''}">Senast ${esc(fmtShort(it.due))}</span>`);
+  return out.join('');
+}
+function entryLi(e, M){
+  const cur = e.m===M.id, lab = ENTRY_LABEL[e.kind] || '';
+  const editable = cur && writable();
+  return `<li class="e${cur?' cur':''}"><span class="em"><b>${esc(mLabel(e.m))}</b>${esc(fmtShort((mById(e.m)||{}).date||''))}</span><div class="et">${lab?`<span class="ek ${e.kind}">${lab}</span>`:''}${rich(e.text)}${editable ? ` <button class="btn ghost small" data-act="editEntry" data-id="${esc(e.__item)}" data-ix="${e.__ix}">Ändra</button>` : ''}</div></li>`;
+}
+function itemCard(it, M){
+  const N = M.number, s = statusAt(it,N), full = S.expanded.has(it.id);
+  const es = (it.entries||[]).map((e,ix) => ({...e, __ix:ix, __item:it.id}));
+  const tmp = {...it, entries:es};
+  const {shown, hidden} = visibleEntries(tmp, N, full);
+  const formOpen = S.form && S.form.item===it.id;
+  const cls = ['item', it.created===M.id?'is-new':'', s==='klar'?'is-done':''].join(' ');
+  let acts = '';
+  if (writable()){
+    acts = `<div class="iacts">
+      ${s==='öppen' ? `<button class="btn ghost small" data-act="addEntry" data-id="${esc(it.id)}" data-k="notering">+ Notering</button><button class="btn ghost small" data-act="addEntry" data-id="${esc(it.id)}" data-k="svar">+ Svar/besked</button><button class="btn ghost small" data-act="addEntry" data-id="${esc(it.id)}" data-k="beslut">+ Beslut</button>` : ''}
+      ${it.standing || it.latestOnly ? '' : s==='öppen' ? `<button class="btn ghost small" data-act="close" data-id="${esc(it.id)}">Klarmarkera</button>` : (it.closed===M.id || mNum(it.closed) <= N ? `<button class="btn ghost small" data-act="reopen" data-id="${esc(it.id)}">Öppna igen</button>` : '')}
+      ${it.standing ? `<button class="btn ghost small" data-act="close" data-id="${esc(it.id)}">Upphör att gälla</button>` : ''}
+      <button class="btn ghost small" data-act="history" data-id="${esc(it.id)}">Historik</button>
+      <button class="btn ghost small" data-act="editItem" data-id="${esc(it.id)}">Ändra punkt</button>
+    </div>`;
+  }
+  return `<article class="${cls}" id="it-${esc(it.id)}">
+    <div class="nr">${esc(it.nr)}<small>${esc(mLabel(it.created))}</small></div>
+    <div class="ihead"><h4 class="ititle"><button data-act="history" data-id="${esc(it.id)}">${esc(it.title)}</button></h4><div class="ichips">${itemChips(it,N)}</div></div>
+    <ol class="entries">${shown.map(e => entryLi(e, M)).join('')}</ol>
+    ${hidden.length ? `<button class="btn ghost small more" data-act="expand" data-id="${esc(it.id)}">${full ? 'Visa kortare' : `Visa ${hidden.length} tidigare ${hidden.length===1?'notering':'noteringar'} (${esc(mLabel(hidden[0].m))}–${esc(mLabel(hidden[hidden.length-1].m))})`}</button>` : ''}
+    ${formOpen ? entryForm(it) : acts}
+  </article>`;
+}
+function entryForm(it){
+  const f = S.form, editing = f.ix!=null;
+  return `<div class="form">
+    <div class="frow"><div class="seg" role="group" aria-label="Typ av notering">${ENTRY_KINDS.map(k => `<button data-act="formKind" data-k="${k.k}" aria-pressed="${f.kind===k.k}">${k.label}</button>`).join('')}</div></div>
+    <textarea id="fText" placeholder="Skriv kort och konkret: vad gäller, vem gör vad, till när.">${esc(f.text||'')}</textarea>
+    <div class="frow">
+      ${editing ? '' : `<label><input type="checkbox" id="fClose"${f.close?' checked':''}> Klarmarkera punkten</label>`}
+      <label>Ansvarig <input id="fOwner" list="ownerList" value="${esc(f.owner ?? it.owner ?? '')}" style="width:110px;border:1px solid var(--line-strong);border-radius:7px;padding:5px 8px;background:var(--surface)"></label>
+      <label>Klart senast <input id="fDue" type="date" value="${esc(f.due ?? it.due ?? '')}" style="border:1px solid var(--line-strong);border-radius:7px;padding:4px 8px;background:var(--surface)"></label>
+      <span style="flex:1"></span>
+      ${editing ? `<button class="btn ghost small danger" data-act="delEntry">Ta bort</button>` : ''}
+      <button class="btn ghost small" data-act="cancelForm">Avbryt</button>
+      <button class="btn primary small" data-act="saveEntry">Spara</button>
+    </div>${ownerDatalist()}
+  </div>`;
+}
+function ownerDatalist(){
+  const opts = new Set();
+  for (const p of S.people) if (p.active!==false){ if (p.initials) opts.add(p.initials); }
+  ['Bygg','El','Rör','Vent','Styr','Mark','Alla UE','B (beställare)'].forEach(x => opts.add(x));
+  return `<datalist id="ownerList">${[...opts].map(o => `<option value="${esc(o)}">`).join('')}</datalist>`;
+}
+function newItemForm(sec){
+  const f = S.form;
+  return `<div class="item is-new"><div class="nr">${esc(sec)}.${pad3(nextSeq(sec))}<small>ny</small></div><div style="min-width:0;display:flex;flex-direction:column;gap:10px">
+    <div class="grid4">
+      <label class="field"><span>Rubrik (kort, en fråga per punkt)</span><input id="nTitle" value="${esc(f.title||'')}" placeholder="t.ex. Ventilation i trapphus A"></label>
+      <label class="field"><span>Typ</span><select id="nKind">${KINDS.map(k => `<option value="${k.k}"${(f.kind||'fråga')===k.k?' selected':''}>${k.label}</option>`).join('')}</select></label>
+      <label class="field"><span>Ansvarig</span><input id="nOwner" list="ownerList" value="${esc(f.owner||'')}" placeholder="KP, El …"></label>
+      <label class="field"><span>Klart senast</span><input id="nDue" type="date" value="${esc(f.due||'')}"></label>
+    </div>
+    <label class="field"><span>Första noteringen</span><textarea id="fText" style="min-height:90px">${esc(f.text||'')}</textarea></label>
+    <div class="frow"><span class="hint">Punkten får numret ovan och behåller det tills den arkiveras.</span><span style="flex:1"></span><button class="btn ghost small" data-act="cancelForm">Avbryt</button><button class="btn primary small" data-act="saveNew">Lägg till punkt</button></div>
+  </div>${ownerDatalist()}</div>`;
+}
+const nextSeq = sec => 1 + Math.max(0, ...S.items.filter(it => it.section===sec).map(it => +it.seq||0));
+
+/* ================= View: attendance ================= */
+function viewAttendance(){
+  const M = curMeeting();
+  const att = (M && M.attendance) || {};
+  const can = S.canWrite && M && isDraft(M);
+  const ppl = peopleSorted();
+  const byGroup = {};
+  for (const p of ppl) (byGroup[p.group||'Övriga'] ||= []).push(p);
+  const dupIni = {};
+  for (const p of ppl.filter(p => p.active!==false)) (dupIni[p.initials] ||= []).push(p.name);
+  const dups = Object.entries(dupIni).filter(([k,v]) => k && v.length>1);
+  const val = p => att[p.id] || (p.active===false ? 'ingen' : p.defaultDist==='kopia' ? 'kopia' : p.defaultDist==='ingen' ? 'ingen' : 'frånvarande');
+  const lists = {närvarande:[], frånvarande:[], kopia:[]};
+  for (const p of ppl){ const v = val(p); if (lists[v]) lists[v].push(p); }
+  const recips = [...lists.närvarande, ...lists.frånvarande, ...lists.kopia];
+  const noMail = recips.filter(p => !p.email).length;
+  const rows = Object.entries(byGroup).map(([g, ps]) => `<li class="grp">${esc(g)}</li>` + ps.map(p => `<li class="prow${p.active===false?' inactive':''}">
+      <div class="who"><button data-act="editPerson" data-id="${esc(p.id)}">${esc(p.name)} <span class="mono" style="font-weight:500;color:var(--muted)">(${esc(p.initials||'–')})</span></button><small>${esc([p.role, p.company].filter(Boolean).join(' · '))}${p.note?' · '+esc(p.note):''}${p.email?'':' · <span style="color:var(--danger)">e-post saknas</span>'}</small></div>
+      <div class="seg att-seg" role="group" aria-label="Närvaro för ${esc(p.name)}">${ATT.map(a => `<button data-act="att" data-id="${esc(p.id)}" data-v="${a.v}" aria-pressed="${val(p)===a.v}"${can?'':' disabled'}>${a.label}</button>`).join('')}</div>
+    </li>`).join('')).join('');
+  const li = ps => ps.length ? `<ul>${ps.map(p => `<li>${esc(p.name)} (${esc(p.initials||'–')}), ${esc(p.company||'')}</li>`).join('')}</ul>` : '<div class="hint">Ingen</div>';
+  return `${headBlock('Närvaro &amp; sändlista', M ? `<span>${esc(code()+' '+M.number+' · '+fmtDate(M.date))}</span>${isDraft(M)?'<span class="chip draft">Utkast</span>':'<span class="chip done">Fastställt</span>'}` : '<span>Inget möte valt</span>', `${M ? meetingSelect() : ''}<button class="btn" data-act="copyMail">Kopiera e-postlista</button>`)}
+  ${M && !isDraft(M) ? `<div class="banner"><span>Närvaron för ett fastställt möte är låst.</span></div>` : ''}
+  ${dups.length ? `<div class="banner warn"><span><b>Samma initialer på flera personer:</b> ${dups.map(([k,v]) => esc(k)+' = '+esc(v.join(' och '))).join('; ')}. Ändra så att varje förkortning är unik i projektet, annars blir "Ansvarig" tvetydigt.</span></div>` : ''}
+  <div class="att-grid">
+    <div class="card">
+      <div class="card-h"><h3>Personer i projektet</h3>${can ? `<div class="actions"><button class="btn small" data-act="attAll" data-v="frånvarande">Alla kallade frånvarande</button></div>` : ''}</div>
+      <ul class="plist">${rows || '<li class="prow"><div class="hint">Inga personer än. Lägg till nedan.</div></li>'}</ul>
+      ${S.canWrite ? `<div class="quick">
+        <label class="field"><span>Lägg till person – en rad: Namn (INI), Företag, Roll, e-post, telefon</span><input id="qAdd" placeholder="Anna Berg (AB), Elbolaget AB, El (Ombud), anna@elbolaget.se"></label>
+        <div class="frow"><button class="btn small primary" data-act="quickAdd">Lägg till</button><button class="btn small" data-act="bulkAdd">Klistra in flera rader…</button><span class="hint">Tabb- eller semikolonseparerat från Excel fungerar också.</span></div>
+      </div>` : ''}
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Så här blir listan i protokollet</h3></div>
+      <div class="preview">
+        <div><h4>Närvarande (${lists.närvarande.length})</h4>${li(lists.närvarande)}</div>
+        <div><h4>Kallade, ej närvarande (${lists.frånvarande.length})</h4>${li(lists.frånvarande)}</div>
+        <div><h4>Protokollet delges även (${lists.kopia.length})</h4>${li(lists.kopia)}</div>
+        <div class="hint">Protokollet skickas till alla ${recips.length} ovan.${noMail ? ` <span style="color:var(--danger)">${noMail} saknar e-post.</span>` : ''}</div>
+      </div>
+    </div>
+  </div>`;
+}
+function parsePersonLine(line){
+  const parts = line.split(/\t|;/).length > 1 ? line.split(/\t|;/) : line.split(',');
+  const cells = parts.map(s => s.trim()).filter((s,i) => s || i < 2);
+  if (!cells[0]) return null;
+  let name = cells[0], ini = '';
+  const m = name.match(/^(.*?)\s*\(([^)]+)\)\s*$/); if (m){ name = m[1].trim(); ini = m[2].trim(); }
+  const rest = cells.slice(1);
+  const email = (rest.find(s => /@/.test(s)) || '').trim();
+  const phone = (rest.find(s => /^[+\d][\d\s-]{6,}$/.test(s)) || '').trim();
+  const others = rest.filter(s => s!==email && s!==phone);
+  if (!ini) ini = name.split(/\s+/).slice(0,2).map(w => w[0]||'').join('').toUpperCase();
+  const company = others[0] || '', role = others[1] || '';
+  const group = /sydbyggarna/i.test(company) ? 'Sydbyggarna' : /kommun|region|beställ/i.test(company+role) ? 'Beställare' : 'Underentreprenör';
+  return {name, initials:ini, company, role, email, phone, group, active:true, note:'', defaultDist:'kallad'};
+}
+async function addPeople(lines){
+  const ps = lines.map(parsePersonLine).filter(Boolean);
+  if (!ps.length){ toast('Skriv minst ett namn.'); return 0; }
+  for (const p of ps){
+    let id = S.pid+'--'+slug(p.name), n = 2;
+    while (S.people.some(x => x.id===id)) id = S.pid+'--'+slug(p.name)+'-'+(n++);
+    const doc = {...p, project:S.pid};
+    S.people.push({id, ...doc});
+    setDoc('people/'+id, doc);
+    const M = curMeeting();
+    if (M && isDraft(M)){ M.attendance = {...(M.attendance||{}), [id]:'frånvarande'}; updDoc('meetings/'+M.id, {attendance:M.attendance}); }
+  }
+  render(); toast(ps.length===1 ? ps[0].name+' är tillagd.' : ps.length+' personer är tillagda.');
+  return ps.length;
+}
+
+/* ================= View: action list ================= */
+function viewActions(){
+  const L = latestMeeting(); if (!L) return headBlock('Åtgärdslista','')+stateBlock('Inga möten än','Skapa första mötet under Protokoll.');
+  const N = L.number;
+  const open = itemsSorted().filter(it => statusAt(it,N)==='öppen' && !it.standing && !it.latestOnly);
+  const groups = {};
+  for (const it of open) (groups[it.owner || 'Utan ansvarig'] ||= []).push(it);
+  const keys = Object.keys(groups).sort((a,b) => (a==='Utan ansvarig') - (b==='Utan ansvarig') || a.localeCompare(b,'sv'));
+  const late = open.filter(it => isLate(it,N)).length;
+  const lastEntry = it => { const es = it.entries||[]; return es[es.length-1]; };
+  const ownerName = k => { const p = S.people.find(p => p.initials===k && p.active!==false); return p ? `${esc(k)} <span class="n">· ${esc(p.name)}, ${esc(p.company||'')}</span>` : esc(k); };
+  return `${headBlock('Åtgärdslista', `<span>Öppna punkter efter ${esc(code()+' '+N)} · ${open.length} st</span>${late?`<span class="chip late">${late} försenade</span>`:''}`, `<button class="btn" data-act="pdfActions">Skapa PDF</button>`)}
+  <p class="hint" style="margin-top:-6px">Varje öppen punkt ska ha en ansvarig och helst ett datum. Gruppen "Utan ansvarig" ska vara tom när protokollet skickas.</p>
+  <div class="olist">${keys.map(k => `<div class="card ogrp"><div class="card-h"><h3>${k==='Utan ansvarig' ? '<span style="color:var(--danger)">Utan ansvarig</span>' : ownerName(k)}</h3><span class="n">${groups[k].length} st</span></div>
+    ${groups[k].sort((a,b) => (a.due||'9999').localeCompare(b.due||'9999')).map(it => { const e = lastEntry(it); return `<div class="orow"><span class="nr">${esc(it.nr)}</span><button class="t" data-act="history" data-id="${esc(it.id)}">${esc(it.title)}</button><span>${it.due?`<span class="chip${isLate(it,N)?' late':''}">Senast ${esc(fmtShort(it.due))}</span>`:''}</span>
+      <div class="sub">Senast: ${esc(mLabel(e && e.m))} – ${esc(plain(e ? e.text : '').slice(0,160))}${e && e.text.length>160?'…':''}</div></div>`; }).join('')}
+  </div>`).join('') || stateBlock('Inga öppna punkter','Allt är klarmarkerat.')}</div>`;
+}
+
+/* ================= View: flow ================= */
+function viewFlow(){
+  const ms = meetingsSorted();
+  if (!ms.length) return headBlock('Projektets flöde','')+stateBlock('Inga möten än','Skapa första mötet under Protokoll.');
+  const stats = ms.map(m => {
+    const N = m.number;
+    const open = S.items.filter(it => mNum(it.created)<=N && statusAt(it,N)==='öppen' && !it.standing && !it.latestOnly).length;
+    const nya = S.items.filter(it => it.created===m.id);
+    const closed = S.items.filter(it => it.closed===m.id && it.status==='klar');
+    const decisions = []; let entries = 0;
+    for (const it of S.items) for (const e of it.entries||[]) if (e.m===m.id){ entries++; if (e.kind==='beslut') decisions.push(it); }
+    const present = Object.values(m.attendance||{}).filter(v => v==='närvarande').length;
+    return {m, open, nya, closed, decisions, entries, present};
+  });
+  const maxOpen = Math.max(1, ...stats.map(s => Math.max(s.open, s.nya.length + s.closed.length)));
+  const W = 720, H = 150, pl = 30, pr = 8, pt = 12, pb = 24, bw = (W-pl-pr)/stats.length;
+  const y = v => pt + (H-pt-pb) * (1 - v/maxOpen);
+  const ticks = [0, Math.round(maxOpen/2), maxOpen];
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Öppna punkter per möte">
+    ${ticks.map(t => `<line x1="${pl}" x2="${W-pr}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)" stroke-width="1"/><text x="${pl-6}" y="${y(t)+3.5}" text-anchor="end" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">${t}</text>`).join('')}
+    ${stats.map((s,i) => { const x = pl + i*bw; return `<rect x="${x+bw*.18}" y="${y(s.open)}" width="${bw*.64}" height="${Math.max(0,(H-pb)-y(s.open))}" rx="2" fill="${s.m.id===(curMeeting()||{}).id?'var(--brass)':'var(--accent)'}" opacity="${s.m.id===(curMeeting()||{}).id?1:.75}"><title>${esc(code()+' '+s.m.number)}: ${s.open} öppna, ${s.nya.length} nya, ${s.closed.length} klarmarkerade</title></rect>${(i%Math.ceil(stats.length/14)===0 || i===stats.length-1) ? `<text x="${x+bw/2}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${s.m.number}</text>` : ''}`; }).join('')}
+  </svg>`;
+  const q = S.flowQ.trim().toLowerCase();
+  let hits = '';
+  if (q.length >= 2){
+    const res = [];
+    for (const it of itemsSorted()) (it.entries||[]).forEach(e => { if (e.text.toLowerCase().includes(q) || it.title.toLowerCase().includes(q) || it.nr.toLowerCase()===q) res.push({it, e}); });
+    const mk = t => { const s = plain(t), i = s.toLowerCase().indexOf(q); if (i<0) return esc(s.slice(0,180)); const a = Math.max(0,i-70); return (a?'…':'')+esc(s.slice(a,i))+'<mark>'+esc(s.slice(i,i+q.length))+'</mark>'+esc(s.slice(i+q.length, i+q.length+110))+'…'; };
+    hits = `<div class="card" style="margin-bottom:18px"><div class="card-h"><h3>${res.length} träffar på "${esc(S.flowQ)}"</h3></div>${res.slice(0,80).map(({it,e}) => `<div class="hit"><span class="mono" style="font-weight:600">${esc(it.nr)}</span> · <button class="btn ghost small" data-act="history" data-id="${esc(it.id)}">${esc(it.title)}</button> <span class="hint">${esc(mLabel(e.m))} · ${esc(fmtDate((mById(e.m)||{}).date))}</span><div>${mk(e.text)}</div></div>`).join('')}${res.length>80?'<div class="hit hint">Visar de 80 första. Gör sökningen mer exakt.</div>':''}</div>`;
+  }
+  const list = (arr, max=6) => arr.length ? `<ul>${arr.slice(0,max).map(it => `<li><span class="nr">${esc(it.nr)}</span><button data-act="history" data-id="${esc(it.id)}">${esc(it.title)}</button></li>`).join('')}${arr.length>max?`<li class="hint">+ ${arr.length-max} till</li>`:''}</ul>` : '';
+  return `${headBlock('Projektets flöde', `<span>${ms.length} möten · ${fmtDate(ms[0].date)} – ${fmtDate(ms[ms.length-1].date)}</span>`)}
+  <div class="card" style="margin-bottom:18px"><div class="card-h"><h3>Öppna punkter efter varje möte</h3><span class="hint">Stående punkter och lägesrapporter räknas inte</span></div><div class="chart">${svg}</div></div>
+  <div class="toolbar"><input class="search" id="flowQ" type="search" placeholder="Sök i hela projektets historik, alla möten" value="${esc(S.flowQ)}"></div>
+  ${hits}
+  <div class="timeline">${stats.slice().reverse().map(s => `<div class="tl"><div class="when"><b>${esc(code()+' '+s.m.number)}</b>${esc(fmtDate(s.m.date))}</div><div class="card">
+    <div class="counts"><span class="chip new">${s.nya.length} nya</span><span class="chip done">${s.closed.length} klarmarkerade</span>${s.decisions.length?`<span class="chip owner">${s.decisions.length} beslut</span>`:''}<span class="chip">${s.entries} noteringar</span><span class="chip">${s.open} öppna efteråt</span>${s.present?`<span class="chip">${s.present} närvarande</span>`:''}<button class="btn ghost small" data-act="goMeeting" data-id="${esc(s.m.id)}">Läs protokollet</button></div>
+    ${s.nya.length ? `<div class="hint" style="margin-top:8px">Nya punkter</div>${list(s.nya)}` : ''}
+    ${s.decisions.length ? `<div class="hint" style="margin-top:8px">Beslut</div>${list([...new Set(s.decisions)])}` : ''}
+    ${s.closed.length ? `<div class="hint" style="margin-top:8px">Klarmarkerade</div>${list(s.closed,4)}` : ''}
+  </div></div>`).join('')}</div>`;
+}
+
+/* ================= View: project ================= */
+function viewNoProject(){
+  return `${headBlock('Välkommen','<span>Inga projekt finns än</span>')}<div class="empty"><h3>Skapa ditt första projekt</h3><p>Projektet får standardavsnitten för samordningsmöte. Du kan ändra dem efteråt.</p><p><button class="btn primary" data-act="newProject">Nytt projekt</button></p></div>`;
+}
+function viewProject(){
+  const P = proj();
+  const used = c => S.items.filter(it => it.section===c).length;
+  return `${headBlock('Projekt &amp; avsnitt', `<span>Inställningar för ${esc(P.number)}</span>`, `<button class="btn" data-act="newProject">Nytt projekt</button>`)}
+  <div class="set-grid">
+    <div class="card"><div class="grid2">
+      <label class="field"><span>Projektnummer</span><input data-pf="number" value="${esc(P.number)}"${S.canWrite?'':' disabled'}></label>
+      <label class="field"><span>Projektnamn</span><input data-pf="name" value="${esc(P.name||'')}"${S.canWrite?'':' disabled'}></label>
+      <label class="field"><span>Beställare</span><input data-pf="client" value="${esc(P.client||'')}"${S.canWrite?'':' disabled'}></label>
+      <label class="field"><span>Mötesplats (standard)</span><input data-pf="place" value="${esc(P.place||'')}"${S.canWrite?'':' disabled'}></label>
+      <label class="field"><span>Mötestyp</span><input data-pf="meetingType" value="${esc(P.meetingType||'Samordningsmöte')}"${S.canWrite?'':' disabled'}></label>
+      <label class="field"><span>Förkortning i nummer</span><input data-pf="meetingCode" value="${esc(P.meetingCode||'SM')}" maxlength="4"${S.canWrite?'':' disabled'}></label>
+      <label class="field"><span>Klara punkter ligger kvar i protokollet</span><select data-pf="keepClosed"${S.canWrite?'':' disabled'}>${[0,1,2,3].map(n => `<option value="${n}"${keep()===n?' selected':''}>${n===0?'Bara i mötet där de klarmarkeras':n+' möte'+(n>1?'n':'')+' till efter klarmarkering'}</option>`).join('')}</select></label>
+      <label class="field"><span>Protokollförare (platschef)</span><select data-pf="siteManager"${S.canWrite?'':' disabled'}><option value="">Välj…</option>${peopleSorted().filter(p => p.active!==false).map(p => `<option value="${esc(p.id)}"${P.siteManager===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>
+    </div>
+    <label class="field" style="margin-top:12px"><span>Text om justering av protokollet</span><textarea data-pf="approvalText" rows="2"${S.canWrite?'':' disabled'}>${esc(P.approvalText ?? DEFAULT_APPROVAL)}</textarea></label></div>
+    <div class="card"><h3 style="margin:0 0 4px;font-family:var(--f-display)">Avsnitt (dagordning)</h3><p class="hint" style="margin:0 0 12px">Koden blir första delen av punktnumret, t.ex. E.014. Ändra inte kod på ett avsnitt som har punkter.</p>
+      ${sections().map((s,i) => `<div class="sec-edit"><input value="${esc(s.code)}" data-sec-code="${i}" maxlength="3"${used(s.code)||!S.canWrite?' disabled':''} aria-label="Kod"><input value="${esc(s.title)}" data-sec-title="${i}"${S.canWrite?'':' disabled'} aria-label="Rubrik"><span class="hint">${used(s.code)} punkter ${!used(s.code)&&S.canWrite?`<button class="btn ghost small danger" data-act="delSec" data-i="${i}">Ta bort</button>`:''}</span></div>`).join('')}
+      ${S.canWrite ? '<button class="btn small" data-act="addSec">+ Lägg till avsnitt</button>' : ''}
+    </div>
+  </div>`;
+}
+
+/* ================= View: standard ================= */
+function viewStandard(){
+  return `${headBlock('Vår protokollstandard','<span>Gäller alla samordnings- och byggmöten i projekt 5–50 MSEK</span>')}
+  <div class="prose">
+    <p>Protokollet är projektets minne och ett avtalsdokument. Det ska gå att läsa ett enskilt protokoll och förstå läget, och det ska gå att följa varje fråga från första mötet till beslut. Det här är reglerna vi skriver efter.</p>
+    <h3>1. En punkt är en fråga</h3>
+    <div class="rule"><ul>
+      <li>Varje punkt har ett <b>fast nummer</b> (avsnittskod + löpnummer, t.ex. <span class="mono">E.014</span>). Numret byts aldrig, även när punkten flyttas eller klarmarkeras. Hänvisa alltid med numret i mejl och samtal.</li>
+      <li>Varje punkt har en <b>kort rubrik</b> som säger vad frågan gäller, en <b>typ</b> (fråga, åtgärd, beslut, information), en <b>ansvarig</b> (initialer eller entreprenad) och när det behövs ett <b>klart senast</b>-datum.</li>
+      <li>Nya uppgifter skrivs som en ny <b>notering</b> med mötets nummer. Gammal text skrivs aldrig över. Svar och beslut markeras som <b>Svar/besked</b> eller <b>Beslut</b> så att de syns.</li>
+      <li>Två frågor i samma punkt delas upp i två punkter.</li>
+    </ul></div>
+    <h3>2. Status och hur länge punkter ligger kvar</h3>
+    <div class="rule"><table><thead><tr><th>Status</th><th>I protokollet</th></tr></thead><tbody>
+      <tr><td>Öppen</td><td>Visas tills den klarmarkeras. Utan ansvarig syns den i Åtgärdslistan under "Utan ansvarig".</td></tr>
+      <tr><td>Klar</td><td>Visas kursiv med "Klar SM nn" i det mötet och i det antal möten projektet har valt (standard 2). Sedan går den till arkivet.</td></tr>
+      <tr><td>Stående</td><td>Ordningsregler som gäller tills vidare (grind, rökning, skyddsrond). Samlas i ett eget block och upprepas inte. Påminnelser blir en ny notering.</td></tr>
+      <tr><td>Lägesrapport</td><td>Tidplan och status per entreprenör. Bara senaste mötets rapport visas, de tidigare finns i historiken.</td></tr>
+    </tbody></table></div>
+    <h3>3. Närvaro och sändlista</h3>
+    <div class="rule"><ul>
+      <li>Alla som berörs av projektet läggs in en gång per projekt med namn, unika initialer, företag, roll och e-post.</li>
+      <li>Varje möte markeras varje person som <b>närvarande</b>, <b>frånvarande</b> (kallad men inte där) eller <b>kopia</b> (får protokollet men kallas inte). Det ger tre listor i protokollet och sändlistan.</li>
+      <li>Byts en person ut skrivs "Ersätter …" i anteckningen och den gamla personen sätts som inaktiv. Ingen överstrykning.</li>
+    </ul></div>
+    <h3>4. Mötets gång</h3>
+    <div class="rule"><ol>
+      <li>Före mötet: skapa nästa möte. Öppna punkter och stående punkter följer med automatiskt.</li>
+      <li>På mötet: bocka närvaro, gå igenom avsnitt för avsnitt. Skriv notering, svar eller beslut direkt på punkten. Klarmarkera det som är klart.</li>
+      <li>Efter mötet: kontrollera att inga öppna punkter saknar ansvarig. Fastställ protokollet, skapa PDF och skicka till sändlistan samma dag eller senast nästa arbetsdag.</li>
+      <li>Fastställt protokoll är låst. Rättelser görs som ny notering i nästa möte, med hänvisning till punktnumret.</li>
+      <li>Justering: protokollet godkänns om inga skriftliga synpunkter kommit in inom 5 arbetsdagar. Synpunkter tas upp under avsnitt A i nästa möte.</li>
+    </ol></div>
+    <h3>5. Vad hör inte hemma i samordningsmötet</h3>
+    <div class="rule"><ul>
+      <li>Ekonomi och ÄTA mot beställaren hör till byggmötet. I samordningsmötet noteras bara att en ÄTA påverkar samordningen, med hänvisning till ÄTA-numret.</li>
+      <li>Koder, lösenord och personuppgifter utöver namn och kontaktuppgifter skrivs inte i protokollet. Det sprids till många företag.</li>
+      <li>Fikat och grillningen får gärna stå under Övrigt, men klarmarkera när det är genomfört.</li>
+    </ul></div>
+    <h3>6. Avsnitt (dagordning) för samordningsmöte</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>Kod</th><th>Avsnitt</th></tr></thead><tbody>${STANDARD_SECTIONS.map(s => `<tr><td class="mono">${s.code}</td><td>${esc(s.title)}</td></tr>`).join('')}</tbody></table></div>
+  </div>`;
+}
+
+/* ================= Modals ================= */
+function modal(title, body, foot){
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `<div class="modal" id="modal"><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgT"><div class="dlg-h"><h3 id="dlgT">${title}</h3><button class="btn ghost small" data-mact="close" aria-label="Stäng">Stäng</button></div><div class="dlg-b">${body}</div>${foot?`<div class="dlg-f">${foot}</div>`:''}</div></div>`;
+  const m = document.getElementById('modal');
+  m.addEventListener('pointerdown', e => { if (e.target===m) closeModal(); });
+  m.querySelector('[data-mact="close"]').onclick = closeModal;
+  return m;
+}
+function closeModal(){ document.getElementById('modalRoot').innerHTML = ''; queueRender(); }
+document.addEventListener('keydown', e => { if (e.key==='Escape' && document.getElementById('modal')) closeModal(); });
+
+async function openHistory(id){
+  const it = S.items.find(x => x.id===id); if (!it) return;
+  const es = it.entries || [];
+  const ids = [...new Set(es.map(e => e.by).filter(Boolean))];
+  let names = {};
+  if (S.user && ids.length){ try { const ps = await S.user.profiles(ids); for (const k of ids) names[k] = (ps[k] && ps[k].name) || ''; } catch(e){} }
+  const N = (latestMeeting()||{}).number || 0;
+  modal(`<span class="mono" style="font-size:14px;color:var(--muted)">${esc(it.nr)}</span><br>${esc(it.title)}`,
+    `<div class="ichips">${itemChips(it, N)}<span class="chip">Skapad ${esc(mLabel(it.created))}</span></div>
+     <ol class="entries" style="grid-column:auto">${es.map(e => `<li class="e"><span class="em"><b>${esc(mLabel(e.m))}</b>${esc(fmtShort((mById(e.m)||{}).date||''))}</span><div class="et">${ENTRY_LABEL[e.kind]?`<span class="ek ${e.kind}">${ENTRY_LABEL[e.kind]}</span>`:''}${rich(e.text)}${e.by && names[e.by] ? `<div class="hint">Skrivet av ${esc(names[e.by])}${e.at?' '+esc(fmtDate(e.at.slice(0,10))):''}</div>` : ''}</div></li>`).join('') || '<li class="hint">Inga noteringar.</li>'}</ol>`,
+    `<button class="btn" data-mact="close2">Stäng</button>`);
+  document.querySelector('[data-mact="close2"]').onclick = closeModal;
+}
+
+function openEditItem(id){
+  const it = S.items.find(x => x.id===id); if (!it) return;
+  modal(`Ändra ${esc(it.nr)}`, `
+    <label class="field"><span>Rubrik</span><input id="eTitle" value="${esc(it.title)}"></label>
+    <div class="grid2">
+      <label class="field"><span>Typ</span><select id="eKind">${KINDS.map(k => `<option value="${k.k}"${it.kind===k.k?' selected':''}>${k.label}</option>`).join('')}</select></label>
+      <label class="field"><span>Avsnitt</span><select id="eSec">${sections().map(s => `<option value="${esc(s.code)}"${it.section===s.code?' selected':''}>${esc(s.code+' · '+s.title)}</option>`).join('')}</select></label>
+      <label class="field"><span>Ansvarig</span><input id="eOwner" list="ownerList" value="${esc(it.owner||'')}"></label>
+      <label class="field"><span>Klart senast</span><input id="eDue" type="date" value="${esc(it.due||'')}"></label>
+    </div>
+    <div class="radio">
+      <label><input type="checkbox" id="eStanding"${it.standing?' checked':''}> Stående punkt (gäller tills vidare, visas i eget block)</label>
+      <label><input type="checkbox" id="eLatest"${it.latestOnly?' checked':''}> Lägesrapport (visa bara senaste mötets notering)</label>
+    </div>
+    <p class="hint">Numret ${esc(it.nr)} behålls även om punkten flyttas till ett annat avsnitt.</p>${ownerDatalist()}`,
+    `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Spara</button>`);
+  document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+  document.querySelector('[data-mact="ok"]').onclick = () => {
+    const data = {title: document.getElementById('eTitle').value.trim() || it.title, kind: document.getElementById('eKind').value, section: document.getElementById('eSec').value,
+      owner: document.getElementById('eOwner').value.trim(), due: document.getElementById('eDue').value, standing: document.getElementById('eStanding').checked, latestOnly: document.getElementById('eLatest').checked};
+    patchLocal(S.items, it.id, data); updDoc('items/'+it.id, data); closeModal(); toast(it.nr+' är sparad.');
+  };
+}
+
+function openPerson(id){
+  const p = personById(id); if (!p) return;
+  const can = S.canWrite;
+  modal(esc(p.name), `<div class="grid2">
+      <label class="field"><span>Namn</span><input id="pName" value="${esc(p.name)}"></label>
+      <label class="field"><span>Initialer (unika i projektet)</span><input id="pIni" value="${esc(p.initials||'')}" maxlength="5"></label>
+      <label class="field"><span>Företag</span><input id="pComp" value="${esc(p.company||'')}"></label>
+      <label class="field"><span>Roll</span><input id="pRole" value="${esc(p.role||'')}" placeholder="El (Ombud)"></label>
+      <label class="field"><span>E-post</span><input id="pMail" type="email" value="${esc(p.email||'')}"></label>
+      <label class="field"><span>Telefon</span><input id="pTel" value="${esc(p.phone||'')}"></label>
+      <label class="field"><span>Grupp</span><select id="pGrp">${GROUPS.map(g => `<option${(p.group||'Övriga')===g?' selected':''}>${g}</option>`).join('')}</select></label>
+      <label class="field"><span>Standard vid nytt möte</span><select id="pDist"><option value="kallad"${(p.defaultDist||'kallad')==='kallad'?' selected':''}>Kallas till mötet</option><option value="kopia"${p.defaultDist==='kopia'?' selected':''}>Får protokollet som kopia</option><option value="ingen"${p.defaultDist==='ingen'?' selected':''}>Får inget</option></select></label>
+    </div>
+    <label class="field"><span>Anteckning</span><input id="pNote" value="${esc(p.note||'')}" placeholder="Ersätter Robbin Steen"></label>
+    <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="pAct"${p.active!==false?' checked':''}> Aktiv i projektet</label>`,
+    can ? `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Spara</button>` : `<button class="btn" data-mact="cancel">Stäng</button>`);
+  document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+  const ok = document.querySelector('[data-mact="ok"]'); if (!ok) return;
+  ok.onclick = () => {
+    const v = k => document.getElementById(k).value.trim();
+    const data = {name:v('pName')||p.name, initials:v('pIni'), company:v('pComp'), role:v('pRole'), email:v('pMail'), phone:v('pTel'), group:v('pGrp'), defaultDist:v('pDist'), note:v('pNote'), active:document.getElementById('pAct').checked};
+    patchLocal(S.people, p.id, data); updDoc('people/'+p.id, data); closeModal(); toast(data.name+' är sparad.');
+  };
+}
+
+function openNewMeeting(){
+  const L = latestMeeting(), P = proj();
+  const n = L ? L.number+1 : 1;
+  const openCount = L ? S.items.filter(it => statusAt(it,L.number)==='öppen').length : 0;
+  modal(`Nytt möte – ${esc(code()+' '+n)}`, `
+    ${L && isDraft(L) ? `<div class="banner warn"><span><b>${esc(code()+' '+L.number)} är inte fastställt.</b> Det fastställs och låses när du skapar ${esc(code()+' '+n)}.</span></div>` : ''}
+    <div class="grid2">
+      <label class="field"><span>Datum</span><input id="nmDate" type="date" value="${esc(L ? (L.next && L.next.date) || addDays(L.date,14) : TODAY)}"></label>
+      <label class="field"><span>Tid</span><input id="nmTime" value="${esc(L ? (L.next && L.next.time) || L.time || '10:00' : '10:00')}"></label>
+    </div>
+    <label class="field"><span>Plats</span><input id="nmPlace" value="${esc(L ? L.place || P.place || '' : P.place || '')}"></label>
+    <p class="hint">${openCount} öppna och stående punkter följer med. Närvaron förifylls: de som kallas står som frånvarande tills du bockar dem som närvarande.</p>`,
+    `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Skapa ${esc(code()+' '+n)}</button>`);
+  document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+  document.querySelector('[data-mact="ok"]').onclick = async () => {
+    const date = document.getElementById('nmDate').value || TODAY;
+    if (L && isDraft(L)){ const d = {status:'fastställt', approvedAt:TODAY}; patchLocal(S.meetings, L.id, d); updDoc('meetings/'+L.id, d); }
+    const attendance = {};
+    for (const p of S.people) attendance[p.id] = p.active===false || p.defaultDist==='ingen' ? 'ingen' : p.defaultDist==='kopia' ? 'kopia' : 'frånvarande';
+    const id = S.pid+'-m'+pad3(n);
+    const doc = {project:S.pid, number:n, date, time:document.getElementById('nmTime').value.trim(), place:document.getElementById('nmPlace').value.trim(), writtenBy:P.siteManager||'', status:'utkast', attendance};
+    if (L){ const d = {next:{date, time:doc.time, place:doc.place}}; patchLocal(S.meetings, L.id, d); updDoc('meetings/'+L.id, d); }
+    S.meetings.push({id, ...doc}); S.mid = id; S.filter = 'alla';
+    await setDoc('meetings/'+id, doc);
+    closeModal(); location.hash = 'narvaro'; toast(code()+' '+n+' är skapat. Bocka närvaro.');
+  };
+}
+
+function openApprove(){
+  const M = curMeeting(); if (!M) return;
+  const N = M.number;
+  const noOwner = S.items.filter(it => inProtocol(it,N) && statusAt(it,N)==='öppen' && !it.owner && !it.standing && !it.latestOnly);
+  const present = Object.values(M.attendance||{}).filter(v => v==='närvarande').length;
+  modal(`Fastställ ${esc(code()+' '+N)}`, `
+    <p>När protokollet är fastställt låses mötets noteringar och närvaro. Rättelser görs därefter som ny notering i nästa möte.</p>
+    <ul>
+      <li>${present} personer är markerade som närvarande.</li>
+      <li>${noOwner.length ? `<span class="warnline">${noOwner.length} öppna punkter saknar ansvarig:</span> ${noOwner.slice(0,8).map(it => esc(it.nr)).join(', ')}${noOwner.length>8?' …':''}` : 'Alla öppna punkter har ansvarig.'}</li>
+    </ul>
+    <div class="grid2"><label class="field"><span>Nästa möte, datum</span><input id="apDate" type="date" value="${esc((M.next && M.next.date) || addDays(M.date,14))}"></label><label class="field"><span>Tid</span><input id="apTime" value="${esc((M.next && M.next.time) || M.time || '10:00')}"></label></div>`,
+    `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Fastställ och lås</button>`);
+  document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+  document.querySelector('[data-mact="ok"]').onclick = () => {
+    const d = {status:'fastställt', approvedAt:TODAY, next:{date:document.getElementById('apDate').value, time:document.getElementById('apTime').value.trim(), place:M.place||''}};
+    patchLocal(S.meetings, M.id, d); updDoc('meetings/'+M.id, d); closeModal(); toast(code()+' '+N+' är fastställt. Skapa PDF och skicka.');
+  };
+}
+
+function openNewProject(){
+  modal('Nytt projekt', `<div class="grid2">
+    <label class="field"><span>Projektnummer</span><input id="npNr" placeholder="1052"></label>
+    <label class="field"><span>Projektnamn</span><input id="npName" placeholder="Kv. Smedjan, ombyggnad"></label>
+    <label class="field"><span>Beställare</span><input id="npClient"></label>
+    <label class="field"><span>Mötesplats</span><input id="npPlace" placeholder="Platskontoret"></label>
+    <label class="field"><span>Mötestyp</span><select id="npType"><option value="Samordningsmöte|SM">Samordningsmöte (SM)</option><option value="Byggmöte|BM">Byggmöte (BM)</option><option value="Projekteringsmöte|PM">Projekteringsmöte (PM)</option></select></label>
+    <label class="field"><span>Personer</span><select id="npCopy"><option value="">Börja med tom lista</option>${proj() ? `<option value="${esc(proj().id)}">Kopiera aktiva personer från ${esc(proj().number)}</option>` : ''}</select></label>
+  </div><p class="hint">Projektet får standardavsnitten. Du ändrar dem under Projekt &amp; avsnitt.</p><div class="err" id="npErr" hidden></div>`,
+  `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Skapa projekt</button>`);
+  document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+  document.querySelector('[data-mact="ok"]').onclick = async () => {
+    const nr = document.getElementById('npNr').value.trim(), err = document.getElementById('npErr');
+    if (!/^[A-Za-z0-9-]{1,20}$/.test(nr)){ err.textContent = 'Ange projektnumret med siffror och bokstäver, t.ex. 1052.'; err.hidden = false; return; }
+    const id = 'p'+nr;
+    if (S.projects.some(p => p.id===id)){ err.textContent = 'Projekt '+nr+' finns redan.'; err.hidden = false; return; }
+    const [type, mc] = document.getElementById('npType').value.split('|');
+    const doc = {number:nr, name:document.getElementById('npName').value.trim(), client:document.getElementById('npClient').value.trim(), place:document.getElementById('npPlace').value.trim(),
+      meetingType:type, meetingCode:mc, keepClosed:2, approvalText:DEFAULT_APPROVAL, sections:STANDARD_SECTIONS, siteManager:'', created:TODAY};
+    const copyFrom = document.getElementById('npCopy').value;
+    const copyPeople = copyFrom ? S.people.filter(p => p.active!==false) : [];
+    await setDoc('projects/'+id, doc);
+    for (const p of copyPeople){ const {id:_, project:__, ...rest} = p; setDoc('people/'+id+'--'+p.id.split('--').slice(1).join('--'), {...rest, project:id}); }
+    closeModal(); selectProject(id); location.hash = 'narvaro'; toast('Projekt '+nr+' är skapat.');
+  };
+}
+
+/* ================= Actions ================= */
+const ACT = {
+  filter: el => { S.filter = el.dataset.f; render(); },
+  goMeeting: el => { S.mid = el.dataset.id; S.form = null; if (S.view!=='protokoll') location.hash = 'protokoll'; else render(); window.scrollTo(0,0); },
+  expand: el => { const id = el.dataset.id; S.expanded.has(id) ? S.expanded.delete(id) : S.expanded.add(id); render(); },
+  history: el => openHistory(el.dataset.id),
+  editItem: el => openEditItem(el.dataset.id),
+  addEntry: el => { S.form = {type:'entry', item:el.dataset.id, kind:el.dataset.k, text:'', focus:true}; render(); },
+  editEntry: el => { const it = S.items.find(x => x.id===el.dataset.id); const e = it && it.entries[+el.dataset.ix]; if (!e) return; S.form = {type:'entry', item:it.id, ix:+el.dataset.ix, kind:e.kind, text:e.text, focus:true}; render(); },
+  formKind: el => { readForm(); S.form.kind = el.dataset.k; render(); },
+  cancelForm: () => { S.form = null; render(); },
+  saveEntry: () => saveEntry(),
+  delEntry: () => { const f = S.form, it = S.items.find(x => x.id===f.item); if (!it) return; const entries = it.entries.filter((e,i) => i!==f.ix); patchLocal(S.items, it.id, {entries}); updDoc('items/'+it.id, {entries}); S.form = null; render(); toast('Noteringen är borttagen.'); },
+  close: el => setStatus(el.dataset.id, 'klar'),
+  reopen: el => setStatus(el.dataset.id, 'öppen'),
+  newItem: el => { S.form = {type:'new', section:el.dataset.sec, focus:false}; render(); const t = document.getElementById('nTitle'); if (t) t.focus(); },
+  saveNew: () => saveNew(),
+  approve: () => openApprove(),
+  newMeeting: () => openNewMeeting(),
+  newProject: () => openNewProject(),
+  pdf: () => openPdf('protokoll'),
+  pdfActions: () => openPdf('atgarder'),
+  att: el => setAtt([el.dataset.id], el.dataset.v),
+  attAll: () => setAtt(S.people.filter(p => { const v = (curMeeting().attendance||{})[p.id]; return v==='närvarande'; }).map(p => p.id), 'frånvarande'),
+  editPerson: el => openPerson(el.dataset.id),
+  quickAdd: async () => { const i = document.getElementById('qAdd'); if (await addPeople([i.value])) i.value = ''; },
+  bulkAdd: () => {
+    modal('Klistra in flera personer', `<p class="hint">En person per rad: Namn (INI), Företag, Roll, e-post, telefon. Kolumner från Excel (tabb) eller semikolon fungerar också.</p><textarea id="bulk" style="min-height:200px;border:1px solid var(--line-strong);border-radius:8px;padding:10px;background:var(--surface)" placeholder="Anna Berg (AB), Elbolaget AB, El (Ombud), anna@elbolaget.se&#10;Per Holm (PH), VVS-Gruppen AB, Rör (Projektledare), per@vvsgruppen.se"></textarea>`,
+      `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Lägg till</button>`);
+    document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+    document.querySelector('[data-mact="ok"]').onclick = async () => { const lines = document.getElementById('bulk').value.split('\n').filter(l => l.trim()); closeModal(); await addPeople(lines); };
+  },
+  copyMail: async () => {
+    const M = curMeeting(), att = (M && M.attendance) || {};
+    const mails = S.people.filter(p => ['närvarande','frånvarande','kopia'].includes(att[p.id])).map(p => p.email).filter(Boolean);
+    if (!mails.length){ toast('Ingen i sändlistan har e-post inlagd än.'); return; }
+    const txt = mails.join('; ');
+    try { await navigator.clipboard.writeText(txt); toast(mails.length+' adresser kopierade. Klistra in i Outlook.'); }
+    catch(e){ modal('E-postlista', `<p class="hint">Markera och kopiera:</p><textarea style="min-height:120px;border:1px solid var(--line-strong);border-radius:8px;padding:10px;background:var(--surface)" readonly>${esc(txt)}</textarea>`, ''); }
+  },
+  addSec: () => { const secs = sections().slice(); let c = 'X', i = 1; while (secs.some(s => s.code===c)) c = 'X'+(i++); secs.push({code:c, title:'Nytt avsnitt'}); saveProject({sections:secs}); },
+  delSec: el => { const secs = sections().slice(); secs.splice(+el.dataset.i,1); saveProject({sections:secs}); },
+};
+function readForm(){
+  if (!S.form) return;
+  const t = document.getElementById('fText'); if (t) S.form.text = t.value;
+  const c = document.getElementById('fClose'); if (c) S.form.close = c.checked;
+  const o = document.getElementById('fOwner'); if (o) S.form.owner = o.value;
+  const d = document.getElementById('fDue'); if (d) S.form.due = d.value;
+  const nt = document.getElementById('nTitle'); if (nt) S.form.title = nt.value;
+  const nk = document.getElementById('nKind'); if (nk) S.form.kind = nk.value;
+  const no = document.getElementById('nOwner'); if (no) S.form.owner = no.value;
+  const nd = document.getElementById('nDue'); if (nd) S.form.due = nd.value;
+}
+function saveEntry(){
+  readForm();
+  const f = S.form, it = S.items.find(x => x.id===f.item), M = curMeeting();
+  if (!it || !M) return;
+  const text = (f.text||'').trim();
+  const entries = (it.entries||[]).slice();
+  if (f.ix!=null){ if (!text){ toast('Skriv en text eller välj Ta bort.'); return; } entries[f.ix] = {...entries[f.ix], text, kind:f.kind}; }
+  else if (text) entries.push({m:M.id, kind:f.kind, text, date:M.date, by:S.me||'', at:new Date().toISOString()});
+  else if (!f.close){ toast('Skriv en notering först.'); return; }
+  const data = {entries, owner:(f.owner??it.owner??'').trim(), due:f.due??it.due??''};
+  if (f.close){ data.status = 'klar'; data.closed = M.id; }
+  patchLocal(S.items, it.id, data); updDoc('items/'+it.id, data);
+  S.form = null; render(); toast(f.close ? it.nr+' är klarmarkerad.' : 'Noteringen är sparad på '+it.nr+'.');
+}
+async function saveNew(){
+  readForm();
+  const f = S.form, M = curMeeting(); if (!M) return;
+  const title = (f.title||'').trim();
+  if (!title){ toast('Punkten behöver en rubrik.'); document.getElementById('nTitle').focus(); return; }
+  const seq = nextSeq(f.section), nr = f.section+'.'+pad3(seq), id = S.pid+'-'+f.section+pad3(seq);
+  const kind = f.kind || 'fråga';
+  const doc = {project:S.pid, nr, seq, section:f.section, title, kind, standing:kind==='regel', latestOnly:kind==='lägesrapport', status:'öppen',
+    owner:(f.owner||'').trim(), due:f.due||'', created:M.id, closed:'', entries: (f.text||'').trim() ? [{m:M.id, kind:'notering', text:f.text.trim(), date:M.date, by:S.me||'', at:new Date().toISOString()}] : []};
+  S.items.push({id, ...doc}); S.form = null; render();
+  const ok = await setDoc('items/'+id, doc);
+  if (ok) toast(nr+' är tillagd.');
+}
+function setStatus(id, status){
+  const it = S.items.find(x => x.id===id), M = curMeeting(); if (!it || !M) return;
+  const data = status==='klar' ? {status, closed:M.id} : {status, closed:''};
+  if (status==='öppen'){ const entries = (it.entries||[]).concat([{m:M.id, kind:'notering', text:'Punkten öppnas igen.', date:M.date, by:S.me||'', at:new Date().toISOString()}]); data.entries = entries; }
+  patchLocal(S.items, id, data); updDoc('items/'+id, data); render();
+  toast(status==='klar' ? it.nr+' är klarmarkerad i '+mLabel(M.id)+'.' : it.nr+' är öppen igen.');
+}
+function setAtt(ids, v){
+  const M = curMeeting(); if (!M || !isDraft(M) || !ids.length) return;
+  const att = {...(M.attendance||{})}; for (const id of ids) att[id] = v;
+  M.attendance = att; updDoc('meetings/'+M.id, {attendance:att}); render();
+}
+function saveProject(data){ patchLocal(S.projects, S.pid, data); updDoc('projects/'+S.pid, data); render(); }
+
+$main.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  const fn = ACT[el.dataset.act]; if (fn){ e.preventDefault(); fn(el); }
+});
+$main.addEventListener('input', e => {
+  if (e.target.id==='q'){ S.q = e.target.value; clearTimeout(S.qT); S.qT = setTimeout(() => { const pos = e.target.selectionStart; render(); const q = document.getElementById('q'); q.focus(); q.setSelectionRange(pos,pos); }, 220); }
+  if (e.target.id==='flowQ'){ S.flowQ = e.target.value; clearTimeout(S.qT); S.qT = setTimeout(() => { const pos = e.target.selectionStart; render(); const q = document.getElementById('flowQ'); q.focus(); q.setSelectionRange(pos,pos); }, 260); }
+});
+$main.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id==='meetSel'){ S.mid = t.value; S.form = null; render(); return; }
+  if (t.dataset.pf){ let v = t.value; if (t.dataset.pf==='keepClosed') v = +v; if (t.dataset.pf==='meetingCode') v = v.trim().toUpperCase() || 'SM'; saveProject({[t.dataset.pf]: v}); return; }
+  if (t.dataset.secTitle!=null){ const secs = sections().map(s => ({...s})); secs[+t.dataset.secTitle].title = t.value.trim() || secs[+t.dataset.secTitle].title; saveProject({sections:secs}); return; }
+  if (t.dataset.secCode!=null){ const c = t.value.trim().toUpperCase(); if (!/^[A-Z]{1,3}$/.test(c) || sections().some(s => s.code===c)){ toast('Koden ska vara 1–3 bokstäver A–Z och unik.'); render(); return; } const secs = sections().map(s => ({...s})); secs[+t.dataset.secCode].code = c; saveProject({sections:secs}); }
+});
+$main.addEventListener('keydown', e => {
+  if (e.key==='Enter' && e.target.id==='qAdd'){ e.preventDefault(); ACT.quickAdd(); }
+  if (e.key==='Enter' && (e.metaKey || e.ctrlKey) && e.target.id==='fText'){ e.preventDefault(); S.form && S.form.type==='new' ? saveNew() : saveEntry(); }
+});
+document.getElementById('projSel').addEventListener('change', e => {
+  if (e.target.value==='__new'){ renderSide(); openNewProject(); return; }
+  selectProject(e.target.value);
+});
+
+/* ================= PDF ================= */
+function openPdf(kind){
+  const M = curMeeting(); if (!M && kind==='protokoll') return;
+  modal(kind==='protokoll' ? `PDF – ${esc(code()+' '+M.number)}` : 'PDF – åtgärdslista', kind==='protokoll' ? `
+    <div class="radio">
+      <label><input type="radio" name="pdfH" value="recent" checked> Senaste tre noteringarna per punkt. Äldre finns i tidigare protokoll och i historiken.</label>
+      <label><input type="radio" name="pdfH" value="full"> Hela historiken på varje öppen punkt (längre protokoll)</label>
+    </div>
+    <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="pdfDone" checked> Ta med klara punkter som ligger kvar (${keep()} möte${keep()===1?'':'n'})</label>
+    ${isDraft(M) ? '<div class="banner warn"><span><b>Protokollet är inte fastställt.</b> PDF:en märks UTKAST.</span></div>' : ''}
+    <div class="err" id="pdfErr" hidden></div>` : `<p>Öppna punkter grupperade per ansvarig, med senaste notering och datum.</p><div class="err" id="pdfErr" hidden></div>`,
+    `<button class="btn" data-mact="cancel">Avbryt</button><button class="btn primary" data-mact="ok">Skapa PDF</button>`);
+  document.querySelector('[data-mact="cancel"]').onclick = closeModal;
+  document.querySelector('[data-mact="ok"]').onclick = async () => {
+    const btn = document.querySelector('[data-mact="ok"]'), err = document.getElementById('pdfErr');
+    btn.disabled = true; btn.textContent = 'Skapar…'; err.hidden = true;
+    try {
+      const out = kind==='protokoll' ? buildProtocolPdf(M, document.querySelector('input[name="pdfH"]:checked').value==='full', document.getElementById('pdfDone').checked) : buildActionsPdf();
+      if (!S.downloads) throw {code:'unavailable'};
+      await S.downloads.save({filename:out.name, data:out.blob});
+      closeModal(); toast('PDF sparad: '+out.name);
+    } catch(e){
+      btn.disabled = false; btn.textContent = 'Skapa PDF';
+      if (e && e.code==='declined') return;
+      err.textContent = (e && (e.code==='unavailable'||e.code==='not_granted')) ? 'Nedladdning fungerar inte i den här vyn. Öppna verktyget i claude.ai och försök igen.' : e && e.code==='lib' ? 'PDF-verktyget har inte laddats. Ladda om sidan.' : 'PDF:en kunde inte skapas. Försök igen.';
+      err.hidden = false;
+    }
+  };
+}
+const INK = [20,32,27], SPRUCE = [30,74,56], BRASS = [151,117,63], MUTED = [93,105,99], LINE = [214,220,213], NEWC = [47,96,134], SOFT = [245,246,243];
+function pdfDoc(){ if (!window.jspdf) throw {code:'lib'}; const {jsPDF} = window.jspdf; return new jsPDF({orientation:'portrait', unit:'mm', format:'a4'}); }
+function pdfFrame(doc, right, draft){
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 14, P = proj();
+  const pages = doc.internal.getNumberOfPages();
+  for (let i=1;i<=pages;i++){
+    doc.setPage(i);
+    doc.setFillColor(...SPRUCE); doc.roundedRect(M,9,9,9,1.6,1.6,'F');
+    doc.setDrawColor(232,238,233); doc.setLineWidth(.6); doc.lines([[3.2,-2.4],[3.2,2.4]],M+1.3,14.1); doc.line(M+1.3,14.1,M+1.3,16.6); doc.line(M+7.7,14.1,M+7.7,16.6);
+    doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...INK); doc.text('SYDBYGGARNA', M+12, 15.3, {charSpace:.5});
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
+    doc.text(right, W-M, 13, {align:'right'}); doc.text('Sida '+i+' ('+pages+')', W-M, 17, {align:'right'});
+    doc.setDrawColor(...BRASS); doc.setLineWidth(.4); doc.line(M, 21, W-M, 21);
+    doc.setFontSize(7.5); doc.text(P.number+' '+(P.name||''), M, H-7); doc.text('Utskriven '+fmtDate(TODAY), W-M, H-7, {align:'right'});
+    if (draft){ doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(176,65,45); doc.text('UTKAST – EJ FASTSTÄLLT', W/2, 15.3, {align:'center'}); }
+  }
+}
+function buildProtocolPdf(Mt, full, withDone){
+  const doc = pdfDoc(), P = proj(), N = Mt.number, W = doc.internal.pageSize.getWidth(), MG = 14;
+  const att = Mt.attendance || {}, ppl = peopleSorted();
+  const by = v => ppl.filter(p => att[p.id]===v);
+  const writer = personById(Mt.writtenBy) || personById(P.siteManager);
+  let y = 30;
+  doc.setFont('helvetica','bold'); doc.setFontSize(17); doc.setTextColor(...INK);
+  doc.text((P.meetingType||'Samordningsmöte')+' '+N, MG, y); y += 6;
+  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...MUTED);
+  doc.text(`Projekt ${P.number}, ${P.name||''}${P.client?'  ·  Beställare: '+P.client:''}`, MG, y); y += 4.6;
+  doc.text(`${fmtDate(Mt.date)}${Mt.time?' kl. '+Mt.time:''}  ·  ${Mt.place||P.place||''}${writer?'  ·  Protokollförare: '+writer.name:''}`, MG, y); y += 4;
+  const pRow = p => [p.name+(p.initials?' ('+p.initials+')':''), p.company||'', p.role||'', p.note||''];
+  const attTable = (title, list) => {
+    if (!list.length) return;
+    doc.autoTable({startY:y+2, margin:{left:MG,right:MG}, head:[[{content:title+' ('+list.length+')', colSpan:4}]], body:list.map(pRow), theme:'plain',
+      styles:{font:'helvetica', fontSize:8, cellPadding:{top:.8,bottom:.8,left:1.5,right:1.5}, textColor:INK},
+      headStyles:{fontStyle:'bold', textColor:SPRUCE, fontSize:8.5, cellPadding:{top:2,bottom:1,left:1.5,right:1.5}},
+      columnStyles:{0:{cellWidth:52}, 1:{cellWidth:58}, 2:{cellWidth:40}, 3:{textColor:MUTED}}, didDrawPage:()=>{}, });
+    y = doc.lastAutoTable.finalY;
+  };
+  attTable('Närvarande', by('närvarande'));
+  attTable('Kallade, ej närvarande', by('frånvarande'));
+  attTable('Protokollet delges även', by('kopia'));
+  y += 4;
+  doc.setFontSize(7.8); doc.setTextColor(...MUTED);
+  const legend = `Teckenförklaring: varje punkt har ett fast nummer. "NY" = ny eller ändrad i detta möte. Kursiv text = klar punkt (visas ${keep()} möte${keep()===1?'':'n'} efter klarmarkering, sedan arkiv). Hänvisa till punktnumret vid frågor.`;
+  doc.text(doc.splitTextToSize(legend, W-2*MG), MG, y+2); y += 8;
+
+  const all = itemsSorted().filter(it => inProtocol(it,N) && (withDone || statusAt(it,N)==='öppen'));
+  const standing = all.filter(it => it.standing && statusAt(it,N)==='öppen');
+  const regular = all.filter(it => !standing.includes(it));
+  const body = [];
+  const secRow = title => body.push([{content:title, colSpan:4, styles:{fillColor:INK, textColor:[255,255,255], fontStyle:'bold', fontSize:9.5, cellPadding:{top:2,bottom:2,left:2,right:2}}}]);
+  const addItem = it => {
+    const s = statusAt(it,N), done = s==='klar';
+    const st = it.standing ? 'Stående' : it.latestOnly ? 'Läges-\nrapport' : done ? 'Klar\n'+mLabel(it.closed) : 'Öppen';
+    const own = [it.owner, it.due ? 'Senast '+fmtShort(it.due) : ''].filter(Boolean).join('\n');
+    body.push([{content:it.nr, styles:{fontStyle:'bold', font:'courier', fontSize:8.5}}, {content:it.title+(it.created===Mt.id?'   NY':''), styles:{fontStyle:done?'bolditalic':'bold', textColor:done?MUTED:INK}}, {content:own, styles:{textColor:isLate(it,N)?[176,65,45]:INK}}, {content:st, styles:{textColor:done?[31,107,67]:it.standing||it.latestOnly?MUTED:[133,87,0], fontStyle:'bold'}}]);
+    const {shown, hidden} = visibleEntries(it, N, full);
+    if (hidden.length) body.push(['', {content:`(${hidden.length} tidigare noteringar ${mLabel(hidden[0].m)}–${mLabel(hidden[hidden.length-1].m)} finns i tidigare protokoll)`, styles:{fontStyle:'italic', textColor:MUTED, fontSize:7.5}}, '', '']);
+    for (const e of shown){
+      const cur = e.m===Mt.id, lab = ENTRY_LABEL[e.kind];
+      body.push([{content:mLabel(e.m)+(cur?'\nNY':''), styles:{font:'courier', fontSize:7.5, textColor:cur?NEWC:MUTED, fontStyle:cur?'bold':'normal'}},
+        {content:(lab?lab.toUpperCase()+': ':'')+plain(e.text), colSpan:3, styles:{fontStyle:done?'italic':(cur?'normal':'normal'), textColor:done?MUTED:INK, fillColor:cur?[232,240,247]:false}}]);
+    }
+  };
+  if (standing.length){ secRow('Stående punkter – gäller tills vidare'); standing.forEach(addItem); }
+  for (const sec of sectionsWithExtras(regular)){
+    const its = regular.filter(it => it.section===sec.code);
+    secRow(sec.code+'   '+sec.title);
+    if (!its.length) body.push(['', {content:'Inga punkter.', colSpan:3, styles:{textColor:MUTED, fontStyle:'italic'}}]);
+    its.forEach(addItem);
+  }
+  doc.autoTable({startY:y, margin:{left:MG,right:MG,top:26,bottom:14}, body, theme:'plain', rowPageBreak:'avoid',
+    styles:{font:'helvetica', fontSize:8.6, cellPadding:{top:1.1,bottom:1.1,left:1.6,right:1.6}, textColor:INK, overflow:'linebreak', lineColor:LINE},
+    columnStyles:{0:{cellWidth:17}, 1:{cellWidth:'auto'}, 2:{cellWidth:24}, 3:{cellWidth:18}},
+    didDrawCell: d => { if (d.section==='body' && d.column.index===0 && d.cell.raw && d.cell.raw.content && /^[A-Z]{1,3}\.\d{3}$/.test(d.cell.raw.content)){ doc.setDrawColor(...LINE); doc.setLineWidth(.2); doc.line(MG, d.cell.y, W-MG, d.cell.y); } }});
+  y = doc.lastAutoTable.finalY + 8;
+  if (y > 255){ doc.addPage(); y = 32; }
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...INK);
+  const nx = Mt.next;
+  doc.text('Nästa möte', MG, y); doc.setFont('helvetica','normal'); doc.setFontSize(9.5);
+  doc.text(nx && nx.date ? `${(P.meetingType||'Samordningsmöte')} ${N+1}: ${fmtDate(nx.date)}${nx.time?' kl. '+nx.time:''}, ${nx.place||Mt.place||P.place||''}` : 'Meddelas senare.', MG+30, y); y += 7;
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text('Vid protokollet', MG, y); doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.text(writer ? writer.name+', '+(writer.company||'') : '', MG+30, y); y += 7;
+  doc.setFontSize(8.5); doc.setTextColor(...MUTED); doc.text(doc.splitTextToSize(P.approvalText ?? DEFAULT_APPROVAL, W-2*MG), MG, y);
+  pdfFrame(doc, `Mötesprotokoll ${code()} ${N}  ·  ${fmtDate(Mt.date)}`, isDraft(Mt));
+  return {blob: doc.output('blob'), name: `${P.number}_${code()}_${String(N).padStart(2,'0')}_${Mt.date.replace(/-/g,'').slice(2)}${isDraft(Mt)?'_UTKAST':''}.pdf`};
+}
+function buildActionsPdf(){
+  const doc = pdfDoc(), P = proj(), L = latestMeeting(), N = L.number, MG = 14;
+  doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.setTextColor(...INK); doc.text('Åtgärdslista efter '+code()+' '+N, MG, 30);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...MUTED); doc.text(`Projekt ${P.number}, ${P.name||''}  ·  ${fmtDate(L.date)}`, MG, 36);
+  const open = itemsSorted().filter(it => statusAt(it,N)==='öppen' && !it.standing && !it.latestOnly);
+  const groups = {}; for (const it of open) (groups[it.owner||'Utan ansvarig'] ||= []).push(it);
+  const body = [];
+  for (const k of Object.keys(groups).sort((a,b) => (a==='Utan ansvarig')-(b==='Utan ansvarig') || a.localeCompare(b,'sv'))){
+    const p = S.people.find(p => p.initials===k && p.active!==false);
+    body.push([{content:k+(p?'  ·  '+p.name+', '+(p.company||''):''), colSpan:4, styles:{fillColor:INK, textColor:[255,255,255], fontStyle:'bold'}}]);
+    for (const it of groups[k].sort((a,b) => (a.due||'9999').localeCompare(b.due||'9999'))){
+      const e = (it.entries||[]).slice(-1)[0];
+      body.push([{content:it.nr, styles:{font:'courier', fontStyle:'bold'}}, {content:it.title+(e?'\n'+mLabel(e.m)+': '+plain(e.text).slice(0,300):''), styles:{}}, it.due?fmtShort(it.due):'', mLabel(it.created)]);
+    }
+  }
+  doc.autoTable({startY:42, margin:{left:MG,right:MG,top:26,bottom:14}, head:[['Nr','Punkt och senaste notering','Senast','Skapad']], body, theme:'grid',
+    styles:{font:'helvetica', fontSize:8.4, cellPadding:1.6, textColor:INK, lineColor:LINE, lineWidth:.2}, headStyles:{fillColor:SOFT, textColor:INK, fontStyle:'bold'},
+    columnStyles:{0:{cellWidth:17}, 2:{cellWidth:20}, 3:{cellWidth:18}}});
+  pdfFrame(doc, `Åtgärdslista ${code()} ${N}`, false);
+  return {blob: doc.output('blob'), name:`${P.number}_Atgardslista_${code()}_${String(N).padStart(2,'0')}.pdf`};
+}
+
+/* ================= Routing & boot ================= */
+const VIEWS = ['protokoll','narvaro','atgarder','flode','projekt','standard'];
+function route(){ const h = location.hash.slice(1); S.view = VIEWS.includes(h) ? h : 'protokoll'; S.form = null; render(); window.scrollTo(0,0); }
+addEventListener('hashchange', route);
+S.view = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'protokoll';
+
+function selectProject(id){
+  if (!id || !S.db) return;
+  S.pid = id; S.mid = null; S.form = null; S.q = ''; S.filter = 'alla'; S.expanded = new Set();
+  try { localStorage.setItem('sb.mp.project', id); } catch(e){}
+  unsubs.forEach(u => { try { u(); } catch(e){} }); unsubs = [];
+  S.people = []; S.meetings = []; S.items = []; S.got = {};
+  const fail = e => { if (e && e.code==='revoked') S.canWrite = false; queueRender(); };
+  const sub = (coll, key, map) => unsubs.push(S.db.collection(coll).where('project','==',id).onSnapshot(s => {
+    S[key] = s.docs.map(d => map ? map({id:d.id, ...JSON.parse(JSON.stringify(d.data()))}) : {id:d.id, ...JSON.parse(JSON.stringify(d.data()))});
+    S.got[key] = true; queueRender();
+  }, fail));
+  sub('people','people'); sub('meetings','meetings'); sub('items','items');
+  render();
+}
+async function boot(){
+  if (!window.claude || !window.claude.use){ S.status='nodb'; render(); return; }
+  const [db, user, downloads] = await Promise.all(['db','user','downloads'].map(n => window.claude.use(n).catch(() => null)));
+  S.db = db; S.user = user; S.downloads = downloads;
+  if (!db){ S.status='nodb'; render(); return; }
+  if (user){ try { const w = await user.can('data.write'); if (w===false) S.canWrite = false; } catch(e){} try { S.me = await user.id(); } catch(e){} }
+  const timer = setTimeout(() => { if (S.status!=='ready'){ S.status='timeout'; render(); } }, 10000);
+  let first = true;
+  db.collection('projects').onSnapshot(s => {
+    S.projects = s.docs.map(d => ({id:d.id, ...JSON.parse(JSON.stringify(d.data())), number:String(d.data().number ?? '')}));
+    if (first){
+      first = false; clearTimeout(timer); S.status = 'ready';
+      let saved = null; try { saved = localStorage.getItem('sb.mp.project'); } catch(e){}
+      const pick = S.projects.find(p => p.id===saved) || S.projects[0];
+      if (pick) selectProject(pick.id); else render();
+    } else queueRender();
+  }, e => { clearTimeout(timer); S.status = 'ready'; if (e && e.code==='revoked') S.canWrite = false; render(); });
+}
+render();
+boot();
+})();
+</script>
